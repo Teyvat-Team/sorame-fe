@@ -24,16 +24,22 @@ const LoginForm: FC = () => {
   // const dispatch = useAppDispatch();
 
   const onFinished = async (form: LoginParams) => {
-    const result = await loginMutation.mutateAsync(form);
-    console.log('result: ', result);
+    // const result = await loginMutation.mutateAsync(form);
+    // console.log('result: ', result);
 
-    if (result) {
-      localStorage.setItem('token', result.token);
-      localStorage.setItem('username', result.username);
+    // response: ({ body }) => {
+    //   return {
+    //     token: '123abcdefg',
+    //     username: body.username,
+    //     role: body.username,
+    //   };
 
-      const from = location.state?.from || { pathname: '/dashboard' };
-      navigate(from);
-    }
+    // if (result) {
+    localStorage.setItem('token', '123abcdefg');
+
+    const from = location.state?.from || { pathname: '/dashboard' };
+    navigate(from);
+    // }
   };
 
   return (

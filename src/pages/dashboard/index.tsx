@@ -1,11 +1,18 @@
-import React, { FC, useState, useEffect } from "react";
-import Overview from "./overview";
-import SalePercent from "./salePercent";
-import TimeLine from "./timeLine";
-import "./index.less";
+import React, { FC, useState, useEffect } from 'react';
+import Overview from './overview';
+import SalePercent from './salePercent';
+import TimeLine from './timeLine';
+import './index.less';
+import { useGetDataSource } from '@/api';
 
 const DashBoardPage: FC = () => {
   const [loading, setLoading] = useState(true);
+
+  const { data, error } = useGetDataSource();
+
+  if (!error) {
+    console.log('%c data >>>', 'background: yellow; color: blue', data);
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -17,10 +24,10 @@ const DashBoardPage: FC = () => {
   }, []);
   return (
     <div>
-      <Overview loading={loading} />
+      {/* <Overview loading={loading} />
 
       <SalePercent loading={loading} />
-      <TimeLine loading={loading} />
+      <TimeLine loading={loading} /> */}
     </div>
   );
 };

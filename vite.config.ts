@@ -1,6 +1,6 @@
 import type { UserConfigExport, ConfigEnv } from 'vite';
 import { loadEnv } from 'vite';
-import { viteMockServe } from 'vite-plugin-mock';
+// import { viteMockServe } from 'vite-plugin-mock';
 import { resolve } from 'path';
 import svgr from 'vite-plugin-svgr';
 import { getAliases } from 'vite-aliases';
@@ -56,13 +56,13 @@ export default ({ command }: { command: string }) => {
         },
       }),
       svgr(),
-      viteMockServe({
-        mockPath: 'mock',
-        supportTs: true,
-        watchFiles: true,
-        localEnabled: command === 'serve',
-        logger: true,
-      }),
+      // viteMockServe({
+      //   mockPath: 'mock',
+      //   supportTs: true,
+      //   watchFiles: true,
+      //   localEnabled: command === 'serve',
+      //   logger: true,
+      // }),
       // styleImport({
       //   libs: [
       //     {

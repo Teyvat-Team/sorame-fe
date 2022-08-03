@@ -1,13 +1,20 @@
 declare namespace API {
-
   /**
-   * 
+   * @export
+   * @ interface BaseResp
+   */
+  export interface BaseResp {
+    code?: number | undefined;
+    message?: string | undefined;
+  }
+  /**
+   *
    * @export
    * @interface Action
    */
   export interface Action {
     /**
-     * 
+     *
      * @type {number}
      * @memberof Action
      */
@@ -43,29 +50,29 @@ declare namespace API {
      */
     updateBy?: number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Action
      */
     createdAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Action
      */
     updatedAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Action
      */
     deletedAt?: string;
   }
   /**
-  * 
-  * @export
-  * @interface ActionPagination
-  */
+   *
+   * @export
+   * @interface ActionPagination
+   */
   export interface ActionPagination {
     /**
      * json repose code
@@ -92,39 +99,39 @@ declare namespace API {
      */
     limit?: number;
     /**
-     * 
+     *
      * @type {Array<Action>}
      * @memberof ActionPagination
      */
     list?: Array<Action>;
   }
   /**
-  * 
-  * @export
-  * @interface ApiResponse
-  */
+   *
+   * @export
+   * @interface ApiResponse
+   */
   export interface ApiResponse {
     /**
-     * 
+     *
      * @type {number}
      * @memberof ApiResponse
      */
     code?: number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof ApiResponse
      */
     msg?: string;
   }
   /**
-  * 
-  * @export
-  * @interface Group
-  */
+   *
+   * @export
+   * @interface Group
+   */
   export interface Group {
     /**
-     * 
+     *
      * @type {number}
      * @memberof Group
      */
@@ -154,29 +161,29 @@ declare namespace API {
      */
     updateBy?: number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Group
      */
     createdAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Group
      */
     updatedAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Group
      */
     deletedAt?: string;
   }
   /**
-  * 
-  * @export
-  * @interface GroupPagination
-  */
+   *
+   * @export
+   * @interface GroupPagination
+   */
   export interface GroupPagination {
     /**
      * json repose code
@@ -203,20 +210,20 @@ declare namespace API {
      */
     limit?: number;
     /**
-     * 
+     *
      * @type {Array<Group>}
      * @memberof GroupPagination
      */
     list?: Array<Group>;
   }
   /**
-  * 
-  * @export
-  * @interface Menu
-  */
+   *
+   * @export
+   * @interface Menu
+   */
   export interface Menu {
     /**
-     * 
+     *
      * @type {number}
      * @memberof Menu
      */
@@ -276,13 +283,13 @@ declare namespace API {
      */
     target?: string;
     /**
-     * 是否禁用菜单, 1:不禁用 2:禁用 
+     * 是否禁用菜单, 1:不禁用 2:禁用
      * @type {number}
      * @memberof Menu
      */
     disabled?: number;
     /**
-     * 隐藏菜单, 1:不隐藏 2:隐藏 
+     * 隐藏菜单, 1:不隐藏 2:隐藏
      * @type {number}
      * @memberof Menu
      */
@@ -294,7 +301,7 @@ declare namespace API {
      */
     hideInBreadcrumb?: number;
     /**
-     * 父级 ID 
+     * 父级 ID
      * @type {number}
      * @memberof Menu
      */
@@ -312,29 +319,29 @@ declare namespace API {
      */
     updateBy?: number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Menu
      */
     createdAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Menu
      */
     updatedAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Menu
      */
     deletedAt?: string;
   }
   /**
-  * 
-  * @export
-  * @interface MenuPagination
-  */
+   *
+   * @export
+   * @interface MenuPagination
+   */
   export interface MenuPagination {
     /**
      * json repose code
@@ -361,20 +368,20 @@ declare namespace API {
      */
     limit?: number;
     /**
-     * 
+     *
      * @type {Array<Menu>}
      * @memberof MenuPagination
      */
     list?: Array<Menu>;
   }
   /**
-  * 
-  * @export
-  * @interface Org
-  */
+   *
+   * @export
+   * @interface Org
+   */
   export interface Org {
     /**
-     * 
+     *
      * @type {number}
      * @memberof Org
      */
@@ -416,32 +423,32 @@ declare namespace API {
      */
     updateBy?: number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Org
      */
     createdAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Org
      */
     updatedAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Org
      */
     deletedAt?: string;
   }
   /**
-  * 
-  * @export
-  * @interface OrgNode
-  */
+   *
+   * @export
+   * @interface OrgNode
+   */
   export interface OrgNode {
     /**
-     * 
+     *
      * @type {number}
      * @memberof OrgNode
      */
@@ -459,13 +466,13 @@ declare namespace API {
      */
     description?: string;
     /**
-     * 父级 ID 
+     * 父级 ID
      * @type {number}
      * @memberof OrgNode
      */
     parentId?: number;
     /**
-     * 组织机构 ID 
+     * 组织机构 ID
      * @type {number}
      * @memberof OrgNode
      */
@@ -501,35 +508,35 @@ declare namespace API {
      */
     updateBy?: number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof OrgNode
      */
     createdAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof OrgNode
      */
     updatedAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof OrgNode
      */
     deletedAt?: string;
     /**
-     * 
+     *
      * @type {any}
      * @memberof OrgNode
      */
     org?: any | null;
   }
   /**
-  * 
-  * @export
-  * @interface OrgNodePagination
-  */
+   *
+   * @export
+   * @interface OrgNodePagination
+   */
   export interface OrgNodePagination {
     /**
      * json repose code
@@ -556,17 +563,17 @@ declare namespace API {
      */
     limit?: number;
     /**
-     * 
+     *
      * @type {Array<OrgNode>}
      * @memberof OrgNodePagination
      */
     list?: Array<OrgNode>;
   }
   /**
-  * 
-  * @export
-  * @interface OrgPagination
-  */
+   *
+   * @export
+   * @interface OrgPagination
+   */
   export interface OrgPagination {
     /**
      * json repose code
@@ -593,20 +600,20 @@ declare namespace API {
      */
     limit?: number;
     /**
-     * 
+     *
      * @type {Array<Org>}
      * @memberof OrgPagination
      */
     list?: Array<Org>;
   }
   /**
-  * 
-  * @export
-  * @interface Project
-  */
+   *
+   * @export
+   * @interface Project
+   */
   export interface Project {
     /**
-     * 
+     *
      * @type {number}
      * @memberof Project
      */
@@ -636,29 +643,29 @@ declare namespace API {
      */
     updateBy?: number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Project
      */
     createdAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Project
      */
     updatedAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Project
      */
     deletedAt?: string;
   }
   /**
-  * 
-  * @export
-  * @interface ProjectPagination
-  */
+   *
+   * @export
+   * @interface ProjectPagination
+   */
   export interface ProjectPagination {
     /**
      * json repose code
@@ -685,20 +692,20 @@ declare namespace API {
      */
     limit?: number;
     /**
-     * 
+     *
      * @type {Array<Project>}
      * @memberof ProjectPagination
      */
     list?: Array<Project>;
   }
   /**
-  * 
-  * @export
-  * @interface Resource
-  */
+   *
+   * @export
+   * @interface Resource
+   */
   export interface Resource {
     /**
-     * 
+     *
      * @type {number}
      * @memberof Resource
      */
@@ -752,29 +759,29 @@ declare namespace API {
      */
     updateBy?: number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Resource
      */
     createdAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Resource
      */
     updatedAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof Resource
      */
     deletedAt?: string;
   }
   /**
-  * 
-  * @export
-  * @interface ResourcePagination
-  */
+   *
+   * @export
+   * @interface ResourcePagination
+   */
   export interface ResourcePagination {
     /**
      * json repose code
@@ -801,20 +808,20 @@ declare namespace API {
      */
     limit?: number;
     /**
-     * 
+     *
      * @type {Array<Resource>}
      * @memberof ResourcePagination
      */
     list?: Array<Resource>;
   }
   /**
-  * 
-  * @export
-  * @interface User
-  */
+   *
+   * @export
+   * @interface User
+   */
   export interface User {
     /**
-     * 
+     *
      * @type {number}
      * @memberof User
      */
@@ -916,41 +923,41 @@ declare namespace API {
      */
     updateBy?: number;
     /**
-     * 
+     *
      * @type {string}
      * @memberof User
      */
     createdAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof User
      */
     updatedAt?: string;
     /**
-     * 
+     *
      * @type {string}
      * @memberof User
      */
     deletedAt?: string;
     /**
-     * 
+     *
      * @type {Array<Group>}
      * @memberof User
      */
     groups?: Array<Group>;
     /**
-     * 
+     *
      * @type {Array<OrgNode>}
      * @memberof User
      */
     orgNodes?: Array<OrgNode>;
   }
   /**
-  * 
-  * @export
-  * @interface UserPagination
-  */
+   *
+   * @export
+   * @interface UserPagination
+   */
   export interface UserPagination {
     /**
      * json repose code
@@ -977,11 +984,22 @@ declare namespace API {
      */
     limit?: number;
     /**
-     * 
+     *
      * @type {Array<User>}
      * @memberof UserPagination
      */
     list?: Array<User>;
   }
 
+  export interface ListResponse {
+    data: DataSourceItem[];
+    baseResp: BaseResp | undefined;
+  }
+
+  export interface DataSourceItem {
+    dataSourceName: string;
+    dataSourceType: string;
+  }
+
+  export interface DataSource {}
 }
