@@ -1,5 +1,5 @@
-import { Device } from '@/models';
-import { MenuChild } from '@/models/menu.interface';
+import { Device } from '@/types';
+import { MenuChild } from '@/types/menu.interface';
 import { PureSettings } from '@ant-design/pro-layout/lib/defaultSettings';
 import { Role } from './login';
 

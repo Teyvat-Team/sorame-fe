@@ -1,15 +1,27 @@
 import { createContext, ReactNode } from 'react';
-import Axios, { AxiosInstance, AxiosTransformer } from 'axios';
+import Axios, {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosTransformer,
+} from 'axios';
 import { notification } from 'antd';
 import { useContext } from 'react';
 import { createBrowserHistory } from 'history';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import qs from 'qs';
-import { result } from 'cypress/types/lodash';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  UseQueryOptions,
+} from 'react-query';
+import to from 'await-to-js';
 
-const history = createBrowserHistory();
+interface AnyInterface {
+  [key: string]: any;
+}
 
-console.log('baseurl:', import.meta.env.VITE_BASE_URL);
+type AnyProps = Record<string, unknown> | AnyInterface;
+
 const axios = Axios.create({
   baseURL: import.meta.env.VITE_BASE_URL + '',
   timeout: 1000,
@@ -32,7 +44,6 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(
   response => {
     const data = response.data;
-    console.log('response:', response);
     if (response.status === 200) {
       return data;
     }
@@ -108,134 +119,102 @@ export const useAxios = () => {
   return useContext(AxiosContext);
 };
 
-const transformPagination = (pagination: any) => {
-  if (!pagination) return;
-
-  const current = pagination.current
-    ? pagination.current
-    : pagination.defaultCurrent;
-  const pageSize = pagination.pageSize
-    ? pagination.pageSize
-    : pagination.defaultPageSize;
-
-  let offset = 0;
-  if (current && pageSize) {
-    offset = (current - 1) * pageSize;
-  }
-
-  return {
-    offset,
-    limit: pageSize,
-  };
-};
-
-const transformFilters = (filters: any) => {
-  if (!filters) return;
-  let result: any[] = [];
-  for (let key in filters) {
-    if (!filters[key] || filters[key] === null) continue;
-    result = [...result, [key + ':eq:' + filters[key]]];
-  }
-  return result;
-};
-
-const transformSorter = (sorter: any) => {
-  if (!sorter) return;
-
-  let result = '';
-  if (sorter.field && sorter.order) {
-    let order: string = 'desc';
-    if (sorter.order === 'ascend') order = 'asc';
-    result = sorter.field + ' ' + order;
-  }
-
-  return result;
-};
-
-type listParams = {
-  limit?: number;
-  offset?: number;
-  filter?: string[];
-  order?: string;
-};
-const useGetList = <T>(
+const useGet = <
+  P extends AnyProps = {},
+  R extends AnyProps = {}
+>(
   key: string,
   url: string,
-  pagination?: any,
-  filters?: any,
-  sorter?: any
+  params?: P,
+  axiosRequestConfig?: AxiosRequestConfig,
+  queryOptions?: Omit<
+    UseQueryOptions<AxiosResponse<R>, Error>,
+    'queryKey' | 'queryFn'
+  >
 ) => {
   const axios = useAxios();
 
   const service = async () => {
-    let params: listParams = {};
+    const [err, data] = await to(
+      axios.get<P, AxiosResponse<R>>(
+        url,
+        { ...axiosRequestConfig, params: params || {} } || {}
+      )
+    );
 
-    params = { ...transformPagination(pagination) };
-    params.filter = transformFilters(filters);
-    params.order = transformSorter(sorter);
-
-    const transformRequest: AxiosTransformer = (data, headers) => {};
-    console.log('params: ', params);
-    const data: T = await axios.get(`${url}`, {
-      params,
-      paramsSerializer: params => {
-        return qs.stringify(params, { arrayFormat: 'repeat' });
-      },
-      transformRequest,
-    });
+    if (err) {
+      throw err;
+    }
 
     return data;
   };
-  return useQuery(key, () => service());
+  return useQuery<AxiosResponse<R>, Error>(
+    [key, params],
+    () => service(),
+    queryOptions || {}
+  );
 };
 
-const useGetOne = <T, P = unknown>(key: string, url: string, params?: P) => {
+const usePost = <
+  P extends AnyProps = {},
+  R extends AnyProps = {}
+>(
+  url: string,
+  axiosRequestConfig?: AxiosRequestConfig
+) => {
   const axios = useAxios();
-
-  const service = async () => {
-    const data: T = await axios.get(`${url}`, params);
-
-    return data;
-  };
-  return useQuery(key, () => service());
-};
-
-const useCreate = <T, U>(url: string) => {
-  const axios = useAxios();
-  const queryClient = useQueryClient();
-  return useMutation(async (params: T) => {
-    const data: U = await axios.post(`${url}`, params);
-    return data;
-  });
-};
-
-const useUpdate = <T>(url: string) => {
-  const axios = useAxios();
-  const queryClient = useQueryClient();
-  return useMutation(async (item: T) => {
-    const data: T = await axios.patch(`${url}`, item);
+  return useMutation(async (params: P) => {
+    const [err, data] = await to(
+      axios.post<P, AxiosResponse<R>>(`${url}`, params, axiosRequestConfig)
+    );
+    if (err) {
+      throw err;
+    }
     return data;
   });
 };
 
-const useDelete = <T>(url: string) => {
+const usePatch = <
+  P extends AnyProps = {},
+  R extends AnyProps = {}
+>(
+  url: string,
+  axiosRequestConfig?: AxiosRequestConfig
+) => {
   const axios = useAxios();
-  const queryClient = useQueryClient();
-  return useMutation(async (id: number) => {
-    const data: T = await axios.delete(`${url}?id=${id}`);
+  return useMutation(async (item: P) => {
+    const [err, data] = await to(
+      axios.patch<P, AxiosResponse<R>>(`${url}`, item, axiosRequestConfig)
+    );
+    if (err) {
+      throw err;
+    }
     return data;
   });
 };
 
-const useBatch = (url: string) => {
+const useDelete = <
+  P extends AnyProps = {},
+  R extends AnyProps = {}
+>(
+  url: string,
+  axiosRequestConfig?: AxiosRequestConfig
+) => {
   const axios = useAxios();
-  const queryClient = useQueryClient();
-  return useMutation(async (ids: number[]) => {
-    const data = await axios.post(`${url}`, { idList: ids });
+  return useMutation(async (params: P) => {
+    const [err, data] = await to(
+      axios.delete<P, AxiosResponse<R>>(url, {
+        ...axiosRequestConfig,
+        params: params || {},
+      })
+    );
+    if (err) {
+      throw err;
+    }
     return data;
   });
 };
 
-export { useGetOne, useGetList, useUpdate, useCreate, useDelete, useBatch };
+export { useGet, usePost, usePatch, useDelete };
 
 export default axios;

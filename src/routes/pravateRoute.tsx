@@ -1,43 +1,15 @@
 import React, { FC, useEffect } from 'react';
-import { Route, useNavigate } from 'react-router-dom';
-import { Result, Button } from 'antd';
-import { useLocale } from '@/locales';
 import { Navigate, RouteProps, useLocation } from 'react-router';
 import { useRecoilState } from 'recoil';
 import { userState } from '@/stores/user';
-import { useGetCurrentUser } from '@/api';
-import { createBrowserHistory } from 'history';
+
 
 const PrivateRoute: FC<RouteProps> = ({ children }) => {
-  const history = createBrowserHistory();
 
-  const [user, setUser] = useRecoilState(userState);
+  const [user, _] = useRecoilState(userState);
 
-  console.log('user: ', user);
   const logged = user.username ? true : false;
-  console.log('username: ', user.username, logged);
-  const navigate = useNavigate();
-  const { formatMessage } = useLocale();
-  const location = useLocation();
 
-  // const { data: currentUser, error } = useGetCurrentUser();
-
-  const currentUser = {
-    username: 'decker',
-    role: 'admin',
-  };
-
-  useEffect(() => {
-    console.log('currentUser: ', currentUser);
-    setTimeout(() => {
-      setUser({ ...user, username: currentUser?.username || '', logged: true });
-    }, 1000);
-  }, [currentUser]);
-
-  // if (error) {
-  //   setUser({ ...user, logged: false });
-  //   return <Navigate to="/login" />
-  // }
 
   return logged ? <div>{children}</div> : <Navigate to="/login" />;
 };

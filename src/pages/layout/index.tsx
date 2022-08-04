@@ -1,7 +1,6 @@
 import React, { FC, useEffect, Suspense, useCallback, useState } from 'react';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { MenuList, MenuChild } from '@/models/menu.interface';
-import { useGuide } from '../guide/useGuide';
+import { MenuList, MenuChild } from '@/types/menu.interface';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useGetCurrentMenus } from '@/api';
 import { userState } from '@/stores/user';
@@ -16,6 +15,7 @@ import { useLocale } from '@/locales';
 import RightContent from './components/RightContent';
 
 import { layoutSettings } from '../../const/layout';
+import ErrorBoundary from '@/components/errorBoundary';
 
 const menuList = [
   {
@@ -71,7 +71,6 @@ const LayoutPage: FC = ({ children }) => {
   const [pathname, setPathname] = useState('/welcome');
   const { device, collapsed, newUser, settings } = user;
   const isMobile = device === 'MOBILE';
-  const { driverStart } = useGuide();
   const location = useLocation();
   const navigate = useNavigate();
   const { formatMessage } = useLocale();
@@ -100,11 +99,6 @@ const LayoutPage: FC = ({ children }) => {
     return MenuListAll;
   };
 
-  useEffect(() => {
-    newUser && driverStart();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newUser]);
-
   const loopMenuItem = (menus?: MenuDataItem[]): MenuDataItem[] => {
     if (!menus) return [];
 
@@ -125,17 +119,20 @@ const LayoutPage: FC = ({ children }) => {
     <ProLayout
       fixSiderbar
       collapsed={collapsed}
+      // ErrorBoundary={() => {
+      //   console.log('%c err >>>', 'background: yellow; color: blue', err);
+      //   return <ErrorIllustrator desc={err?.message ?? ''} />;
+      // }}
+      ErrorBoundary={ErrorBoundary}
       location={{
         pathname: location.pathname,
       }}
       logo={() => (
-        <a href="/">
-          <LogoTitleSvg
-            style={{
-              transform: 'translate(-23%, 0%) scale(0.55)',
-            }}
-          />
-        </a>
+        <LogoTitleSvg
+          style={{
+            transform: 'translate(-23%, 0%) scale(0.55)',
+          }}
+        />
       )}
       title={false}
       hasSiderMenu={false}

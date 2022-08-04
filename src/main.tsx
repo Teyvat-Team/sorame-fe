@@ -6,7 +6,6 @@ import axios, { AxiosContext } from './api/request';
 
 import './index.css';
 import App from './App';
-// import { ErrorBoundary } from 'react-error-boundary';
 import SuspendFallbackLoading from './components/illustration/loading';
 import { Global } from '@emotion/react';
 import globalStyles from './style';
@@ -36,19 +35,9 @@ const AxiosProvider = ({ children }: React.PropsWithChildren<unknown>) => {
 };
 
 ReactDOM.render(
-  // <React.StrictMode>
   <AxiosProvider>
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        {/* <ErrorBoundary
-          fallbackRender={({ error, resetErrorBoundary }) => (
-            <div>
-              There was an error!{" "}
-              <button onClick={() => resetErrorBoundary()}>Try again</button>
-              <pre style={{ whiteSpace: "normal" }}>{error.message}</pre>
-            </div>
-          )}
-        > */}
         <Global styles={globalStyles} />
         <Suspense
           fallback={
@@ -65,7 +54,6 @@ ReactDOM.render(
         >
           <App />
         </Suspense>
-        {/* </ErrorBoundary> */}
       </RecoilRoot>
     </QueryClientProvider>
   </AxiosProvider>,

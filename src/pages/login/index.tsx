@@ -1,45 +1,49 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { LoginParams } from '@/models/login';
+import { LoginParams, Role } from '@/types/login';
 // import { loginAsync } from '@/stores/user.store';
 // import { useAppDispatch } from '@/stores';
 import { Location } from 'history';
-import { useLogin } from '@/api';
+
+const currentUser: {
+  username: string;
+  role: Role;
+} = {
+  username: 'decker',
+  role: 'admin',
+};
 
 import styles from './index.module.less';
 import { ReactComponent as LogoSvg } from '@/assets/logo/logo.svg';
+import { useRecoilState } from 'recoil';
+import { userState } from '@/stores/user';
 
 const initialValues: LoginParams = {
   username: 'guest',
   password: 'guest',
-  // remember: true
 };
 
 const LoginForm: FC = () => {
-  const loginMutation = useLogin();
   const navigate = useNavigate();
-  const location = useLocation() as Location<{ from: string }>;
+  const location = useLocation() as Location & { state?: { from: string } };
 
-  // const dispatch = useAppDispatch();
+  const [user, setUser] = useRecoilState(userState);
+
+  useEffect(() => {
+    setUser({
+      ...user,
+      username: currentUser.username,
+      logged: true,
+      role: currentUser.role,
+    });
+  }, []);
 
   const onFinished = async (form: LoginParams) => {
-    // const result = await loginMutation.mutateAsync(form);
-    // console.log('result: ', result);
-
-    // response: ({ body }) => {
-    //   return {
-    //     token: '123abcdefg',
-    //     username: body.username,
-    //     role: body.username,
-    //   };
-
-    // if (result) {
     localStorage.setItem('token', '123abcdefg');
 
     const from = location.state?.from || { pathname: '/dashboard' };
     navigate(from);
-    // }
   };
 
   return (
