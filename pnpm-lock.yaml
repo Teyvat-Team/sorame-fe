@@ -4,6 +4,7 @@ specifiers:
   '@ant-design/colors': ^6.0.0
   '@ant-design/icons': ^4.7.0
   '@ant-design/pro-layout': ^6.26.5
+  '@douyinfe/semi-icons': ^2.16.0
   '@emotion/babel-plugin': ^11.10.0
   '@emotion/react': ^11.10.0
   '@emotion/styled': ^11.10.0
@@ -23,7 +24,7 @@ specifiers:
   react: ^17.0.0
   react-dom: ^17.0.0
   react-intl: ^5.12.5
-  react-query: ^3.9.9
+  react-query: ^3.39.2
   react-router: ^6.2.2
   react-router-dom: ^6.2.2
   recoil: ^0.1.2
@@ -38,6 +39,7 @@ dependencies:
   '@ant-design/colors': 6.0.0
   '@ant-design/icons': 4.7.0_react-dom@17.0.2+react@17.0.2
   '@ant-design/pro-layout': 6.38.17_react-dom@17.0.2+react@17.0.2
+  '@douyinfe/semi-icons': 2.16.0_react@17.0.2
   '@emotion/babel-plugin': 11.10.0
   '@emotion/react': 11.10.0_92a0b3c40fe0c12d8b3d0f9101b74b82
   '@emotion/styled': 11.10.0_b230dbe357612d05cf0bdc75a62ee693
@@ -392,6 +394,14 @@ packages:
       '@babel/types': 7.18.10
     dev: false
 
+  /@babel/runtime-corejs3/7.18.9:
+    resolution: {integrity: sha512-qZEWeccZCrHA2Au4/X05QW5CMdm4VjUDCrGq5gf1ZDcM4hRqreKrtwAn7yci9zfgAS9apvnsFXiGBHBAxZdK9A==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      core-js-pure: 3.24.1
+      regenerator-runtime: 0.13.9
+    dev: false
+
   /@babel/runtime/7.18.9:
     resolution: {integrity: sha512-lkqXDcvlFT5rvEjiu6+QYO+1GXrEHRo2LOtS7E4GtX5ESIZOgepqsZBVIj6Pv+a6zqsya9VCgiK1KAK4BvJDAw==}
     engines: {node: '>=6.9.0'}
@@ -484,6 +494,16 @@ packages:
       debug: 3.2.7
       lodash.once: 4.1.1
     dev: true
+
+  /@douyinfe/semi-icons/2.16.0_react@17.0.2:
+    resolution: {integrity: sha512-zaWW9SYsT8/cZEaGo2lNcjxOu6uqzf6H8ZDRFrp7tb+8R/XCFBC9GFF9RtqK4q8hxQwgidlMoejG6jghE1yyCA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@babel/runtime-corejs3': 7.18.9
+      classnames: 2.3.1
+      react: 17.0.2
+    dev: false
 
   /@emotion/babel-plugin/11.10.0:
     resolution: {integrity: sha512-xVnpDAAbtxL1dsuSelU5A7BnY/lftws0wUexNJZTPsvX/1tM4GZJbclgODhvW4E+NH7E5VFcH0bBn30NvniPJA==}
@@ -1370,6 +1390,11 @@ packages:
     resolution: {integrity: sha512-Vme1Z6RUDzrb6xAI7EZlVZ5uvOk2F//GaxKUxajDqm9LhOVM1inxNAD2vy+UZDYsd0uyA9s7b3/FVZPSxqrCfg==}
     dependencies:
       toggle-selection: 1.0.6
+    dev: false
+
+  /core-js-pure/3.24.1:
+    resolution: {integrity: sha512-r1nJk41QLLPyozHUUPmILCEMtMw24NG4oWK6RbsDdjzQgg9ZvrUsPBj1MnG0wXXp1DCDU6j+wUvEmBSrtRbLXg==}
+    requiresBuild: true
     dev: false
 
   /core-util-is/1.0.2:

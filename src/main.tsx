@@ -10,19 +10,15 @@ import SuspendFallbackLoading from './components/illustration/loading';
 import { Global } from '@emotion/react';
 import globalStyles from './style';
 import { css } from '@emotion/react';
+import { message } from 'antd';
+import { globalMessageConfig } from '@/const/layout';
+import { reactQueryDefaultOptions } from '@/const/reactQuery/reactQuery';
 
 const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 0,
-      suspense: true,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: true,
-      refetchInterval: false,
-    },
-  },
+  defaultOptions: reactQueryDefaultOptions,
 });
+
+message.config(globalMessageConfig);
 
 const AxiosProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const axiosValue = useMemo(() => {

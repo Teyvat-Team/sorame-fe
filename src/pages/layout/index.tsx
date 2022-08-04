@@ -2,7 +2,6 @@ import React, { FC, useEffect, Suspense, useCallback, useState } from 'react';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { MenuList, MenuChild } from '@/types/menu.interface';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { useGetCurrentMenus } from '@/api';
 import { userState } from '@/stores/user';
 import { useRecoilState } from 'recoil';
 import { ReactComponent as LogoTitleSvg } from '@/assets/logo/logoAndTitle.svg';
@@ -119,10 +118,7 @@ const LayoutPage: FC = ({ children }) => {
     <ProLayout
       fixSiderbar
       collapsed={collapsed}
-      // ErrorBoundary={() => {
-      //   console.log('%c err >>>', 'background: yellow; color: blue', err);
-      //   return <ErrorIllustrator desc={err?.message ?? ''} />;
-      // }}
+      // ErrorBoundary={false}
       ErrorBoundary={ErrorBoundary}
       location={{
         pathname: location.pathname,
@@ -138,13 +134,7 @@ const LayoutPage: FC = ({ children }) => {
       hasSiderMenu={false}
       onCollapse={toggle}
       formatMessage={formatMessage}
-      onMenuHeaderClick={() => {
-        console.log(
-          '%c header clicked >>>',
-          'background: yellow; color: blue',
-          'header clicked'
-        );
-      }}
+      onMenuHeaderClick={() => {}}
       menuItemRender={(menuItemProps: any, defaultDom: any) => {
         if (
           menuItemProps.isUrl ||

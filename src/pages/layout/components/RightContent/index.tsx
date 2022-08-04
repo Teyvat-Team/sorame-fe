@@ -10,6 +10,8 @@ import { useRecoilState } from 'recoil';
 import { userState } from '@/stores/user';
 import SelectLang from './SelectLang';
 import { ReactComponent as LanguageSvg } from '@/assets/header/language.svg';
+import { IconHelpCircle } from '@douyinfe/semi-icons';
+import { COLOR_PALETTE } from '@/const/theme/color';
 
 export type SiderTheme = 'light' | 'dark';
 
@@ -50,12 +52,16 @@ const GlobalHeaderRight: React.FC = () => {
         }
       >
         <span>
-          <QuestionCircleOutlined />
+          <IconHelpCircle
+            size="extra-large"
+            style={{
+              color: COLOR_PALETTE.SORAME_HEADER_SEARCH_BG_HOVER,
+            }}
+          />
         </span>
       </HeaderDropdown>
-      <Avatar />
-
       <SelectLang className={classes.action} />
+      <Avatar />
     </Space>
   );
 };

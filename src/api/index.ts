@@ -1,18 +1,17 @@
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { UseQueryOptions } from 'react-query';
 import { useGet } from './request';
 
 export const useGetDataSource = (
   queryOption?: Omit<
-    UseQueryOptions<AxiosResponse<API.ListResponse>, Error>,
+    UseQueryOptions<API.ListResponse, API.ErrorResp>,
     'queryKey' | 'queryFn'
   >
-) => {
-  return useGet<{}, API.ListResponse>(
+) =>
+  useGet<{}, API.ListResponse>(
     'DataSource',
     '/datasource/list',
     {},
     {},
     queryOption || {}
   );
-};

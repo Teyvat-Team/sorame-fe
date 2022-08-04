@@ -1,5 +1,10 @@
 import React, { FC, useState, useEffect } from 'react';
 import { useGetDataSource } from '@/api';
+import { message } from 'antd';
+import { AxiosError } from 'axios';
+import Loading from '@/components/illustration/loading';
+import { css } from '@emotion/react';
+import ErrorIllustrator from '@/components/illustration/errorIllustrator';
 
 const DashBoardPage: FC = () => {
   const [getDataSourceReqParams, setGetDataSourceReqParams] = useState({
@@ -10,8 +15,8 @@ const DashBoardPage: FC = () => {
         enableRequest: false,
       });
     },
-    onError: (err: Error) => {
-      console.log('%c err >>>', 'background: yellow; color: blue', err);
+    onError: (err: API.ErrorResp) => {
+      message.error(`未找到数据源，错误信息：${err?.response?.data?.error}`);
       setGetDataSourceReqParams({
         ...getDataSourceReqParams,
         enableRequest: false,
@@ -27,18 +32,24 @@ const DashBoardPage: FC = () => {
     onError: getDataSourceReqParams?.onError,
   });
 
-  console.log('%c  >>>', 'background: yellow; color: blue', {
-    isLoading,
-    isSuccess,
-    isError,
-    data,
-    error,
-  });
-
   return (
     <div>
       Dashboard
-      <div>{JSON.stringify(data)}</div>
+      {isLoading && (
+        <section
+          css={css`
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          `}
+        >
+          <Loading></Loading>
+        </section>
+      )}
+      {isSuccess && <div>{`数据源接口：${JSON.stringify(data)}`}</div>}
+      {isError && (
+        <ErrorIllustrator desc={`错误信息：${error?.response?.data?.error}`} />
+      )}
     </div>
   );
 };

@@ -33,6 +33,7 @@ const TitleSection = styled.section`
 const DescSection = styled.section`
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-bottom: 24px;
 `;
 
