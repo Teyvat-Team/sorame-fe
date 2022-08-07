@@ -3,9 +3,9 @@ import { MockMethod } from 'vite-plugin-mock';
 
 const mockMenuList = [
   {
-    path: '/dashboard',
+    path: '/overview',
     name: '面板',
-    locale: 'menu.dashboard',
+    locale: 'menu.overview',
     icon: 'heart',
   },
   {

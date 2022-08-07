@@ -1,6 +1,6 @@
 export const zhCN_title = {
   'title.login': '登录',
-  'title.dashboard': '首页',
+  'title.overview': '首页',
   'title.documentation': '文档',
   'title.guide': '引导页',
   'title.permission.route': '路由权限',

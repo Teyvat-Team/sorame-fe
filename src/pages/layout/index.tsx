@@ -18,44 +18,10 @@ import ErrorBoundary from '@/components/errorBoundary';
 
 const menuList = [
   {
-    path: '/dashboard',
-    name: '面板',
-    locale: 'menu.dashboard',
+    path: '/overview',
+    name: '概览',
+    locale: 'menu.overview',
     icon: 'heart',
-  },
-  {
-    path: '/project',
-    name: 'Project',
-    icon: 'smile',
-    locale: 'menu.project',
-    children: [
-      {
-        path: '/project/list',
-        name: 'Project List',
-        locale: 'menu.project.list',
-        icon: 'smile',
-      },
-    ],
-  },
-  {
-    path: '/permission',
-    name: 'permission',
-    locale: 'menu.permission',
-    icon: 'smile',
-    children: [
-      {
-        path: '/permission/list',
-        name: 'permission list',
-        locale: 'menu.permission.list',
-        icon: 'smile',
-      },
-    ],
-  },
-  {
-    path: '/404',
-    name: '404',
-    locale: 'menu.notfound',
-    icon: 'frown',
   },
 ];
 
@@ -76,7 +42,7 @@ const LayoutPage: FC = ({ children }) => {
 
   useEffect(() => {
     if (location.pathname === '/') {
-      navigate('/dashboard');
+      navigate('/overview');
     }
   }, [navigate, location]);
 

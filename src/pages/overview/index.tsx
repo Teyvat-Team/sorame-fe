@@ -6,7 +6,7 @@ import Loading from '@/components/illustration/loading';
 import { css } from '@emotion/react';
 import ErrorIllustrator from '@/components/illustration/errorIllustrator';
 
-const DashBoardPage: FC = () => {
+const overviewPage: FC = () => {
   const [getDataSourceReqParams, setGetDataSourceReqParams] = useState({
     enableRequest: true,
     onSuccess: () => {
@@ -34,7 +34,7 @@ const DashBoardPage: FC = () => {
 
   return (
     <div>
-      Dashboard
+      overview
       {isLoading && (
         <section
           css={css`
@@ -54,4 +54,4 @@ const DashBoardPage: FC = () => {
   );
 };
 
-export default DashBoardPage;
+export default overviewPage;
