@@ -32,6 +32,61 @@ export default ({ command }: { command: string }) => {
           find: /@\//,
           replacement: pathResolve('src') + '/',
         },
+        {
+          // /@/xxxx  =>  src/xxx
+          find: /@api\//,
+          replacement: pathResolve('src') + '/api/',
+        },
+        {
+          // /@/xxxx  =>  src/xxx
+          find: /@assets\//,
+          replacement: pathResolve('src') + '/assets/',
+        },
+        {
+          // /@/xxxx  =>  src/xxx
+          find: /@components\//,
+          replacement: pathResolve('src') + '/components/',
+        },
+        {
+          // /@/xxxx  =>  src/xxx
+          find: /@config\//,
+          replacement: pathResolve('src') + '/config/',
+        },
+        {
+          // /@/xxxx  =>  src/xxx
+          find: /@const\//,
+          replacement: pathResolve('src') + '/const/',
+        },
+        {
+          // /@/xxxx  =>  src/xxx
+          find: /@locales\//,
+          replacement: pathResolve('src') + '/locales/',
+        },
+        {
+          // /@/xxxx  =>  src/xxx
+          find: /@pages\//,
+          replacement: pathResolve('src') + '/pages/',
+        },
+        {
+          // /@/xxxx  =>  src/xxx
+          find: /@routes\//,
+          replacement: pathResolve('src') + '/routes/',
+        },
+        {
+          // /@/xxxx  =>  src/xxx
+          find: /@stores\//,
+          replacement: pathResolve('src') + '/stores/',
+        },
+        {
+          // /@/xxxx  =>  src/xxx
+          find: /@styles\//,
+          replacement: pathResolve('src') + '/styles/',
+        },
+        {
+          // /@/xxxx  =>  src/xxx
+          find: /@types\//,
+          replacement: pathResolve('src') + '/types/',
+        },
       ],
     },
     optimizeDeps: {

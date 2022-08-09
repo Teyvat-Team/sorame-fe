@@ -32,6 +32,11 @@ const globalStyles = css`
       }
     }
   }
+  .ant-pro-sider-menu {
+    .ant-menu-item {
+      padding-left: 22px !important;
+    }
+  }
 
   .ant-table-cell {
     background-color: ${COLOR_PALETTE.SORAME_WHITE}!important;

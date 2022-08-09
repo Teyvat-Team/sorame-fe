@@ -10,7 +10,7 @@ const currentUser: {
   username: string;
   role: Role;
 } = {
-  username: 'decker',
+  username: 'admin',
   role: 'admin',
 };
 
@@ -20,8 +20,8 @@ import { useRecoilState } from 'recoil';
 import { userState } from '@/stores/user';
 
 const initialValues: LoginParams = {
-  username: 'guest',
-  password: 'guest',
+  username: 'admin',
+  password: 'admin',
 };
 
 const LoginForm: FC = () => {
@@ -41,6 +41,8 @@ const LoginForm: FC = () => {
 
   const onFinished = async (form: LoginParams) => {
     localStorage.setItem('token', '123abcdefg');
+    localStorage.setItem('username', currentUser.username);
+    localStorage.setItem('role', currentUser.role);
 
     const from = location.state?.from || { pathname: '/overview' };
     navigate(from);

@@ -12,6 +12,19 @@ export const useGetDataSource = (
     'DataSource',
     '/datasource/list',
     {},
-    {},
+    queryOption || {}
+  );
+
+export const useGetDataSet = (
+  params: API.DataSetListRequest,
+  queryOption?: Omit<
+    UseQueryOptions<API.DataSetListResponse, API.ErrorResp>,
+    'queryKey' | 'queryFn'
+  >
+) =>
+  useGet<API.DataSetListRequest, API.DataSetListResponse>(
+    'Dataset',
+    '/dataset/list',
+    params,
     queryOption || {}
   );

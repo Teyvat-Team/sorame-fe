@@ -161,7 +161,7 @@ export default [
     // statusCode: 401,
     response: ({ body }) => {
       return {
-        username: 'decker',
+        username: 'admin',
         role: 'admin',
       };
     },

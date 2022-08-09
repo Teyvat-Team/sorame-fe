@@ -12,7 +12,8 @@ import HeaderDropdown from '../HeaderDropdown';
 import classes from './index.module.less';
 import { useRecoilState } from 'recoil';
 import { userState } from '@/stores/user';
-import { IconUser } from '@douyinfe/semi-icons';
+import { IconExit, IconUser } from '@douyinfe/semi-icons';
+import { withSemiIconStyle } from '@/style';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -55,15 +56,15 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   const menuHeaderDropdown = (
     <Menu className={'menu'} selectedKeys={[]} onClick={onMenuClick}>
       <Menu.Item key="logout">
-        <LogoutOutlined />
-        退出登录
+        <IconExit style={withSemiIconStyle()} />
+        {`  退出登录`}
       </Menu.Item>
     </Menu>
   );
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${classes.action} ${classes.account}`}>
-        <Avatar alt="avatar" icon={<IconUser />} />
+        <Avatar alt="avatar" icon={<IconUser />} src={user.avatar} />
       </span>
     </HeaderDropdown>
   );

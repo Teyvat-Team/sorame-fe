@@ -1,19 +1,13 @@
-import { createContext, ReactNode } from 'react';
-import Axios, {
-  AxiosError,
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosTransformer,
-} from 'axios';
+import { createContext } from 'react';
+import Axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { message } from 'antd';
 import { useContext } from 'react';
-import { createBrowserHistory } from 'history';
 import {
   useQuery,
   useMutation,
-  useQueryClient,
   UseQueryOptions,
+  UseMutationOptions,
+  UseMutationResult,
 } from 'react-query';
 import to from 'await-to-js';
 
@@ -25,7 +19,8 @@ type AnyProps = Record<string, unknown> | AnyInterface;
 
 const axios = Axios.create({
   baseURL: import.meta.env.VITE_BASE_URL + '',
-  timeout: 1000,
+  timeout: 20000,
+  timeoutErrorMessage: '请求超时过20秒，请稍后再试',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -104,15 +99,24 @@ export const useAxios = () => {
   return useContext(AxiosContext);
 };
 
+/**
+ * @description: use get request, common use case is to get data from server
+ * @param key
+ * @param url
+ * @param params
+ * @param queryOptions
+ * @param axiosRequestConfig
+ * @returns {UseQueryResult<R, AxiosError<API.ErrorData>>}
+ */
 const useGet = <P extends AnyProps = {}, R extends AnyProps = {}>(
   key: string,
   url: string,
   params?: P,
-  axiosRequestConfig?: AxiosRequestConfig,
   queryOptions?: Omit<
     UseQueryOptions<R, AxiosError<API.ErrorData>>,
     'queryKey' | 'queryFn'
-  >
+  >,
+  axiosRequestConfig?: AxiosRequestConfig
 ) => {
   const axios = useAxios();
 
@@ -138,8 +142,25 @@ const useGet = <P extends AnyProps = {}, R extends AnyProps = {}>(
   );
 };
 
+/**
+ * @description: use post request, common use case is to add new data to server
+ *
+ * @template P
+ * @template R
+ * @param {string} url
+ * @param {Omit<
+ *     UseMutationOptions<R, unknown, P, unknown>,
+ *     'mutationFn'
+ *   >} [mutationOptions]
+ * @param {AxiosRequestConfig} [axiosRequestConfig]
+ * @return {UseMutationResult<R, unknown, P, unknown>}
+ */
 const usePost = <P extends AnyProps = {}, R extends AnyProps = {}>(
   url: string,
+  mutationOptions?: Omit<
+    UseMutationOptions<R, unknown, P, unknown>,
+    'mutationFn'
+  >,
   axiosRequestConfig?: AxiosRequestConfig
 ) => {
   const axios = useAxios();
@@ -151,27 +172,49 @@ const usePost = <P extends AnyProps = {}, R extends AnyProps = {}>(
       throw err;
     }
     return data;
-  });
+  }, mutationOptions || {});
 };
 
-const usePatch = <P extends AnyProps = {}, R extends AnyProps = {}>(
+/**
+ * @description: use put request, common use case is to update/modify data to server
+ * @param url
+ * @param mutationOptions
+ * @param axiosRequestConfig
+ * @returns {UseMutationResult<R, unknown, P, unknown>}
+ */
+const usePut = <P extends AnyProps = {}, R extends AnyProps = {}>(
   url: string,
+  mutationOptions?: Omit<
+    UseMutationOptions<R, unknown, P, unknown>,
+    'mutationFn'
+  >,
   axiosRequestConfig?: AxiosRequestConfig
 ) => {
   const axios = useAxios();
   return useMutation(async (item: P) => {
     const [err, data] = await to<R, AxiosError<API.ErrorData>>(
-      axios.patch<P, R>(`${url}`, item, axiosRequestConfig)
+      axios.put<P, R>(`${url}`, item, axiosRequestConfig)
     );
     if (err) {
       throw err;
     }
     return data;
-  });
+  }, mutationOptions || {});
 };
 
+/**
+ * @description: use delete request, common use case is to delete data from server
+ * @param url
+ * @param mutationOptions
+ * @param axiosRequestConfig
+ * @returns {UseMutationResult<R, unknown, P, unknown>}
+ */
 const useDelete = <P extends AnyProps = {}, R extends AnyProps = {}>(
   url: string,
+  mutationOptions?: Omit<
+    UseMutationOptions<R, unknown, P, unknown>,
+    'mutationFn'
+  >,
   axiosRequestConfig?: AxiosRequestConfig
 ) => {
   const axios = useAxios();
@@ -186,9 +229,9 @@ const useDelete = <P extends AnyProps = {}, R extends AnyProps = {}>(
       throw err;
     }
     return data;
-  });
+  }, mutationOptions || {});
 };
 
-export { useGet, usePost, usePatch, useDelete };
+export { useGet, usePost, usePut, useDelete };
 
 export default axios;

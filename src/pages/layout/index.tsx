@@ -15,20 +15,41 @@ import RightContent from './components/RightContent';
 
 import { layoutSettings } from '../../const/layout';
 import ErrorBoundary from '@/components/errorBoundary';
+import DatasetSideBar from '@/components/datasetSideBar';
+import {
+  IconChevronLeft,
+  IconChevronRight,
+  IconDesktop,
+  IconPlus,
+} from '@douyinfe/semi-icons';
+import { withSemiIconStyle } from '@/style';
+import { COLOR_PALETTE } from '@/const/theme/color';
+import { Button } from 'antd';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 const menuList = [
   {
     path: '/overview',
     name: '概览',
     locale: 'menu.overview',
-    icon: 'heart',
+    icon: 'overview',
   },
 ];
 
-const IconMap: { [key: string]: React.ReactNode } = {
-  smile: <SmileOutlined />,
-  heart: <HeartOutlined />,
-  frown: <FrownOutlined />,
+const createSetIconStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginTop: '24px',
+  marginBottom: '24px',
+};
+
+const renderNavFooter: () => React.ReactNode = () => <DatasetSideBar />;
+
+const navIconStyle: React.CSSProperties = {
+  // marginLeft: 16,
+  marginRight: 8,
 };
 
 const LayoutPage: FC = ({ children }) => {
@@ -64,6 +85,18 @@ const LayoutPage: FC = ({ children }) => {
     return MenuListAll;
   };
 
+  const IconMap: { [key: string]: React.ReactNode } = {
+    overview: (
+      <IconDesktop
+        style={withSemiIconStyle({
+          ...navIconStyle,
+          marginLeft: user.collapsed ? -6 : 0,
+          marginRight: user.collapsed ? 16 : 8,
+        })}
+      />
+    ),
+  };
+
   const loopMenuItem = (menus?: MenuDataItem[]): MenuDataItem[] => {
     if (!menus) return [];
 
@@ -80,27 +113,59 @@ const LayoutPage: FC = ({ children }) => {
     layoutSettings
   );
 
+  const handleHeaderClick = useCallback(() => {
+    navigate('/overview');
+  }, []);
+
   return (
     <ProLayout
       fixSiderbar
-      collapsed={collapsed}
-      // ErrorBoundary={false}
       ErrorBoundary={ErrorBoundary}
       location={{
         pathname: location.pathname,
       }}
       logo={() => (
-        <LogoTitleSvg
-          style={{
-            transform: 'translate(-23%, 0%) scale(0.55)',
-          }}
-        />
+        <section
+          css={css`
+            display: flex;
+            flex-direction: column;
+            width: 176px;
+            padding: 0;
+            margin: 0;
+          `}
+        >
+          <LogoTitleSvg
+            onClick={handleHeaderClick}
+            style={{
+              transform: user.collapsed
+                ? 'translate(-23%, 0%) scale(0.55)'
+                : 'translate(-19.5%, 0%) scale(0.55)',
+            }}
+          />
+          {!user.collapsed && (
+            <Button
+              shape="round"
+              style={{
+                ...createSetIconStyle,
+                background: COLOR_PALETTE.SORAME_HEADER_SEARCH_BG,
+              }}
+              icon={
+                <IconPlus
+                  style={{
+                    marginRight: '12px',
+                  }}
+                />
+              }
+            >
+              新建数据集
+            </Button>
+          )}
+        </section>
       )}
       title={false}
       hasSiderMenu={false}
       onCollapse={toggle}
       formatMessage={formatMessage}
-      onMenuHeaderClick={() => {}}
       menuItemRender={(menuItemProps: any, defaultDom: any) => {
         if (
           menuItemProps.isUrl ||
@@ -127,23 +192,36 @@ const LayoutPage: FC = ({ children }) => {
           <span>{route.breadcrumbName}</span>
         );
       }}
+      menuFooterRender={user.collapsed ? undefined : renderNavFooter}
       menuDataRender={() => loopMenuItem(menuList)}
       rightContentRender={() => <RightContent />}
-      collapsedButtonRender={() => {
+      headerContentRender={() => {
         return (
           <div
-            onClick={() => toggle}
+            onClick={toggle}
             style={{
               cursor: 'pointer',
               fontSize: '16px',
             }}
           >
-            <span id="sidebar-trigger">
-              {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            </span>
+            {collapsed ? (
+              <IconChevronRight
+                style={withSemiIconStyle({
+                  color: COLOR_PALETTE.SORAME_HEADER_SEARCH_BG_HOVER,
+                })}
+              />
+            ) : (
+              <IconChevronLeft
+                style={withSemiIconStyle({
+                  color: COLOR_PALETTE.SORAME_HEADER_SEARCH_BG_HOVER,
+                })}
+              />
+            )}
           </div>
         );
       }}
+      collapsedButtonRender={false}
+      collapsed={user.collapsed}
       {...dynamicSettings}
     >
       <Outlet />

@@ -37,7 +37,7 @@ const GlobalHeaderRight: React.FC = () => {
   }
   return (
     <Space className={className}>
-      <HeaderDropdown
+      {/* <HeaderDropdown
         className={classes.action}
         overlay={
           <Menu>
@@ -59,8 +59,8 @@ const GlobalHeaderRight: React.FC = () => {
             }}
           />
         </span>
-      </HeaderDropdown>
-      <SelectLang className={classes.action} />
+      </HeaderDropdown> */}
+      {/* <SelectLang className={classes.action} /> */}
       <Avatar />
     </Space>
   );

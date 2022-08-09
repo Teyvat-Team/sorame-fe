@@ -19,6 +19,7 @@
     "await-to-js": "^3.0.0",
     "axios": "^0.21.0",
     "classnames": "^2.2.6",
+    "framer-motion": "^7.0.0",
     "history": "^5.0.0",
     "moment": "^2.29.4",
     "react": "^17.0.0",
