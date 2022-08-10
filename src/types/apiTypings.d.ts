@@ -57,6 +57,13 @@ declare namespace API {
     totalCount: number;
   }
 
+  export interface Schema {
+    name: string;
+    type: string;
+    descr: string;
+    isPartition: boolean;
+  }
+
   export interface DataSetList {
     /** timestamp in ms */
     createTime: string;

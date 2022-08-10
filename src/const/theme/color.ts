@@ -19,6 +19,9 @@ const enum COLOR_PALETTE {
   /** Header searchTool */
   SORAME_HEADER_SEARCH_BG = '#E5E8EA',
   SORAME_HEADER_SEARCH_BG_HOVER = '#C6CACD',
+
+  /** menu selected */
+  SORAME_MENU_SELECTED_BG = '#F0FAFF',
 }
 
 export { COLOR_PALETTE };

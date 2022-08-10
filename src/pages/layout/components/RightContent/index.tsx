@@ -6,7 +6,7 @@ import Avatar from './AvatarDropdown';
 import HeaderDropdown from '../HeaderDropdown';
 // import "./index.less";
 import classes from './index.module.less';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { userState } from '@/stores/user';
 import SelectLang from './SelectLang';
 import { ReactComponent as LanguageSvg } from '@/assets/header/language.svg';
@@ -22,7 +22,7 @@ const ENVTagColor = {
 };
 
 const GlobalHeaderRight: React.FC = () => {
-  const [user, setUser] = useRecoilState(userState);
+  const user = useRecoilValue(userState);
 
   const { settings } = user;
   let className = classes.right;

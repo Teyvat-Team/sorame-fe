@@ -13,13 +13,13 @@ import RenderRouter from './routes';
 import './App.less';
 
 import { createBrowserHistory } from 'history';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { userState } from './stores/user';
 
 const history = createBrowserHistory();
 
 const App: React.FC = () => {
-  const [user, setUser] = useRecoilState(userState);
+  const user = useRecoilValue(userState);
   const { locale } = user;
 
   useEffect(() => {

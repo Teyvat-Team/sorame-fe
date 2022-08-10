@@ -31,6 +31,48 @@ const globalStyles = css`
         color: ${COLOR_PALETTE.SORAME_BLACK}!important;
       }
     }
+
+    .ant-tree-treenode {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s !important;
+      /* padding-bottom: 8px !important; */
+
+      .ant-tree-switcher {
+        display: flex;
+      }
+
+      .ant-tree-node-content-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        width: 100%;
+      }
+
+      width: 188px;
+      max-width: 188px;
+      :hover {
+        cursor: pointer;
+        background-color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}!important;
+      }
+      :active {
+        cursor: pointer;
+        background-color: ${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}!important;
+      }
+      .ant-tree-title {
+        width: 100%;
+      }
+    }
+    .ant-tree-treenode-selected {
+      background-color: ${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}!important;
+      :hover {
+        cursor: pointer;
+        background-color: ${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}!important;
+      }
+    }
   }
   .ant-pro-sider-menu {
     .ant-menu-item {

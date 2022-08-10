@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { datasetSidebarState } from '@/stores/datasetSidebar';
 import { COLOR_PALETTE } from '@/const/theme/color';
 import { message, Tree } from 'antd';
@@ -11,6 +11,7 @@ import { useGetDataSet } from '@/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import TreeWithoutFilter from './components/treeWithoutFilter';
 import { userState } from '@stores/user';
+import DatasetFilter from './components/datasetFilter';
 
 const { useRef, useState, useEffect, useMemo, useCallback } = React;
 
@@ -20,6 +21,8 @@ const Container = styled.section`
   height: calc(100vh - 280px);
   border-top: 1px solid ${COLOR_PALETTE.SORAME_HEADER_SEARCH_BG};
   padding: 16px;
+  padding-left: 0;
+  padding-right: 0;
   width: 210px;
   margin-bottom: 12px;
   word-break: break-all;
@@ -31,8 +34,10 @@ interface DatasetTreeProps {}
 const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
   const {} = props;
 
+  const user = useRecoilValue(userState);
+
   const [getDataSetReqParams, setGetDataSetReqParams] = useState({
-    enableRequest: true,
+    enableRequest: user.username !== '',
     onSuccess: () => {
       setGetDataSetReqParams({
         ...getDataSetReqParams,
@@ -51,10 +56,6 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
       });
     },
   });
-
-  const [user, setUser] = useRecoilState(userState);
-
-  console.log('%c user >>>', 'background: yellow; color: blue', user);
 
   const { isLoading, isSuccess, isError, data, error } = useGetDataSet(
     {
@@ -78,22 +79,18 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
       <AnimatePresence>
         {context.isExpanded ? (
           <Container>
+            <DatasetFilter></DatasetFilter>
             {isLoading && (
               <section
                 css={css`
                   display: flex;
                   justify-content: center;
                   align-items: center;
+                  margin-top: 64px;
                 `}
               >
                 <Loading></Loading>
               </section>
-            )}
-            {isSuccess && (
-              <TreeWithoutFilter
-                data={data.data}
-                onSelect={handleItemSelect}
-              ></TreeWithoutFilter>
             )}
             {isError && (
               <ErrorIllustrator
@@ -101,6 +98,18 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
                   error?.response?.data?.error || error?.message
                 }`}
               />
+            )}
+            {isSuccess && (
+              <TreeWithoutFilter
+                data={data?.data || []}
+                onSelect={item => {
+                  console.log(
+                    '%c item >>>',
+                    'background: yellow; color: blue',
+                    item
+                  );
+                }}
+              ></TreeWithoutFilter>
             )}
           </Container>
         ) : null}
