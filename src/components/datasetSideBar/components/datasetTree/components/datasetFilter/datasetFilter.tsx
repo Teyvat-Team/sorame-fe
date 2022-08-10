@@ -14,7 +14,10 @@ import {
 import { IconSearch } from '@douyinfe/semi-icons';
 import { withSemiIconStyle } from '@/style';
 import { useSetRecoilState } from 'recoil';
-import { datasetSidebarState } from '@stores/datasetSidebar';
+import {
+  DatasetSidebarState,
+  datasetSidebarState,
+} from '@stores/datasetSidebar';
 
 const { Search } = Input;
 
@@ -38,10 +41,10 @@ const DatasetFilter: React.FC<DatasetFilterProps> = (
   const setStoreFilterVal = useSetRecoilState(datasetSidebarState);
 
   const setFilterValue = (value: string) => {
-    setStoreFilterVal(state => {
+    setStoreFilterVal((state: DatasetSidebarState) => {
       return {
         ...state,
-        filterValue: value,
+        filterVal: value,
       };
     });
   };

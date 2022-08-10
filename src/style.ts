@@ -32,45 +32,80 @@ const globalStyles = css`
       }
     }
 
+    .ant-tree {
+      background-color: ${COLOR_PALETTE.SORAME_GREY}!important;
+      line-height: 1.8;
+    }
+
+    .ant-tree .ant-tree-node-content-wrapper .ant-tree-iconEle {
+      display: inline !important;
+    }
+
     .ant-tree-treenode {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+      padding-top: 4px!important;
+      /* display: flex!important;
+      align-items: center!important;
+      justify-content: center!important;
+      cursor: pointer!important;
       transition: all 0.3s !important;
-      /* padding-bottom: 8px !important; */
+      padding-bottom: 8px !important;
 
       .ant-tree-switcher {
-        display: flex;
-      }
+        display: flex!important;
+      } */
 
       .ant-tree-node-content-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex: 1;
-        width: 100%;
+        /* display: flex!important;
+        align-items: center!important;
+        justify-content: center!important;
+        flex: 1!important;
+        width: 100%!important; */
       }
 
-      width: 188px;
-      max-width: 188px;
+      /* width: 188px!important;
+      max-width: 188px!important; */
       :hover {
-        cursor: pointer;
+        cursor: pointer !important;
         background-color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}!important;
       }
       :active {
-        cursor: pointer;
+        cursor: pointer !important;
         background-color: ${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}!important;
       }
-      .ant-tree-title {
-        width: 100%;
+      /* .ant-tree-title {
+        width: 100%!important;
+      } */
+    }
+    .ant-tree-node-selected {
+      background-color: ${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}!important;
+      color: ${COLOR_PALETTE.SORAME_BLACK}!important;
+      :hover {
+        cursor: pointer !important;
+        background-color: ${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}!important;
       }
+    }
+    .ant-tree.ant-tree-directory .ant-tree-treenode-selected::before {
+      background-color: ${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}!important;
     }
     .ant-tree-treenode-selected {
       background-color: ${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}!important;
       :hover {
-        cursor: pointer;
+        cursor: pointer !important;
         background-color: ${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}!important;
+      }
+      .ant-tree-indent {
+        background-color: ${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}!important;
+        :hover {
+          cursor: pointer !important;
+          background-color: ${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}!important;
+        }
+      }
+      .ant-tree-switcher {
+        background-color: ${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}!important;
+        :hover {
+          cursor: pointer !important;
+          background-color: ${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}!important;
+        }
       }
     }
   }

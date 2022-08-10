@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import TreeWithoutFilter from './components/treeWithoutFilter';
 import { userState } from '@stores/user';
 import DatasetFilter from './components/datasetFilter';
+import { useDebounce } from 'ahooks';
 
 const { useRef, useState, useEffect, useMemo, useCallback } = React;
 
@@ -36,13 +37,24 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
 
   const user = useRecoilValue(userState);
 
+  const { filterVal, isExpanded } = useRecoilValue(datasetSidebarState);
+
+  const debouncedFilterVal = useDebounce(filterVal, { wait: 700 });
+
+  const isDebounceEqual = debouncedFilterVal === filterVal;
+
+  let enableRequest = isDebounceEqual;
+
   const [getDataSetReqParams, setGetDataSetReqParams] = useState({
-    enableRequest: user.username !== '',
+    enableRequest: enableRequest,
     onSuccess: () => {
-      setGetDataSetReqParams({
-        ...getDataSetReqParams,
-        enableRequest: false,
-      });
+      // setGetDataSetReqParams({
+      //   ...getDataSetReqParams,
+      //   enableRequest: false,
+      // });
+      if (enableRequest) {
+        enableRequest = false;
+      }
     },
     onError: (err: API.ErrorResp) => {
       message.error(
@@ -50,16 +62,20 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
           err?.response?.data?.error || err?.message || '未知错误'
         }`
       );
-      setGetDataSetReqParams({
-        ...getDataSetReqParams,
-        enableRequest: false,
-      });
+      // setGetDataSetReqParams({
+      //   ...getDataSetReqParams,
+      //   enableRequest: false,
+      // });
+      if (enableRequest) {
+        enableRequest = false;
+      }
     },
   });
 
   const { isLoading, isSuccess, isError, data, error } = useGetDataSet(
     {
       createUser: user.username,
+      keyword: debouncedFilterVal || '',
     },
     {
       enabled: getDataSetReqParams?.enableRequest,
@@ -70,14 +86,12 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
     }
   );
 
-  const [context, setContext] = useRecoilState(datasetSidebarState);
-
   const handleItemSelect = useCallback((item: any) => {}, []);
 
   return (
     <>
       <AnimatePresence>
-        {context.isExpanded ? (
+        {isExpanded ? (
           <Container>
             <DatasetFilter></DatasetFilter>
             {isLoading && (

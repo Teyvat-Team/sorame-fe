@@ -183,6 +183,13 @@ export default ({ command }: { command: string }) => {
             'pagination-item-bg-active': `${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}`,
             'pagination-item-input-bg': `${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}`,
             'pagination-item-link-bg': `${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}`,
+
+            /** Tree */
+            'tree-directory-selected-color': `${COLOR_PALETTE.SORAME_BLACK}`,
+            'tree-directory-selected-bg': `${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}`,
+            'tree-node-hover-bg': `${COLOR_PALETTE.SORAME_INPUT_HOVER_BG}`,
+            'tree-node-selected-bg': `${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}`,
+            'tree-child-padding': `${MEASUREMENT.SORAME_TREE_CHILD_PADDING}`,
           },
         },
       },

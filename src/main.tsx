@@ -1,3 +1,4 @@
+import 'antd/dist/antd.css';
 import React, { Suspense, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';

@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-type DatasetSidebarState = {
+export type DatasetSidebarState = {
   isExpanded: boolean;
   filterVal: string;
 };

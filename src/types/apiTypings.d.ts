@@ -11,6 +11,8 @@ declare namespace API {
 
   export type ErrorResp = AxiosError<ErrorData>;
 
+  /************* datasource service **************/
+
   export interface ListResponse {
     data: DataSourceItem[];
     baseResp: BaseResp | undefined;
@@ -22,6 +24,8 @@ declare namespace API {
   }
 
   export interface DataSource {}
+
+  /************* dataset service **************/
 
   export enum OrderBy {
     createTime = 0,
@@ -48,24 +52,22 @@ declare namespace API {
   }
 
   export interface DataSetListResponse {
+    /** 所有数据集 */
     data: DataSetListResponseData[];
     baseResp: BaseResp | undefined;
   }
 
+  /** 单个数据集 */
   export interface DataSetListResponseData {
+    /** 一个数据集下的所有的表，数组长度为表的个数 */
     dataSetList: DataSetList[];
+    /** 数据集总数 */
     totalCount: number;
   }
 
-  export interface Schema {
-    name: string;
-    type: string;
-    descr: string;
-    isPartition: boolean;
-  }
-
+  /** 数据集下的单张表 */
   export interface DataSetList {
-    /** timestamp in ms */
+    /** dataset createTime, timestamp in ms */
     createTime: string;
     /** dataset name */
     name: string;
@@ -73,15 +75,24 @@ declare namespace API {
     descr: string;
     /** dataset source type */
     dataSourceType: string;
-    /** database name from where the dataset created */
-    dbName: string;
-    /** table name */
-    tableName: string;
-    /** table schema */
-    schema: Schema[];
-    /** dataset id */
+    /** dataset id 数据集id */
     id: string;
     /** dataset createUser */
     createUser: string;
+    /** database name from where the table created */
+    dbName: string;
+    /** table name */
+    tableName: string;
+    /** table id */
+    tableId: string;
+    /** table schema */
+    schema: Schema[];
+  }
+
+  export interface Schema {
+    name: string;
+    type: string;
+    descr: string;
+    isPartition: boolean;
   }
 }

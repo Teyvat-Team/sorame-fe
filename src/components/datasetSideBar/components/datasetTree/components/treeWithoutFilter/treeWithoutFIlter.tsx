@@ -10,12 +10,17 @@ import {
   IconChevronDown,
   IconChevronLeft,
   IconChevronRight,
+  IconChevronUp,
   IconFolderStroked,
   IconModalStroked,
 } from '@douyinfe/semi-icons';
 import { withSemiIconStyle } from '@/style';
 import { COLOR_PALETTE } from '@const/theme/color';
-import type { DataNode, DirectoryTreeProps } from 'antd/es/tree';
+import type {
+  AntTreeNodeProps,
+  DataNode,
+  DirectoryTreeProps,
+} from 'antd/es/tree';
 
 const { DirectoryTree } = Tree;
 
@@ -27,6 +32,7 @@ const Container = styled.section`
   margin-top: 12px;
   height: calc(100vh - 340px);
   padding: 0 12px;
+  font-size: 14px;
 `;
 
 const motionSettings: Partial<React.ComponentProps<typeof motion.div>> = {
@@ -64,9 +70,9 @@ const formatTreeData = (data: API.DataSetListResponse['data']): TreeData => {
       key: dataSetList[0].id,
       icon: (
         <IconFolderStroked
-          style={{
-            margin: '12px',
-          }}
+          style={withSemiIconStyle({
+            marginRight: '8px',
+          })}
         />
       ),
       selectable: false,
@@ -75,10 +81,10 @@ const formatTreeData = (data: API.DataSetListResponse['data']): TreeData => {
         key: table?.tableId || table?.tableName || '',
         icon: (
           <IconModalStroked
-            style={{
-              margin: '8px',
-              marginLeft: '24px',
-            }}
+            style={withSemiIconStyle({
+              marginLeft: '-24px',
+              marginRight: '8px',
+            })}
           />
         ),
         selectable: true,
@@ -109,11 +115,11 @@ const TreeWithoutFilter: React.FC<TreeWithoutFilterProps> = (
           onSelect={(id: string) => {
             onSelect?.(id);
           }}
-          switcherIcon={({ expanded }) => {
+          switcherIcon={({ expanded }: AntTreeNodeProps) => {
             return expanded ? (
               <IconChevronDown size="small" />
             ) : (
-              <IconChevronRight size="small" />
+              <IconChevronDown size="small" />
             );
           }}
         />
