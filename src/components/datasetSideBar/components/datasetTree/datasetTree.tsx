@@ -58,7 +58,7 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
     },
     onError: (err: API.ErrorResp) => {
       message.error(
-        `未找到数据源，错误信息：${
+        `未找到数据集，错误信息：${
           err?.response?.data?.error || err?.message || '未知错误'
         }`
       );

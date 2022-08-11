@@ -13,6 +13,8 @@ const { useRef, useState, useEffect, useMemo } = React;
 import { Typography } from 'antd';
 import DatasetFilter from './components/datasetFilter';
 import DatasetCards from './components/datasetCards';
+import Loading from '@components/illustration/loading';
+import { deleteNilVal, isObjectEqual } from '@/tools';
 
 const { Title } = Typography;
 
@@ -31,11 +33,11 @@ const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
 
   const { keyword = '' } = datasetFilterVal;
 
-  const debouncedFilterVal: string = useDebounce(keyword, {
+  const debouncedFilterVal = useDebounce(datasetFilterVal, {
     wait: 700,
   });
 
-  const isDebounceEqual = debouncedFilterVal === keyword;
+  const isDebounceEqual = isObjectEqual(datasetFilterVal, debouncedFilterVal);
 
   let enableRequest = isDebounceEqual;
 
@@ -48,7 +50,7 @@ const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
     },
     onError: (err: API.ErrorResp) => {
       message.error(
-        `未找到数据源，错误信息：${
+        `未找到数据集，错误信息：${
           err?.response?.data?.error || err?.message || '未知错误'
         }`
       );
@@ -58,11 +60,11 @@ const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
     },
   });
 
+  console.log('%c deleteNilVal(debouncedFilterVal)  >>>', 'background: yellow; color: blue', deleteNilVal(debouncedFilterVal) )
+
+
   const { isLoading, isSuccess, isError, data, error } = useGetDataSet(
-    {
-      createUser: user.username,
-      keyword: debouncedFilterVal || '',
-    },
+    deleteNilVal(debouncedFilterVal) as API.DataSetListRequest,
     {
       enabled: getDataSetReqParams?.enableRequest,
       retry: false,
@@ -76,6 +78,18 @@ const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
     <Container>
       <Title level={2}>全部数据集</Title>
       <DatasetFilter></DatasetFilter>
+      {isLoading && (
+        <Loading
+          style={{
+            zIndex: 99,
+            display: 'flex',
+            position: 'absolute',
+            top: '30%',
+            left: '50%',
+            justifyContent: 'center',
+          }}
+        ></Loading>
+      )}
       <DatasetCards
         data={data?.data || []}
         isLoading={isLoading}

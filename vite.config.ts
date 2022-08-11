@@ -145,7 +145,7 @@ export default ({ command }: { command: string }) => {
              */
             'primary-color': `${COLOR_PALETTE.SORAME_BLUE}`,
             'link-color': `${COLOR_PALETTE.SORAME_LIGHT_BLACK}`,
-            'component-background': `${COLOR_PALETTE.SORAME_WHITE}`,
+            'component-background': `${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}`,
             'primary-color-hover': `${COLOR_PALETTE.SORAME_LIGHT_BLUE}`,
             'border-radius-base': `${MEASUREMENT.SORAME_BORDER_RADIUS_BASE}`,
             'border-color-base': `${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}`,
@@ -190,6 +190,16 @@ export default ({ command }: { command: string }) => {
             'tree-node-hover-bg': `${COLOR_PALETTE.SORAME_INPUT_HOVER_BG}`,
             'tree-node-selected-bg': `${COLOR_PALETTE.SORAME_MENU_SELECTED_BG}`,
             'tree-child-padding': `${MEASUREMENT.SORAME_TREE_CHILD_PADDING}`,
+
+            /** Card */
+            'card-skeleton-bg': `${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}`,
+            'card-radius': `${MEASUREMENT.SORAME_CARD_RADIUS}`,
+
+            /** Modal */
+            'modal-border-radius': `${MEASUREMENT.SORAME_MODAL_BORDER_RADIUS}`,
+
+            /** Button */
+            'btn-default-bg': `${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}`,
           },
         },
       },

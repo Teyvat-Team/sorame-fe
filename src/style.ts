@@ -1,6 +1,7 @@
 /** Customize global styles here */
 import { css } from '@emotion/react';
 import { COLOR_PALETTE } from '@/const/theme/color';
+import { MEASUREMENT } from '@const/theme/measurement';
 
 const globalStyles = css`
   html {
@@ -42,7 +43,7 @@ const globalStyles = css`
     }
 
     .ant-tree-treenode {
-      padding-top: 4px!important;
+      padding-top: 4px !important;
       /* display: flex!important;
       align-items: center!important;
       justify-content: center!important;
@@ -261,6 +262,28 @@ const globalStyles = css`
 
   .ant-popover-inner-content {
     padding: 0;
+  }
+
+  .ant-card {
+    box-shadow: 5px 5px 10px ${COLOR_PALETTE.SORAME_HEADER_SEARCH_BG_HOVER};
+    transition: all 0.3s ease;
+    :hover {
+      background-color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}!important;
+      box-shadow: 5px 5px 10px ${COLOR_PALETTE.SORAME_HEADER_SEARCH_BG_HOVER};
+    }
+  }
+  .ant-card-head {
+    border-bottom: none !important;
+  }
+  .ant-modal-content {
+    border-radius: ${MEASUREMENT.SORAME_MODAL_BORDER_RADIUS}!important;
+  }
+  .ant-modal-header {
+    border-radius: 12px 12px 0 0!important;
+    border-bottom: none!important;
+  }
+  .ant-modal-footer {
+    border-top: none!important;
   }
 `;
 

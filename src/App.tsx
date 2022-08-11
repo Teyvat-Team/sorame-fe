@@ -15,6 +15,7 @@ import './App.less';
 import { createBrowserHistory } from 'history';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userState } from './stores/user';
+import Empty from '@/components/illustration/empty';
 
 const history = createBrowserHistory();
 
@@ -47,7 +48,11 @@ const App: React.FC = () => {
   };
 
   return (
-    <ConfigProvider locale={getAntdLocale()} componentSize="middle">
+    <ConfigProvider
+      locale={getAntdLocale()}
+      componentSize="middle"
+      renderEmpty={() => <Empty />}
+    >
       <IntlProvider locale={locale.split('-')[0]} messages={getLocale()}>
         <BrowserRouter>
           <RenderRouter />

@@ -27,6 +27,7 @@ import { COLOR_PALETTE } from '@/const/theme/color';
 import { Button } from 'antd';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import NewDatasetModal from '@components/newDatasetModal';
 
 const menuList = [
   {
@@ -143,22 +144,29 @@ const LayoutPage: FC = ({ children }) => {
             }}
           />
           {!user.collapsed && (
-            <Button
-              shape="round"
-              style={{
-                ...createSetIconStyle,
-                background: COLOR_PALETTE.SORAME_HEADER_SEARCH_BG,
+            <NewDatasetModal
+              modalProps={{
+                title: '新建数据集',
               }}
-              icon={
-                <IconPlus
+              buttonElement={
+                <Button
+                  shape="round"
                   style={{
-                    marginRight: '12px',
+                    ...createSetIconStyle,
+                    background: COLOR_PALETTE.SORAME_HEADER_SEARCH_BG,
                   }}
-                />
+                  icon={
+                    <IconPlus
+                      style={{
+                        marginRight: '12px',
+                      }}
+                    />
+                  }
+                >
+                  新建数据集
+                </Button>
               }
-            >
-              新建数据集
-            </Button>
+            ></NewDatasetModal>
           )}
         </section>
       )}
