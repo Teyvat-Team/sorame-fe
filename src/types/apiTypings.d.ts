@@ -95,4 +95,163 @@ declare namespace API {
     descr: string;
     isPartition: boolean;
   }
+
+  export interface CreateDatasetsRequest {
+    createTableList: CreateTableList[];
+  }
+
+  export interface CreateTableList {
+    /** 数据集名称 */
+    name: string;
+    /** 数据集描述 */
+    descr: string;
+    /** 数据源类型 */
+    dataSourceTpye: string;
+    /** 数据库名称 */
+    dbName: string;
+    /** 表名 */
+    tableName: string;
+    /** 创建用户 */
+    createUser: string;
+    /** 维度和指标 */
+    attr: Attr[];
+  }
+
+  export interface Attr {
+    dimension: string[];
+    matrix: string[];
+  }
+
+  export interface CreateDatasetsResponse {
+    data: Data[];
+    baseResp: BaseResp | undefined;
+  }
+
+  export interface Data {
+    dataSetId: string;
+  }
+
+  export interface DeleteDatasetsRequest {
+    /** 数据集id */
+    id: string;
+  }
+
+  export interface DeleteDatasetsResponse {
+    data: boolean;
+    baseResp: BaseResp | undefined;
+  }
+
+  /** search service **************************/
+
+  export interface SearchInterfaceRequest {
+    datasetId: string;
+    tableId: string;
+    cache: boolean;
+    selectList: SelectList[];
+    whereCause: string;
+    groupByList: string[];
+    sort: Sort[];
+  }
+
+  export interface SearchInterfaceResponse {
+    cost: string;
+    sql: string;
+    data: Table[];
+    baseResp: BaseResp | undefined;
+  }
+
+  export interface SelectList {
+    function: string;
+    field: string;
+  }
+
+  export interface Table {
+    row: Row[];
+  }
+
+  export interface Sort {
+    field: string;
+    order: string;
+  }
+
+  export interface Row {
+    key: string;
+    value: string;
+  }
+
+  /** table service *************************/
+  export interface TableRequest {
+    /** 数据源名称（数据源名称需要唯一，否则需要一个id） */
+    dataSourceName: string;
+  }
+
+  export interface TableResponse {
+    data: TableList[];
+    baseResp: BaseResp | undefined;
+  }
+
+  export interface TableList {
+    dbName: string;
+    dbTable: DBTable[];
+  }
+
+  export interface DBTable {
+    tableName: string;
+    tableId: string;
+  }
+
+  export interface TableSchemaRequest {
+    /** 数据源类型 */
+    dataSourceType: string;
+    /** 数据库名称 */
+    dbName: string;
+    /** 表名 */
+    tableName: string;
+  }
+
+  export interface TableSchemaResponse {
+    /** 表名 */
+    schema: Schema[];
+    baseResp: BaseResp | undefined;
+  }
+
+  export interface Schema {
+    name: string;
+    type: string;
+    descr: string;
+    isPartition: boolean;
+  }
+
+  export interface DataTableInfoRequest {
+    /** 数据集 id */
+    datasetId: string;
+    /** 数据表 id */
+    dataTableId: string;
+  }
+
+  export interface DataTableInfoResponse {
+    dimensionList: DimensionList[];
+    metricList: MetricList[];
+    functionList: FunctionList[];
+    baseResp: BaseResp | undefined;
+  }
+
+  export interface DimensionList {
+    name: string;
+    type: string;
+    descr: string;
+    isPartition: boolean;
+  }
+
+  export interface MetricList {
+    name: string;
+    type: string;
+    descr: string;
+    isPartition: boolean;
+  }
+
+  export interface FunctionList {
+    name: string;
+    value: string;
+  }
 }

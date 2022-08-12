@@ -166,6 +166,9 @@ const LayoutPage: FC = ({ children }) => {
                   新建数据集
                 </Button>
               }
+              afterSubmitCallback={(datasource: string) => {
+                navigate(`/addDataset/${datasource}`);
+              }}
             ></NewDatasetModal>
           )}
         </section>

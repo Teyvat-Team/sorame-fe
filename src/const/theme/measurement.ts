@@ -7,3 +7,5 @@ export const enum MEASUREMENT {
   SORAME_CARD_RADIUS = '8px',
   SORAME_MODAL_BORDER_RADIUS = '12px',
 }
+
+export const loadingZIndex = 99;

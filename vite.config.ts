@@ -200,6 +200,9 @@ export default ({ command }: { command: string }) => {
 
             /** Button */
             'btn-default-bg': `${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}`,
+
+            /** semi vars */
+
           },
         },
       },

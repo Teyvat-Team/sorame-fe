@@ -15,11 +15,12 @@ import DatasetFilter from './components/datasetFilter';
 import DatasetCards from './components/datasetCards';
 import Loading from '@components/illustration/loading';
 import { deleteNilVal, isObjectEqual } from '@/tools';
+import { loadingZIndex } from '@const/theme/measurement';
 
 const { Title } = Typography;
 
 const Container = styled.section`
-  padding: 12px;
+  padding: 48px;
 `;
 
 interface OverviewProps {}
@@ -60,9 +61,6 @@ const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
     },
   });
 
-  console.log('%c deleteNilVal(debouncedFilterVal)  >>>', 'background: yellow; color: blue', deleteNilVal(debouncedFilterVal) )
-
-
   const { isLoading, isSuccess, isError, data, error } = useGetDataSet(
     deleteNilVal(debouncedFilterVal) as API.DataSetListRequest,
     {
@@ -81,7 +79,7 @@ const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
       {isLoading && (
         <Loading
           style={{
-            zIndex: 99,
+            zIndex: loadingZIndex,
             display: 'flex',
             position: 'absolute',
             top: '30%',

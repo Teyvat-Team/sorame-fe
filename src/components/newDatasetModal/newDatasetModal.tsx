@@ -9,7 +9,7 @@ interface NewDataSetModalProps {
   buttonElement?: React.ReactNode;
   clickKey?: string;
   initValue?: any;
-  afterSubmitCallback?(toast?: boolean): void;
+  afterSubmitCallback?(datasourceName: string): void;
   modalProps?: React.ComponentProps<typeof Modal>;
 }
 
@@ -50,11 +50,12 @@ const NewDataSetModal: React.FC<NewDataSetModalProps> = props => {
     // 校验数据，发送请求
     (form as any as { validateFields: () => Promise<any> })
       ?.validateFields?.()
-      .then((values: any) => {
+      .then((values: { datasource: string }) => {
         console.log('data: ', values);
+        return values;
       })
-      .then(() => {
-        afterSubmitCallback?.();
+      .then(values => {
+        afterSubmitCallback?.(values.datasource);
         onCancel();
       })
       .catch((err: any) => {
@@ -106,7 +107,7 @@ const NewDataSetModal: React.FC<NewDataSetModalProps> = props => {
       >
         <Form initValues={initValue} form={form} layout="vertical">
           <Form.Item
-            name="选择数据源"
+            name="datasource"
             label="选择数据源"
             rules={[{ required: true }]}
           >

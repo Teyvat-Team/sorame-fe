@@ -19,16 +19,28 @@ const ContentSkeleton: React.FC<ContentSkeletonProps> = (
     <section style={{ ...style, maxWidth }}>
       <Skeleton active round paragraph={{ rows: 3 }} title></Skeleton>
       <Skeleton.Input active style={{ width: 250, height: 200 }} />
-      <Skeleton.Input
+      <Skeleton
         active
-        style={{ width: maxWidth, height: 64, marginTop: 12 }}
-      />
-      <Skeleton active round paragraph={{ rows: 2 }} title></Skeleton>
+        round
+        paragraph={{ rows: 2 }}
+        title
+        style={{
+          marginTop: 14,
+        }}
+      ></Skeleton>
       <Skeleton.Input
         active
         style={{ width: maxWidth, height: 80, marginTop: 12 }}
       />
-      <Skeleton active round paragraph={{ rows: 5 }} title></Skeleton>
+      <Skeleton
+        active
+        round
+        paragraph={{ rows: 5 }}
+        title
+        style={{
+          marginTop: 14,
+        }}
+      ></Skeleton>
     </section>
   );
 };

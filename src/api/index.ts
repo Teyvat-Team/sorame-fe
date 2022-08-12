@@ -9,7 +9,7 @@ export const useGetDataSource = (
   >
 ) =>
   useGet<{}, API.ListResponse>(
-    'DataSource',
+    '/datasource/list',
     '/datasource/list',
     {},
     queryOption || {}
@@ -23,8 +23,36 @@ export const useGetDataSet = (
   >
 ) =>
   useGet<API.DataSetListRequest, API.DataSetListResponse>(
-    'Dataset',
     '/dataset/list',
+    '/dataset/list',
+    params,
+    queryOption || {}
+  );
+
+export const useGetDataSourceTable = (
+  params: API.TableRequest,
+  queryOption?: Omit<
+    UseQueryOptions<API.TableResponse, API.ErrorResp>,
+    'queryKey' | 'queryFn'
+  >
+) =>
+  useGet<API.TableRequest, API.TableResponse>(
+    '/table/list',
+    '/table/list',
+    params,
+    queryOption || {}
+  );
+
+export const useGetTableSchema = (
+  params: API.TableSchemaRequest,
+  queryOption?: Omit<
+    UseQueryOptions<API.TableSchemaResponse, API.ErrorResp>,
+    'queryKey' | 'queryFn'
+  >
+) =>
+  useGet<API.TableSchemaRequest, API.TableSchemaResponse>(
+    '/table/schema',
+    '/table/schema',
     params,
     queryOption || {}
   );
