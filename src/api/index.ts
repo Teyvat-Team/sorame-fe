@@ -1,6 +1,6 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { UseQueryOptions } from 'react-query';
-import { useGet } from './request';
+import { UseMutationOptions, UseQueryOptions } from 'react-query';
+import { useDelete, useGet, usePost } from './request';
 
 export const useGetDataSource = (
   queryOption?: Omit<
@@ -55,4 +55,36 @@ export const useGetTableSchema = (
     '/table/schema',
     params,
     queryOption || {}
+  );
+
+export const useAddDataSet = (
+  mutationOption?: Omit<
+    UseMutationOptions<
+      API.CreateDatasetsResponse,
+      unknown,
+      API.CreateDatasetsRequest,
+      unknown
+    >,
+    'mutationFn'
+  >
+) =>
+  usePost<API.CreateDatasetsRequest, API.CreateDatasetsResponse>(
+    'dataset/create',
+    mutationOption || {}
+  );
+
+export const useDeleteDataSet = (
+  mutationOptions?: Omit<
+    UseMutationOptions<
+      API.CreateDatasetsResponse,
+      unknown,
+      API.DeleteDatasetsRequest,
+      unknown
+    >,
+    'mutationFn'
+  >
+) =>
+  useDelete<API.DeleteDatasetsRequest, API.CreateDatasetsResponse>(
+    'dataset/delete',
+    mutationOptions || {}
   );

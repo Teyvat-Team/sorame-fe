@@ -96,7 +96,7 @@ declare namespace API {
     isPartition: boolean;
   }
 
-  export interface CreateDatasetsRequest {
+  export interface CreateDatasetRequest {
     createTableList: CreateTableList[];
   }
 
@@ -105,16 +105,16 @@ declare namespace API {
     name: string;
     /** 数据集描述 */
     descr: string;
-    /** 数据源类型 */
-    dataSourceTpye: string;
+    /** 数据源名称 */
+    dataSourceName: string;
     /** 数据库名称 */
     dbName: string;
-    /** 表名 */
-    tableName: string;
+    /** 表 id */
+    tableId: string;
     /** 创建用户 */
     createUser: string;
     /** 维度和指标 */
-    attr: Attr[];
+    attr: Attr | undefined;
   }
 
   export interface Attr {
@@ -122,8 +122,8 @@ declare namespace API {
     matrix: string[];
   }
 
-  export interface CreateDatasetsResponse {
-    data: Data[];
+  export interface CreateDatasetResponse {
+    data: Data | undefined;
     baseResp: BaseResp | undefined;
   }
 
@@ -131,12 +131,12 @@ declare namespace API {
     dataSetId: string;
   }
 
-  export interface DeleteDatasetsRequest {
+  export interface DeleteDatasetRequest {
     /** 数据集id */
     id: string;
   }
 
-  export interface DeleteDatasetsResponse {
+  export interface DeleteDatasetResponse {
     data: boolean;
     baseResp: BaseResp | undefined;
   }
@@ -201,12 +201,12 @@ declare namespace API {
   }
 
   export interface TableSchemaRequest {
-    /** 数据源类型 */
-    dataSourceType: string;
+    /** 数据源名称 */
+    dataSourceName: string;
     /** 数据库名称 */
     dbName: string;
-    /** 表名 */
-    tableName: string;
+    /** 表 id */
+    tableId: string;
   }
 
   export interface TableSchemaResponse {

@@ -53,7 +53,6 @@ const SelectTableModal: React.FC<SelectTableModalProps> = props => {
     (form as any as { validateFields: () => Promise<any> })
       ?.validateFields?.()
       .then((values: any) => {
-        console.log('data: ', values);
         return values;
       })
       .then(data => {

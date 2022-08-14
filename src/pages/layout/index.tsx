@@ -28,6 +28,7 @@ import { Button } from 'antd';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import NewDatasetModal from '@components/newDatasetModal';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 const menuList = [
   {
@@ -235,6 +236,7 @@ const LayoutPage: FC = ({ children }) => {
       collapsed={user.collapsed}
       {...dynamicSettings}
     >
+      <ReactQueryDevtools initialIsOpen={false} />
       <Outlet />
     </ProLayout>
   );

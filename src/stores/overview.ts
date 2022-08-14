@@ -9,12 +9,14 @@ export type OverviewDatasetFilterVal = {
 
 export type OverviewState = {
   datasetFilterVal: OverviewDatasetFilterVal;
+  needRefresh: boolean;
 };
 
 const initialState: OverviewState = {
   datasetFilterVal: {
     keyword: '',
   },
+  needRefresh: false,
 };
 
 export const overviewState = atom({

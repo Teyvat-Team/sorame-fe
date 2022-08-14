@@ -213,12 +213,13 @@ const globalStyles = css`
   div.ant-layout {
     height: 100vh;
     .ant-layout-content {
-      overflow-y: auto;
       margin: 0;
+      overflow-y: hidden;
       padding-top: 0px;
       padding-left: 0px;
       padding-right: 0px;
       overflow-x: hidden;
+      max-height: calc(100vh - 48px);
     }
   }
 

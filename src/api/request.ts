@@ -40,7 +40,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(
   response => {
     const data = response.data;
-    if (response.status === 200) {
+    if ([200, 201, 202, 203, 204, 205, 206].includes(response.status)) {
       return data;
     }
 
@@ -56,7 +56,6 @@ axios.interceptors.response.use(
         // 401: not login
         case 401:
           window.location.href = '/login';
-
           break;
         // 403 token expire
         case 403:
@@ -64,13 +63,13 @@ axios.interceptors.response.use(
           break;
         // 404 request not found
         case 404:
-          message.error(
-            `请求资源不存在${
-              error?.response?.data?.error
-                ? `，错误信息：${error?.response?.data?.error}`
-                : ''
-            }`
-          );
+          // message.error(
+          //   `请求资源不存在${
+          //     error?.response?.data?.error
+          //       ? `，错误信息：${error?.response?.data?.error}`
+          //       : ''
+          //   }`
+          // );
           break;
         case 406:
           // request param error, leave it to the business to handle

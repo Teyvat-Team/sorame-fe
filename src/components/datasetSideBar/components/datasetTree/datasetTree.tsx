@@ -13,6 +13,8 @@ import TreeWithoutFilter from './components/treeWithoutFilter';
 import { userState } from '@stores/user';
 import DatasetFilter from './components/datasetFilter';
 import { useDebounce } from 'ahooks';
+import { overviewState } from '@stores/overview';
+import { deleteNilVal } from '@/tools';
 
 const { useRef, useState, useEffect, useMemo, useCallback } = React;
 
@@ -41,6 +43,8 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
 
   const debouncedFilterVal = useDebounce(filterVal, { wait: 700 });
 
+  const { needRefresh } = useRecoilValue(overviewState);
+
   const isDebounceEqual = debouncedFilterVal === filterVal;
 
   let enableRequest = isDebounceEqual;
@@ -48,10 +52,6 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
   const [getDataSetReqParams, setGetDataSetReqParams] = useState({
     enableRequest: enableRequest,
     onSuccess: () => {
-      // setGetDataSetReqParams({
-      //   ...getDataSetReqParams,
-      //   enableRequest: false,
-      // });
       if (enableRequest) {
         enableRequest = false;
       }
@@ -62,29 +62,28 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
           err?.response?.data?.error || err?.message || '未知错误'
         }`
       );
-      // setGetDataSetReqParams({
-      //   ...getDataSetReqParams,
-      //   enableRequest: false,
-      // });
       if (enableRequest) {
         enableRequest = false;
       }
     },
   });
 
-  const { isLoading, isSuccess, isError, data, error } = useGetDataSet(
-    {
-      createUser: user.username,
-      keyword: debouncedFilterVal || '',
-    },
+  const { isLoading, isSuccess, isError, data, error, refetch } = useGetDataSet(
+    deleteNilVal({
+      keyword: debouncedFilterVal?.trim?.() || '',
+    }) as API.DataSetListRequest,
     {
       enabled: getDataSetReqParams?.enableRequest,
       retry: false,
-      cacheTime: 10000,
+      staleTime: 1000 * 10, // 10s
       onSuccess: getDataSetReqParams?.onSuccess,
       onError: getDataSetReqParams?.onError,
     }
   );
+
+  if (needRefresh) {
+    refetch();
+  }
 
   const handleItemSelect = useCallback((item: any) => {}, []);
 

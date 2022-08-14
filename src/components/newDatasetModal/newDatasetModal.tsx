@@ -51,7 +51,6 @@ const NewDataSetModal: React.FC<NewDataSetModalProps> = props => {
     (form as any as { validateFields: () => Promise<any> })
       ?.validateFields?.()
       .then((values: { datasource: string }) => {
-        console.log('data: ', values);
         return values;
       })
       .then(values => {
@@ -59,7 +58,7 @@ const NewDataSetModal: React.FC<NewDataSetModalProps> = props => {
         onCancel();
       })
       .catch((err: any) => {
-        // console.log(err);
+        // noop
       });
   }, [afterSubmitCallback, onCancel]);
 
@@ -87,7 +86,7 @@ const NewDataSetModal: React.FC<NewDataSetModalProps> = props => {
   const { isLoading, isSuccess, isError, data, error } = useGetDataSource({
     enabled: getDataSourceReqParams?.enableRequest,
     retry: false,
-    cacheTime: 1000 * 60, //  1min
+    staleTime: 1000 * 60, //  1min
     onSuccess: getDataSourceReqParams?.onSuccess,
     onError: getDataSourceReqParams?.onError,
   });

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { userState } from '@stores/user';
 import { overviewState } from '@stores/overview';
 import { message } from 'antd';
@@ -21,6 +21,9 @@ const { Title } = Typography;
 
 const Container = styled.section`
   padding: 48px;
+  max-height: 100%;
+  height: 100%;
+  overflow-y: auto;
 `;
 
 interface OverviewProps {}
@@ -30,9 +33,8 @@ const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
 
   const user = useRecoilValue(userState);
 
-  const { datasetFilterVal } = useRecoilValue(overviewState);
-
-  const { keyword = '' } = datasetFilterVal;
+  const [{ datasetFilterVal, needRefresh }, setOverViewState] =
+    useRecoilState(overviewState);
 
   const debouncedFilterVal = useDebounce(datasetFilterVal, {
     wait: 700,
@@ -40,13 +42,19 @@ const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
 
   const isDebounceEqual = isObjectEqual(datasetFilterVal, debouncedFilterVal);
 
-  let enableRequest = isDebounceEqual;
+  let enableRequest = isDebounceEqual || needRefresh;
 
   const [getDataSetReqParams, setGetDataSetReqParams] = useState({
-    enableRequest: enableRequest,
+    enableRequest,
     onSuccess: () => {
       if (enableRequest) {
         enableRequest = false;
+      }
+      if (needRefresh) {
+        setOverViewState(state => ({
+          ...state,
+          needRefresh: false,
+        }));
       }
     },
     onError: (err: API.ErrorResp) => {
@@ -58,19 +66,48 @@ const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
       if (enableRequest) {
         enableRequest = false;
       }
+      if (needRefresh) {
+        setOverViewState(state => ({
+          ...state,
+          needRefresh: false,
+        }));
+      }
     },
   });
 
-  const { isLoading, isSuccess, isError, data, error } = useGetDataSet(
-    deleteNilVal(debouncedFilterVal) as API.DataSetListRequest,
-    {
-      enabled: getDataSetReqParams?.enableRequest,
+  const queryOptions = useMemo(
+    () => ({
+      enabled: getDataSetReqParams?.enableRequest || enableRequest,
       retry: false,
-      cacheTime: 10000,
+      staleTime: 1000 * 10, // 10s
       onSuccess: getDataSetReqParams?.onSuccess,
       onError: getDataSetReqParams?.onError,
-    }
+    }),
+    [getDataSetReqParams, enableRequest]
   );
+
+  const deNilParams = deleteNilVal(debouncedFilterVal);
+
+  const params = deNilParams.keyword
+    ? deleteNilVal({
+        ...deNilParams,
+        keyword: deNilParams.keyword?.trim(),
+      })
+    : deNilParams;
+
+  const { isLoading, isSuccess, isError, data, error, refetch } = useGetDataSet(
+    params as API.DataSetListRequest,
+    queryOptions
+  );
+
+  if (needRefresh) {
+    setOverViewState(state => {
+      return {
+        ...state,
+        needRefresh: false,
+      };
+    });
+  }
 
   return (
     <Container>

@@ -11,7 +11,7 @@ const { useRef, useState, useEffect, useMemo } = React;
 
 interface EmptyProps {
   title?: string;
-  desc?: string;
+  desc?: React.ReactNode | string;
 }
 
 const IllustrationWrapperSection = styled.section`

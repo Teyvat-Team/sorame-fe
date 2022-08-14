@@ -50,7 +50,7 @@ const DatasetFilter: React.FC<DatasetFilterProps> = (
         ...state,
         datasetFilterVal: {
           ...state.datasetFilterVal,
-          filterVal: value,
+          keyword: value,
         },
       };
     });
