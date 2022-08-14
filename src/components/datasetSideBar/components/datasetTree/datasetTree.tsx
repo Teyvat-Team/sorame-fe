@@ -15,6 +15,7 @@ import DatasetFilter from './components/datasetFilter';
 import { useDebounce } from 'ahooks';
 import { overviewState } from '@stores/overview';
 import { deleteNilVal } from '@/tools';
+import { useNavigate } from 'react-router';
 
 const { useRef, useState, useEffect, useMemo, useCallback } = React;
 
@@ -48,6 +49,8 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
   const isDebounceEqual = debouncedFilterVal === filterVal;
 
   let enableRequest = isDebounceEqual;
+
+  const navigate = useNavigate();
 
   const [getDataSetReqParams, setGetDataSetReqParams] = useState({
     enableRequest: enableRequest,
@@ -115,12 +118,11 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
             {isSuccess && (
               <TreeWithoutFilter
                 data={data?.data || []}
-                onSelect={item => {
-                  console.log(
-                    '%c item >>>',
-                    'background: yellow; color: blue',
-                    item
-                  );
+                onSelect={(id: string) => {
+                  if (typeof id !== 'string' || id === '') {
+                    message.error('数据表id不合法');
+                  }
+                  navigate(`/datasetTable/${id}`);
                 }}
               ></TreeWithoutFilter>
             )}

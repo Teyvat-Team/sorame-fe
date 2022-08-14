@@ -6,6 +6,7 @@ import LayoutPage from '@/pages/layout';
 import WrapperRouteComponent from './config';
 import { useRoutes, RouteObject } from 'react-router-dom';
 import AddDataset from '@pages/addDataset';
+import DatasetTable from '@pages/datasetTable';
 
 const NotFound = lazy(() => import('@/pages/404'));
 
@@ -31,6 +32,14 @@ const routeList: RouteObject[] = [
         element: (
           <WrapperRouteComponent>
             <AddDataset />
+          </WrapperRouteComponent>
+        ),
+      },
+      {
+        path: '/datasetTable/:datasetId',
+        element: (
+          <WrapperRouteComponent>
+            <DatasetTable />
           </WrapperRouteComponent>
         ),
       },

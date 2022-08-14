@@ -8,6 +8,7 @@ import { IconAlertCircle, IconDelete } from '@douyinfe/semi-icons';
 import { useSetRecoilState } from 'recoil';
 import { overviewState } from '@stores/overview';
 import { useDeleteDataSet } from '@/api';
+import { useNavigate } from 'react-router';
 
 const { useRef, useState, useEffect, useMemo } = React;
 
@@ -59,11 +60,13 @@ interface SingleCardProps {
 const SingleCard: React.FC<SingleCardProps> = (props: SingleCardProps) => {
   const { datasetInfo, isLoading } = props;
 
-  const handleCardClick = React.useCallback((selectedTable: string) => {
-    console.log(
-      '%c selected a data table in dataset >>>',
-      'background: yellow; color: blue'
-    );
+  const navigate = useNavigate();
+
+  const handleCardClick = React.useCallback((selectedTableId: string) => {
+    if (typeof selectedTableId !== 'string' || selectedTableId === '') {
+      message.error('数据表id不合法');
+    }
+    navigate(`/datasetTable/${selectedTableId}`);
   }, []);
 
   const setOverviewState = useSetRecoilState(overviewState);

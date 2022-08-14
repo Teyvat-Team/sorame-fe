@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 const { useRef, useState, useEffect, useMemo } = React;
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRecoilValue } from 'recoil';
-import { Tree } from 'antd';
+import { message, Tree } from 'antd';
 import {
   IconChevronDown,
   IconChevronLeft,
@@ -112,8 +112,17 @@ const TreeWithoutFilter: React.FC<TreeWithoutFilterProps> = (
           showIcon
           defaultExpandAll
           treeData={treeData}
-          onSelect={(id: string) => {
-            onSelect?.(id);
+          onSelect={(selectedItems: string[]) => {
+            if (selectedItems.length === 0) {
+              message.error('未找到数据表');
+              return;
+            }
+            if (selectedItems?.length > 1) {
+              message.error('只能选择一个数据表');
+              return;
+            }
+            debugger;
+            onSelect?.(selectedItems[0]);
           }}
           switcherIcon={({ expanded }: AntTreeNodeProps) => {
             return expanded ? (
