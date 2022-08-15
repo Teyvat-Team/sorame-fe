@@ -10,7 +10,7 @@ interface SelectTableModalProps {
   dataInfo?: API.DataSetList[] | undefined;
   initValue?: any;
   // 添加完成后的 callback，一般可以认为是刷新数据
-  afterSubmitCallback?(selectedTable: string): any;
+  afterSubmitCallback?(datasetId: string, selectedTable: string): any;
   modalProps?: React.ComponentProps<typeof Modal>;
 }
 
@@ -56,7 +56,7 @@ const SelectTableModal: React.FC<SelectTableModalProps> = props => {
         return values;
       })
       .then(data => {
-        afterSubmitCallback?.(data?.selectedTable);
+        afterSubmitCallback?.(dataInfo?.[0]?.id, data?.selectedTable);
         onCancel();
       })
       .catch((err: any) => {

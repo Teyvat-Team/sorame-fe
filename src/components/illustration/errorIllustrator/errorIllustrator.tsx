@@ -12,6 +12,7 @@ const { useRef, useState, useEffect, useMemo } = React;
 interface EmptyProps {
   title?: string;
   desc?: React.ReactNode | string;
+  style?: React.CSSProperties;
 }
 
 const IllustrationWrapperSection = styled.section`
@@ -38,10 +39,10 @@ const DescSection = styled.section`
 `;
 
 const ErrorIllustrator: React.FC<EmptyProps> = (props: EmptyProps) => {
-  const { title = '哎呀，出错了', desc = '' } = props;
+  const { title = '哎呀，出错了', desc = '', style = {} } = props;
 
   return (
-    <IllustrationWrapperSection>
+    <IllustrationWrapperSection style={style}>
       <IllustrationSection>
         <ErrorIllustration width={380} height={380} />
       </IllustrationSection>

@@ -16,6 +16,7 @@ import { useDebounce } from 'ahooks';
 import { overviewState } from '@stores/overview';
 import { deleteNilVal } from '@/tools';
 import { useNavigate } from 'react-router';
+import { DataNode } from 'antd/lib/tree';
 
 const { useRef, useState, useEffect, useMemo, useCallback } = React;
 
@@ -118,11 +119,17 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
             {isSuccess && (
               <TreeWithoutFilter
                 data={data?.data || []}
-                onSelect={(id: string) => {
-                  if (typeof id !== 'string' || id === '') {
-                    message.error('数据表id不合法');
+                onSelect={(item: DataNode) => {
+                  const { datasetId, key } = item;
+                  if (typeof datasetId !== 'string' || datasetId === '') {
+                    message.error('数据集id不合法');
+                    return;
                   }
-                  navigate(`/datasetTable/${id}`);
+                  if (typeof key !== 'string' || key === '') {
+                    message.error('数据表id不合法');
+                    return;
+                  }
+                  navigate(`/dataset/${datasetId}/datasetTable/${key}`);
                 }}
               ></TreeWithoutFilter>
             )}

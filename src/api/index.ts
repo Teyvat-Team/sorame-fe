@@ -88,3 +88,17 @@ export const useDeleteDataSet = (
     'dataset/delete',
     mutationOptions || {}
   );
+
+export const useGetDataSetTable = (
+  params: API.DataTableInfoRequest,
+  queryOption?: Omit<
+    UseQueryOptions<API.DataTableInfoResponse, API.ErrorResp>,
+    'queryKey' | 'queryFn'
+  >
+) =>
+  useGet<API.DataTableInfoRequest, API.DataTableInfoResponse>(
+    '/table/info',
+    '/table/info',
+    params,
+    queryOption || {}
+  );

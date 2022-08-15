@@ -126,7 +126,7 @@ const renderSelectedTableItem:
 const AddDataset: React.FC<AddDatasetProps> = (props: AddDatasetProps) => {
   const {} = props;
 
-  const { datasource: datasourceName } = useParams();
+  const { datasource: datasourceName = '' } = useParams();
 
   const user = useRecoilValue(userState);
 
@@ -437,7 +437,9 @@ const AddDataset: React.FC<AddDatasetProps> = (props: AddDatasetProps) => {
                       emptyContent={{
                         left: <Empty />,
                         right: <Empty title="未选择数据表" />,
-                        search: <Empty title="没有符合搜索条件的表" />,
+                        search: <Empty style={{
+                          marginTop: '400px',
+                        }}title="没有符合搜索条件的表" />,
                       }}
                       onChange={onSelectedTableChange}
                     ></Transfer>

@@ -229,9 +229,33 @@ declare namespace API {
     dataTableId: string;
   }
 
+  /** 1-6 是数据集的字段，而不是表的字段 */
   export interface DataTableInfoResponse {
+    /** dataset createTime, timestamp in ms */
+    createTime: string;
+    /** dataset name */
+    name: string;
+    /** dataset description */
+    descr: string;
+    /** dataset source type */
+    dataSourceType: string;
+    /** dataset id 数据集id */
+    id: string;
+    /** dataset createUser */
+    createUser: string;
+    /** database name from where the table created */
+    dbName: string;
+    /** table name */
+    tableName: string;
+    /** table id */
+    tableId: string;
+    /** table schema */
+    schema: Schema[];
+    /** 维度 */
     dimensionList: DimensionList[];
+    /** 指标 */
     metricList: MetricList[];
+    /** 操作算子 */
     functionList: FunctionList[];
     baseResp: BaseResp | undefined;
   }

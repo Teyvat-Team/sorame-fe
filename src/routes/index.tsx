@@ -36,7 +36,7 @@ const routeList: RouteObject[] = [
         ),
       },
       {
-        path: '/datasetTable/:datasetId',
+        path: '/dataset/:datasetId/datasetTable/:datasetTableId',
         element: (
           <WrapperRouteComponent>
             <DatasetTable />

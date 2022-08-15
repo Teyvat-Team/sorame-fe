@@ -8,17 +8,20 @@ const { useRef, useState, useEffect, useMemo } = React;
 interface ContentSkeletonProps {
   maxWidth?: number;
   style?: React.CSSProperties;
+  noBlockSkeleton?: boolean;
 }
 
 const ContentSkeleton: React.FC<ContentSkeletonProps> = (
   props: ContentSkeletonProps
 ) => {
-  const { maxWidth, style = {}, ...args } = props;
+  const { maxWidth, style = {}, noBlockSkeleton = false, ...args } = props;
 
   return (
     <section style={{ ...style, maxWidth }}>
       <Skeleton active round paragraph={{ rows: 3 }} title></Skeleton>
-      <Skeleton.Input active style={{ width: 250, height: 200 }} />
+      {!noBlockSkeleton && (
+        <Skeleton.Input active style={{ width: 250, height: 200 }} />
+      )}
       <Skeleton
         active
         round
@@ -28,10 +31,12 @@ const ContentSkeleton: React.FC<ContentSkeletonProps> = (
           marginTop: 14,
         }}
       ></Skeleton>
-      <Skeleton.Input
-        active
-        style={{ width: maxWidth, height: 80, marginTop: 12 }}
-      />
+      {!noBlockSkeleton && (
+        <Skeleton.Input
+          active
+          style={{ width: maxWidth, height: 80, marginTop: 12 }}
+        />
+      )}
       <Skeleton
         active
         round

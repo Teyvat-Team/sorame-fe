@@ -12,6 +12,7 @@ const { useRef, useState, useEffect, useMemo } = React;
 interface EmptyProps {
   title?: string;
   desc?: string;
+  style?: React.CSSProperties;
 }
 
 const IllustrationWrapperSection = styled.section`
@@ -36,10 +37,10 @@ const DescSection = styled.section`
 `;
 
 const Empty: React.FC<EmptyProps> = (props: EmptyProps) => {
-  const { title = '没有数据', desc = '' } = props;
+  const { title = '没有数据', desc = '', style = {} } = props;
 
   return (
-    <IllustrationWrapperSection>
+    <IllustrationWrapperSection style={style}>
       <IllustrationSection>
         <EmptyIllustration width={380} height={380} />
       </IllustrationSection>

@@ -3,24 +3,15 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
 const { useRef, useState, useEffect, useMemo } = React;
-import { motion, AnimatePresence } from 'framer-motion';
-import { useRecoilValue } from 'recoil';
+import { motion } from 'framer-motion';
 import { message, Tree } from 'antd';
 import {
   IconChevronDown,
-  IconChevronLeft,
-  IconChevronRight,
-  IconChevronUp,
   IconFolderStroked,
   IconModalStroked,
 } from '@douyinfe/semi-icons';
 import { withSemiIconStyle } from '@/style';
-import { COLOR_PALETTE } from '@const/theme/color';
-import type {
-  AntTreeNodeProps,
-  DataNode,
-  DirectoryTreeProps,
-} from 'antd/es/tree';
+import type { AntTreeNodeProps, DataNode } from 'antd/es/tree';
 
 const { DirectoryTree } = Tree;
 
@@ -48,7 +39,7 @@ const motionSettings: Partial<React.ComponentProps<typeof motion.div>> = {
 
 interface TreeWithoutFilterProps {
   data: API.DataSetListResponse['data'];
-  onSelect: (selectedItem: any) => any;
+  onSelect: (selectedItem: DataNode) => any;
 }
 
 type TreeData = DataNode[];
@@ -88,6 +79,7 @@ const formatTreeData = (data: API.DataSetListResponse['data']): TreeData => {
           />
         ),
         selectable: true,
+        datasetId: dataSetList[0].id,
       })),
     };
 
@@ -121,8 +113,27 @@ const TreeWithoutFilter: React.FC<TreeWithoutFilterProps> = (
               message.error('只能选择一个数据表');
               return;
             }
-            debugger;
-            onSelect?.(selectedItems[0]);
+            const id = selectedItems[0];
+
+            let item: DataNode | undefined;
+            for (const t of treeData) {
+              for (const table of t.children) {
+                if (table.key === id) {
+                  item = table;
+                  break;
+                }
+              }
+              if (item) {
+                break;
+              }
+            }
+
+            if (!item) {
+              message.error('未找到数据表');
+              return;
+            }
+
+            onSelect?.(item);
           }}
           switcherIcon={({ expanded }: AntTreeNodeProps) => {
             return expanded ? (

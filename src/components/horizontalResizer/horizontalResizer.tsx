@@ -1,10 +1,10 @@
 import { COLOR_PALETTE } from '@/const/theme/color';
 import styled from '@emotion/styled';
 
-const ResizerSection = styled.section`
-  width: 10px;
-  height: 100%;
-  cursor: col-resize;
+const HorizontalResizerSection = styled.section`
+  width: 100%;
+  height: 10px;
+  cursor: row-resize;
   background-color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND};
   box-sizing: border-box;
   transition: all 0.3s;
@@ -18,4 +18,4 @@ const ResizerSection = styled.section`
   }
 `;
 
-export default ResizerSection;
+export default HorizontalResizerSection;

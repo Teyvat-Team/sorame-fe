@@ -62,12 +62,20 @@ const SingleCard: React.FC<SingleCardProps> = (props: SingleCardProps) => {
 
   const navigate = useNavigate();
 
-  const handleCardClick = React.useCallback((selectedTableId: string) => {
-    if (typeof selectedTableId !== 'string' || selectedTableId === '') {
-      message.error('数据表id不合法');
-    }
-    navigate(`/datasetTable/${selectedTableId}`);
-  }, []);
+  const handleCardClick = React.useCallback(
+    (datasetId: string, selectedTableId: string) => {
+      if (typeof datasetId !== 'string' || datasetId === '') {
+        message.error('数据集id不合法');
+        return;
+      }
+      if (typeof selectedTableId !== 'string' || selectedTableId === '') {
+        message.error('数据表id不合法');
+        return;
+      }
+      navigate(`/dataset/${datasetId}/datasetTable/${selectedTableId}`);
+    },
+    []
+  );
 
   const setOverviewState = useSetRecoilState(overviewState);
 
