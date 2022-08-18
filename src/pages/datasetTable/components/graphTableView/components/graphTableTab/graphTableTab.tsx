@@ -11,7 +11,8 @@ import {
   IconPieChart2Stroked,
 } from '@douyinfe/semi-icons';
 import { customStyleMap } from './customStyleMap';
-import TableCustomStyle from './components/tableCustomStyle';
+import { useRecoilState } from 'recoil';
+import { dataTableState } from '@stores/dataTable';
 
 const { useRef, useState, useEffect, useMemo } = React;
 
@@ -37,20 +38,93 @@ const GraphTableTab: React.FC<GraphTableTabProps> = (
 ) => {
   const {} = props;
 
+  const [{ selectedGraphType }, setDataTableState] =
+    useRecoilState(dataTableState);
+
   return (
     <>
       <VisualizationIconSection>
         <Tooltip title="表格" placement="bottom">
-          <Button icon={<TableOutlined />}></Button>
+          <Button
+            style={{
+              background:
+                selectedGraphType === 'table'
+                  ? COLOR_PALETTE.SORAME_BLUE
+                  : COLOR_PALETTE.SORAME_INPUT_BACKGROUND,
+              color:
+                selectedGraphType === 'table'
+                  ? COLOR_PALETTE.SORAME_WHITE
+                  : COLOR_PALETTE.SORAME_BLUE,
+            }}
+            icon={<TableOutlined />}
+            onClick={() => {
+              setDataTableState(prev => {
+                return {
+                  ...prev,
+                  selectedGraphType: 'table',
+                };
+              });
+            }}
+          ></Button>
         </Tooltip>
         <Tooltip title="柱状图" placement="bottom">
-          <Button icon={<IconBarChartVStroked />}></Button>
+          <Button
+            style={{
+              background:
+                selectedGraphType === 'barChart'
+                  ? COLOR_PALETTE.SORAME_BLUE
+                  : COLOR_PALETTE.SORAME_INPUT_BACKGROUND,
+              color:
+                selectedGraphType === 'barChart'
+                  ? COLOR_PALETTE.SORAME_WHITE
+                  : COLOR_PALETTE.SORAME_BLUE,
+            }}
+            icon={<IconBarChartVStroked />}
+            onClick={() => {
+              setDataTableState(prev => {
+                return {
+                  ...prev,
+                  selectedGraphType: 'barChart',
+                };
+              });
+            }}
+          ></Button>
         </Tooltip>
         <Tooltip title="折线图" placement="bottom">
-          <Button icon={<IconLineChartStroked />}></Button>
+          <Button
+            icon={<IconLineChartStroked />}
+            style={{
+              background:
+                selectedGraphType === 'lineChart'
+                  ? COLOR_PALETTE.SORAME_BLUE
+                  : COLOR_PALETTE.SORAME_INPUT_BACKGROUND,
+              color:
+                selectedGraphType === 'lineChart'
+                  ? COLOR_PALETTE.SORAME_WHITE
+                  : COLOR_PALETTE.SORAME_BLUE,
+            }}
+            onClick={() => {
+              setDataTableState(prev => {
+                return {
+                  ...prev,
+                  selectedGraphType: 'lineChart',
+                };
+              });
+            }}
+          ></Button>
         </Tooltip>
         <Tooltip title="面积图" placement="bottom">
           <Button
+            style={{
+              background:
+                selectedGraphType === 'areaChart'
+                  ? COLOR_PALETTE.SORAME_BLUE
+                  : COLOR_PALETTE.SORAME_INPUT_BACKGROUND,
+              color:
+                selectedGraphType === 'areaChart'
+                  ? COLOR_PALETTE.SORAME_WHITE
+                  : COLOR_PALETTE.SORAME_BLUE,
+            }}
             icon={
               <AreaChartOutlined
                 style={{
@@ -58,10 +132,38 @@ const GraphTableTab: React.FC<GraphTableTabProps> = (
                 }}
               />
             }
+            onClick={() => {
+              setDataTableState(prev => {
+                return {
+                  ...prev,
+                  selectedGraphType: 'areaChart',
+                };
+              });
+            }}
           ></Button>
         </Tooltip>
         <Tooltip title="饼图" placement="bottom">
-          <Button icon={<IconPieChart2Stroked />}></Button>
+          <Button
+            style={{
+              background:
+                selectedGraphType === 'pieChart'
+                  ? COLOR_PALETTE.SORAME_BLUE
+                  : COLOR_PALETTE.SORAME_INPUT_BACKGROUND,
+              color:
+                selectedGraphType === 'pieChart'
+                  ? COLOR_PALETTE.SORAME_WHITE
+                  : COLOR_PALETTE.SORAME_BLUE,
+            }}
+            icon={<IconPieChart2Stroked />}
+            onClick={() => {
+              setDataTableState(prev => {
+                return {
+                  ...prev,
+                  selectedGraphType: 'pieChart',
+                };
+              });
+            }}
+          ></Button>
         </Tooltip>
       </VisualizationIconSection>
       <CustomStyleSection>{customStyleMap['table']}</CustomStyleSection>

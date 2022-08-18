@@ -10,6 +10,9 @@ import ErrorIllustrator from '@/components/illustration/errorIllustrator';
 import useResizable from '@/hooks/useResizable';
 import HorizontalResizer from '@components/horizontalResizer';
 import { COLOR_PALETTE } from '@/const/theme/color';
+import DataboardItem from './components/databoardItem';
+import { useRecoilState } from 'recoil';
+import { dataTableState } from '@stores/dataTable';
 
 const { useRef, useState, useEffect, useMemo } = React;
 
@@ -73,23 +76,6 @@ const MatrixSection = styled.section`
   }
 `;
 
-const DataBoardItem = styled.div`
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: ${EDGE_DISTANCE}px;
-  line-height: 1.5;
-  height: 32px;
-  margin-right: 8px;
-  cursor: grab;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  :hover {
-    background-color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND};
-  }
-`;
-
 const searchStyle: React.CSSProperties = {};
 
 const DataBoard: React.FC<DataBorardProps> = (props: DataBorardProps) => {
@@ -104,6 +90,11 @@ const DataBoard: React.FC<DataBorardProps> = (props: DataBorardProps) => {
     size: number;
     handler: (event: React.MouseEvent | React.TouchEvent) => void;
   };
+
+  const [
+    { fieldListDimensionList = [], fieldListMatrixList = [], filterString },
+    setDataTableState,
+  ] = useRecoilState(dataTableState);
 
   return (
     <DataBoardContainer>
@@ -178,7 +169,14 @@ const DataBoard: React.FC<DataBorardProps> = (props: DataBorardProps) => {
             <Input
               size="middle"
               placeholder="输入关键词搜索"
-              onChange={(e: React.BaseSyntheticEvent) => {}}
+              onChange={(e: React.BaseSyntheticEvent) => {
+                setDataTableState(prev => {
+                  return {
+                    ...prev,
+                    filterString: e.target.value,
+                  };
+                });
+              }}
               allowClear
               style={searchStyle}
             />
@@ -192,11 +190,23 @@ const DataBoard: React.FC<DataBorardProps> = (props: DataBorardProps) => {
                 }}
               >
                 <Typography.Title level={5}>维度</Typography.Title>
-                {data?.dimensionList?.map((item: API.DimensionList) => {
-                  return item?.name ? (
-                    <DataBoardItem>{item.name}</DataBoardItem>
-                  ) : null;
-                })}
+                {data?.dimensionList
+                  ?.filter(i => {
+                    return fieldListDimensionList?.every(
+                      f => f?.name !== i?.name
+                    );
+                  })
+                  ?.filter(i => i?.name?.includes?.(filterString))
+                  ?.map((item: API.DimensionList) => {
+                    return item?.name ? (
+                      <>
+                        <DataboardItem
+                          item={item}
+                          type="DIMENSION"
+                        ></DataboardItem>
+                      </>
+                    ) : null;
+                  })}
               </DimensionSection>
             )}
             <HorizontalResizer
@@ -225,11 +235,16 @@ const DataBoard: React.FC<DataBorardProps> = (props: DataBorardProps) => {
               }}
             >
               <Typography.Title level={5}>指标</Typography.Title>
-              {data?.metricList?.map((item: API.DimensionList) => {
-                return item?.name ? (
-                  <DataBoardItem>{item.name}</DataBoardItem>
-                ) : null;
-              })}
+              {data?.metricList
+                ?.filter(i => {
+                  return fieldListMatrixList?.every(f => f?.name !== i?.name);
+                })
+                ?.filter(i => i?.name?.includes?.(filterString))
+                ?.map((item: API.DimensionList) => {
+                  return item?.name ? (
+                    <DataboardItem item={item} type={'METRIC'}></DataboardItem>
+                  ) : null;
+                })}
             </MatrixSection>
           </DataBoardListSection>
         </>

@@ -26,6 +26,8 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "react": "^17.0.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^17.0.0",
     "react-intl": "^5.12.5",
     "react-query": "^3.39.2",

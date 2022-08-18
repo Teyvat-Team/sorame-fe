@@ -60,7 +60,7 @@ const SelectTableModal: React.FC<SelectTableModalProps> = props => {
         onCancel();
       })
       .catch((err: any) => {
-        // console.log(err);
+        // noop
       });
   }, [afterSubmitCallback, onCancel]);
 
