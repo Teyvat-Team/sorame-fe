@@ -13,6 +13,7 @@ interface EmptyProps {
   title?: string;
   desc?: string;
   style?: React.CSSProperties;
+  titleStyle?: React.CSSProperties;
 }
 
 const IllustrationWrapperSection = styled.section`
@@ -37,7 +38,7 @@ const DescSection = styled.section`
 `;
 
 const Empty: React.FC<EmptyProps> = (props: EmptyProps) => {
-  const { title = '没有数据', desc = '', style = {} } = props;
+  const { title = '没有数据', desc = '', style = {}, titleStyle = {} } = props;
 
   return (
     <IllustrationWrapperSection style={style}>
@@ -45,7 +46,7 @@ const Empty: React.FC<EmptyProps> = (props: EmptyProps) => {
         <EmptyIllustration width={380} height={380} />
       </IllustrationSection>
       {title && (
-        <TitleSection>
+        <TitleSection style={titleStyle}>
           <Title level={5}>{title}</Title>
         </TitleSection>
       )}

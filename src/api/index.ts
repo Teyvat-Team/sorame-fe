@@ -1,6 +1,6 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import { UseMutationOptions, UseQueryOptions } from 'react-query';
-import { useDelete, useGet, usePost } from './request';
+import { useComplexGet, useDelete, useGet, usePost } from './request';
 
 export const useGetDataSource = (
   queryOption?: Omit<
@@ -99,6 +99,20 @@ export const useGetDataSetTable = (
   useGet<API.DataTableInfoRequest, API.DataTableInfoResponse>(
     '/table/info',
     '/table/info',
+    params,
+    queryOption || {}
+  );
+
+export const useGetSearchInfo = (
+  params: API.SearchInterfaceRequest,
+  queryOption: Omit<
+    UseQueryOptions<API.SearchInterfaceResponse, API.ErrorResp>,
+    'queryKey' | 'queryFn'
+  >
+) =>
+  useComplexGet<API.SearchInterfaceRequest, API.SearchInterfaceResponse>(
+    '/query',
+    '/query',
     params,
     queryOption || {}
   );

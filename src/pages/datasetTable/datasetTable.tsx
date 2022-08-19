@@ -5,7 +5,7 @@ import useResizable from '@/hooks/useResizable';
 import Resizer from '@/components/resizer';
 import GraphTableView from './components/graphTableView';
 import { message, Modal } from 'antd';
-import { useGetDataSetTable } from '@/api';
+import { useGetDataSetTable, useGetSearchInfo } from '@/api';
 import { useNavigate, useParams } from 'react-router';
 import DataBorard from './components/dataBoard';
 import { IconMoreStroked } from '@douyinfe/semi-icons';
@@ -15,6 +15,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { dataTableState } from '@stores/dataTable';
 import useCallbackPrompt from '@/hooks/useCallbackPrompt';
+import { useDebounce } from 'ahooks';
+import { isObjectEqual } from '@/tools';
 
 const { useRef, useState, useEffect, useMemo } = React;
 
@@ -83,10 +85,6 @@ const DataSetTable: React.FC<DataSetTableProps> = (
       enableRequest: enableRequest,
       onSuccess: (data: API.DataTableInfoResponse) => {
         enableRequest = false;
-        // setGetDataSetTableReqParams({
-        //   ...getDataSetTableReqParams,
-        //   enableRequest: false,
-        // });
         setDataTableState(prev => {
           return {
             ...prev,
@@ -101,10 +99,6 @@ const DataSetTable: React.FC<DataSetTableProps> = (
           }`
         );
         enableRequest = false;
-        // setGetDataSetTableReqParams({
-        //   ...getDataSetTableReqParams,
-        //   enableRequest: false,
-        // });
       },
     });
 
@@ -121,6 +115,106 @@ const DataSetTable: React.FC<DataSetTableProps> = (
       onError: getDataSetTableReqParams?.onError,
     }
   );
+
+  /** SearchInfo */
+
+  const { fieldListDimensionList, fieldListMatrixList } = tableState;
+
+  const debouncedDimensionList = useDebounce(fieldListDimensionList, {
+    wait: 500,
+  });
+  const debouncedMatrixList = useDebounce(fieldListMatrixList, { wait: 500 });
+
+  let shouldRequestSearchInfo =
+    isObjectEqual(debouncedDimensionList, fieldListDimensionList) &&
+    isObjectEqual(debouncedMatrixList, fieldListMatrixList) &&
+    fieldListDimensionList?.length >= 1 &&
+    fieldListMatrixList?.length >= 1 &&
+    fieldListMatrixList?.every(i => Boolean(i.function));
+
+  const [getSearchInfoReqParams, setGetSearchInfoTableReqParams] =
+    React.useState({
+      onSuccess: (data: API.SearchInterfaceResponse) => {
+        setDataTableState(prev => {
+          return {
+            ...prev,
+            searchInfo: data,
+          };
+        });
+        shouldRequestSearchInfo = false;
+      },
+      onError: (err: API.ErrorResp) => {
+        message.error(
+          `查询出错，错误信息：${
+            err?.response?.data?.error || err?.message || '未知错误'
+          }`
+        );
+        shouldRequestSearchInfo = false;
+      },
+    });
+
+  const selectList: API.SelectList[] = tableState?.fieldListMatrixList?.map?.(
+    m => {
+      return {
+        function: m.function?.value || '',
+        field: m.name || '',
+      };
+    }
+  );
+
+  const groupByList: string[] =
+    tableState?.fieldListDimensionList?.map?.(m => m.name || '') || [];
+
+  const {
+    isLoading: isGetSearchInfoLoading,
+    isSuccess: isGetSearchInfoSuccess,
+    isError: isGetSearchInfoError,
+    data: getSearchInfoData,
+    error: getSearchInfoError,
+  } = useGetSearchInfo(
+    {
+      datasetId: datasetId,
+      tableId: datasetTableId,
+      cache: true,
+      selectList,
+      whereCause: '',
+      groupByList,
+      sort: [],
+    },
+    {
+      enabled: shouldRequestSearchInfo,
+      // enabled: true,
+      retry: false,
+      staleTime: 0,
+      onSuccess: getSearchInfoReqParams?.onSuccess,
+      onError: getSearchInfoReqParams?.onError,
+    }
+  );
+
+  const {
+    searchInfo: {
+      isLoading: isStoreSearchLoading,
+      isSuccess: isStoreSearchSuccess,
+      isError: isStoreSearchError,
+      data: storeSearchData,
+      error: storeSearchError,
+    },
+  } = tableState;
+  if (
+    (isGetSearchInfoLoading && !isStoreSearchLoading) ||
+    (isGetSearchInfoSuccess && isStoreSearchLoading) ||
+    (isGetSearchInfoError && isStoreSearchLoading)
+  ) {
+    setDataTableState(prev => ({
+      ...prev,
+      searchInfo: {
+        ...prev.searchInfo,
+        isLoading: isGetSearchInfoLoading,
+        isSuccess: isGetSearchInfoSuccess,
+        isError: isGetSearchInfoError,
+      },
+    }));
+  }
 
   const shouldBlock =
     tableState?.fieldListDimensionList?.length > 0 ||
@@ -153,7 +247,7 @@ const DataSetTable: React.FC<DataSetTableProps> = (
             }
           }}
         >
-          系统不会保存你现在所选取的维度、指标或分析状态
+          系统不会保存你现在所选取的维度、指标或分析状态。
         </Modal>
         <ResizeWrapper>
           {resizableSize > LEFT_HIDDEN_SIZE && (

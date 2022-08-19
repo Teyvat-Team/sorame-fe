@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { atom } from 'recoil';
 
 export type SelectedGraphType =
@@ -18,6 +19,13 @@ export type DataTableState = {
   fieldListDimensionList: API.DimensionList[];
   selectedGraphType: SelectedGraphType;
   tableInfo?: API.DataTableInfoResponse;
+  searchInfo: {
+    data?: API.SearchInterfaceResponse;
+    isLoading: boolean;
+    isError: boolean;
+    isSuccess: boolean;
+    error?: AxiosError<API.ErrorData>;
+  };
 };
 
 const initialState: DataTableState = {
@@ -26,6 +34,13 @@ const initialState: DataTableState = {
   fieldListDimensionList: [],
   selectedGraphType: 'table',
   tableInfo: undefined,
+  searchInfo: {
+    data: undefined,
+    isLoading: false,
+    isError: false,
+    isSuccess: false,
+    error: undefined,
+  },
 };
 
 export const dataTableState = atom({

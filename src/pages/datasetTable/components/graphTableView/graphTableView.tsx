@@ -111,6 +111,7 @@ const GraphTableView: React.FC<GraphTableViewProps> = (
           }}
         >
           <FieldBoard></FieldBoard>
+          123
         </ViewSection>
       </ResizeWrapper>
     </Container>

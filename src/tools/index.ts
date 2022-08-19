@@ -19,6 +19,14 @@ export const isObjectEqual = (
     if (typeof obj1Value !== typeof obj2Value) return false;
 
     if (typeof obj1Value === 'object') {
+      if (Array.isArray(obj1Value)) {
+        if (!Array.isArray(obj2Value)) return false;
+        if (obj1Value.length !== obj2Value.length) return false;
+
+        for (let i = 0; i < obj1Value.length; i++) {
+          if (!isObjectEqual(obj1Value[i], obj2Value[i])) return false;
+        }
+      }
       if (!isObjectEqual(obj1Value, obj2Value)) return false;
     } else if (obj1Value !== obj2Value) {
       return false;

@@ -141,6 +141,40 @@ const useGet = <P extends AnyProps = {}, R extends AnyProps = {}>(
   );
 };
 
+const useComplexGet = <P extends AnyProps = {}, R extends AnyProps = {}>(
+  key: string,
+  url: string,
+  params?: P,
+  queryOptions?: Omit<
+    UseQueryOptions<R, AxiosError<API.ErrorData>>,
+    'queryKey' | 'queryFn'
+  >,
+  axiosRequestConfig?: AxiosRequestConfig
+) => {
+  const axios = useAxios();
+
+  const service = async () => {
+    const [err, data] = await to<R, AxiosError<API.ErrorData>>(
+      axios.post<P, R>(
+        url,
+        { ...axiosRequestConfig, params: params || {} } || {}
+      )
+    );
+
+    if (err) {
+      throw err;
+    }
+
+    return data;
+  };
+
+  return useQuery<R, AxiosError<API.ErrorData>>(
+    [key, params],
+    service,
+    queryOptions || {}
+  );
+};
+
 /**
  * @description: use post request, common use case is to add new data to server
  *
@@ -231,6 +265,6 @@ const useDelete = <P extends AnyProps = {}, R extends AnyProps = {}>(
   }, mutationOptions || {});
 };
 
-export { useGet, usePost, usePut, useDelete };
+export { useGet, useComplexGet, usePost, usePut, useDelete };
 
 export default axios;

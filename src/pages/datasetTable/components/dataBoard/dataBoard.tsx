@@ -13,6 +13,7 @@ import { COLOR_PALETTE } from '@/const/theme/color';
 import DataboardItem from './components/databoardItem';
 import { useRecoilState } from 'recoil';
 import { dataTableState } from '@stores/dataTable';
+import Empty from '@/components/illustration/empty';
 
 const { useRef, useState, useEffect, useMemo } = React;
 
@@ -95,6 +96,18 @@ const DataBoard: React.FC<DataBorardProps> = (props: DataBorardProps) => {
     { fieldListDimensionList = [], fieldListMatrixList = [], filterString },
     setDataTableState,
   ] = useRecoilState(dataTableState);
+
+  const filteredDimensionList = data?.dimensionList
+    ?.filter(i => {
+      return fieldListDimensionList?.every(f => f?.name !== i?.name);
+    })
+    ?.filter(i => i?.name?.includes?.(filterString));
+
+  const filteredMetricList = data?.metricList
+    ?.filter(i => {
+      return fieldListMatrixList?.every(f => f?.name !== i?.name);
+    })
+    ?.filter(i => i?.name?.includes?.(filterString));
 
   return (
     <DataBoardContainer>
@@ -190,23 +203,24 @@ const DataBoard: React.FC<DataBorardProps> = (props: DataBorardProps) => {
                 }}
               >
                 <Typography.Title level={5}>维度</Typography.Title>
-                {data?.dimensionList
-                  ?.filter(i => {
-                    return fieldListDimensionList?.every(
-                      f => f?.name !== i?.name
-                    );
-                  })
-                  ?.filter(i => i?.name?.includes?.(filterString))
-                  ?.map((item: API.DimensionList) => {
-                    return item?.name ? (
-                      <>
-                        <DataboardItem
-                          item={item}
-                          type="DIMENSION"
-                        ></DataboardItem>
-                      </>
-                    ) : null;
-                  })}
+                {filteredDimensionList?.map((item: API.DimensionList) => {
+                  return item?.name ? (
+                    <>
+                      <DataboardItem
+                        item={item}
+                        type="DIMENSION"
+                      ></DataboardItem>
+                    </>
+                  ) : null;
+                })}
+                {filteredDimensionList?.length === 0 && (
+                  <Empty
+                    titleStyle={{
+                      marginTop: -100,
+                    }}
+                    title="空空如也"
+                  ></Empty>
+                )}
               </DimensionSection>
             )}
             <HorizontalResizer
@@ -235,16 +249,19 @@ const DataBoard: React.FC<DataBorardProps> = (props: DataBorardProps) => {
               }}
             >
               <Typography.Title level={5}>指标</Typography.Title>
-              {data?.metricList
-                ?.filter(i => {
-                  return fieldListMatrixList?.every(f => f?.name !== i?.name);
-                })
-                ?.filter(i => i?.name?.includes?.(filterString))
-                ?.map((item: API.DimensionList) => {
-                  return item?.name ? (
-                    <DataboardItem item={item} type={'METRIC'}></DataboardItem>
-                  ) : null;
-                })}
+              {filteredMetricList?.map((item: API.DimensionList) => {
+                return item?.name ? (
+                  <DataboardItem item={item} type={'METRIC'}></DataboardItem>
+                ) : null;
+              })}
+              {filteredMetricList?.length === 0 && (
+                <Empty
+                  titleStyle={{
+                    marginTop: -100,
+                  }}
+                  title="空空如也"
+                ></Empty>
+              )}
             </MatrixSection>
           </DataBoardListSection>
         </>
