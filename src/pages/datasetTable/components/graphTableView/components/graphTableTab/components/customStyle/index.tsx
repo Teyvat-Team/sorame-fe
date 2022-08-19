@@ -19,7 +19,7 @@ const visualizationCustomStyleComponentMap: VisualizationCustomStyleComponentMap
     pieChart: <PieChartCustomStyle></PieChartCustomStyle>,
   };
 
-export default {
+export {
   visualizationCustomStyleComponentMap,
   TableCustomStyle,
   BarChartCustomStyle,

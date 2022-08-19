@@ -15,7 +15,7 @@ const visualizationComponentMap: VisualizationComponentMap = {
   pieChart: <PieChartVisualization></PieChartVisualization>,
 };
 
-export default {
+export {
   visualizationComponentMap,
   TableVisualization,
   BarChartVisualization,

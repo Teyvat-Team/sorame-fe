@@ -10,9 +10,9 @@ import {
   IconLineChartStroked,
   IconPieChart2Stroked,
 } from '@douyinfe/semi-icons';
-import { customStyleMap } from './customStyleMap';
 import { useRecoilState } from 'recoil';
 import { dataTableState } from '@stores/dataTable';
+import { visualizationCustomStyleComponentMap } from './components/customStyle';
 
 const { useRef, useState, useEffect, useMemo } = React;
 
@@ -166,7 +166,9 @@ const GraphTableTab: React.FC<GraphTableTabProps> = (
           ></Button>
         </Tooltip>
       </VisualizationIconSection>
-      <CustomStyleSection>{customStyleMap['table']}</CustomStyleSection>
+      <CustomStyleSection>
+        {visualizationCustomStyleComponentMap[selectedGraphType]}
+      </CustomStyleSection>
     </>
   );
 };

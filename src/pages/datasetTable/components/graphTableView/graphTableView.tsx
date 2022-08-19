@@ -9,6 +9,9 @@ import { Tabs } from 'antd';
 import GraphTableTab from './components/graphTableTab';
 import AnalyzerTab from './components/analyzerTab';
 import FieldBoard from './components/fieldBoard';
+import { visualizationComponentMap } from './components/visualization';
+import { useRecoilState } from 'recoil';
+import { dataTableState } from '@stores/dataTable';
 
 const { useRef, useState, useEffect, useMemo } = React;
 
@@ -64,6 +67,10 @@ const GraphTableView: React.FC<GraphTableViewProps> = (
     handler: (event: React.MouseEvent | React.TouchEvent) => void;
   };
 
+  const [tableState, setDataTableState] = useRecoilState(dataTableState);
+
+  const { selectedGraphType } = tableState;
+
   return (
     <Container>
       <ResizeWrapper>
@@ -111,7 +118,7 @@ const GraphTableView: React.FC<GraphTableViewProps> = (
           }}
         >
           <FieldBoard></FieldBoard>
-          123
+          {visualizationComponentMap[selectedGraphType]}
         </ViewSection>
       </ResizeWrapper>
     </Container>
