@@ -67,7 +67,7 @@ const ViewSection = styled.section`
 
 const VisualizationWrapper = styled.section``;
 
-const INIT_LEFT_SIZE = 290;
+const INIT_LEFT_SIZE = 364;
 
 const GraphTableView: React.FC<GraphTableViewProps> = (
   props: GraphTableViewProps
@@ -76,7 +76,7 @@ const GraphTableView: React.FC<GraphTableViewProps> = (
 
   const { size: resizableSize, handler: sizeHandler } = useResizable({
     size: INIT_LEFT_SIZE,
-    maxSize: 290,
+    maxSize: 1200,
     direction: 'right',
   }) as {
     size: number;

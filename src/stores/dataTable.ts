@@ -27,6 +27,9 @@ export type DataTableState = {
     isSuccess: boolean;
     error?: AxiosError<API.ErrorData>;
   };
+  whereCause: string;
+  whereCauseTree: any;
+  whereCauseConfig: any;
   tableVisualizationSettings: {
     bordered: boolean;
     resizable: boolean;
@@ -40,6 +43,9 @@ const initialState: DataTableState = {
   fieldListMatrixList: [],
   fieldListDimensionList: [],
   sortInfo: [],
+  whereCause: '',
+  whereCauseTree: undefined,
+  whereCauseConfig: undefined,
   selectedGraphType: 'table',
   tableInfo: undefined,
   searchInfo: {

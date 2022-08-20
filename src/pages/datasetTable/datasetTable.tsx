@@ -127,10 +127,15 @@ const DataSetTable: React.FC<DataSetTableProps> = (
 
   const debouncedSortInfo = useDebounce(tableState.sortInfo, { wait: 200 });
 
+  const debouncedWhereCauseInfo = useDebounce(tableState.whereCause, {
+    wait: 200,
+  });
+
   let shouldRequestSearchInfo =
     isObjectEqual(debouncedDimensionList, fieldListDimensionList) &&
     isObjectEqual(debouncedMatrixList, fieldListMatrixList) &&
     isObjectEqual(debouncedSortInfo, tableState.sortInfo) &&
+    debouncedWhereCauseInfo === tableState.whereCause &&
     fieldListDimensionList?.length >= 1 &&
     fieldListMatrixList?.length >= 1 &&
     fieldListMatrixList?.every(i => Boolean(i.function));
@@ -186,7 +191,7 @@ const DataSetTable: React.FC<DataSetTableProps> = (
       tableId: datasetTableId,
       cache: true,
       selectList,
-      whereCause: '',
+      whereCause: debouncedWhereCauseInfo,
       groupByList,
       sort: debouncedSortInfo,
     },
