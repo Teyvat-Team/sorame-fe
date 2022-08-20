@@ -16,6 +16,7 @@ export type DataTableState = {
       value: string;
     };
   })[];
+  sortInfo: API.Sort[];
   fieldListDimensionList: API.DimensionList[];
   selectedGraphType: SelectedGraphType;
   tableInfo?: API.DataTableInfoResponse;
@@ -26,12 +27,19 @@ export type DataTableState = {
     isSuccess: boolean;
     error?: AxiosError<API.ErrorData>;
   };
+  tableVisualizationSettings: {
+    bordered: boolean;
+    resizable: boolean;
+    showHeader: boolean;
+    size: 'default' | 'middle' | 'small';
+  };
 };
 
 const initialState: DataTableState = {
   filterString: '',
   fieldListMatrixList: [],
   fieldListDimensionList: [],
+  sortInfo: [],
   selectedGraphType: 'table',
   tableInfo: undefined,
   searchInfo: {
@@ -40,6 +48,12 @@ const initialState: DataTableState = {
     isError: false,
     isSuccess: false,
     error: undefined,
+  },
+  tableVisualizationSettings: {
+    bordered: false,
+    resizable: false,
+    showHeader: true,
+    size: 'default',
   },
 };
 

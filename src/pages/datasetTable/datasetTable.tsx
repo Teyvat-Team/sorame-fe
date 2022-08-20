@@ -121,13 +121,16 @@ const DataSetTable: React.FC<DataSetTableProps> = (
   const { fieldListDimensionList, fieldListMatrixList } = tableState;
 
   const debouncedDimensionList = useDebounce(fieldListDimensionList, {
-    wait: 500,
+    wait: 200,
   });
-  const debouncedMatrixList = useDebounce(fieldListMatrixList, { wait: 500 });
+  const debouncedMatrixList = useDebounce(fieldListMatrixList, { wait: 200 });
+
+  const debouncedSortInfo = useDebounce(tableState.sortInfo, { wait: 200 });
 
   let shouldRequestSearchInfo =
     isObjectEqual(debouncedDimensionList, fieldListDimensionList) &&
     isObjectEqual(debouncedMatrixList, fieldListMatrixList) &&
+    isObjectEqual(debouncedSortInfo, tableState.sortInfo) &&
     fieldListDimensionList?.length >= 1 &&
     fieldListMatrixList?.length >= 1 &&
     fieldListMatrixList?.every(i => Boolean(i.function));
@@ -138,7 +141,13 @@ const DataSetTable: React.FC<DataSetTableProps> = (
         setDataTableState(prev => {
           return {
             ...prev,
-            searchInfo: data,
+            searchInfo: {
+              ...prev.searchInfo,
+              isLoading: false,
+              isSuccess: true,
+              isError: false,
+              data,
+            },
           };
         });
         shouldRequestSearchInfo = false;
@@ -179,13 +188,13 @@ const DataSetTable: React.FC<DataSetTableProps> = (
       selectList,
       whereCause: '',
       groupByList,
-      sort: [],
+      sort: debouncedSortInfo,
     },
     {
       enabled: shouldRequestSearchInfo,
       // enabled: true,
       retry: false,
-      staleTime: 0,
+      staleTime: 1000 * 2, //  2s
       onSuccess: getSearchInfoReqParams?.onSuccess,
       onError: getSearchInfoReqParams?.onError,
     }

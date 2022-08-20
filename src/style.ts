@@ -153,13 +153,13 @@ const globalStyles = css`
   }
 
   table {
-    border-color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}!important;
+    /* border-color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}!important; */
   }
   th {
-    background-color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}!important;
+    /* background-color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}!important; */
   }
   hr {
-    color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}!important;
+    /* color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}!important; */
   }
 
   .ant-layout {
@@ -280,11 +280,11 @@ const globalStyles = css`
     border-radius: ${MEASUREMENT.SORAME_MODAL_BORDER_RADIUS}!important;
   }
   .ant-modal-header {
-    border-radius: 12px 12px 0 0!important;
-    border-bottom: none!important;
+    border-radius: 12px 12px 0 0 !important;
+    border-bottom: none !important;
   }
   .ant-modal-footer {
-    border-top: none!important;
+    border-top: none !important;
   }
 `;
 

@@ -156,7 +156,7 @@ declare namespace API {
   export interface SearchInterfaceResponse {
     cost: string;
     sql: string;
-    data: Table[];
+    table: Rows[];
     baseResp: BaseResp | undefined;
   }
 
@@ -165,8 +165,8 @@ declare namespace API {
     field: string;
   }
 
-  export interface Table {
-    row: Row[];
+  export interface Rows {
+    row: RowItem[];
   }
 
   export interface Sort {
@@ -174,7 +174,7 @@ declare namespace API {
     order: string;
   }
 
-  export interface Row {
+  export interface RowItem {
     key: string;
     value: string;
   }
