@@ -67,7 +67,7 @@ const TableCustomStyle: React.FC<TableCustomStyleProps> = (
 
   return (
     <Container>
-      <Typography.Title level={5}>表格样式</Typography.Title>
+      <Typography.Title level={5}>客制化表格</Typography.Title>
       <Form
         form={form}
         layout="vertical"

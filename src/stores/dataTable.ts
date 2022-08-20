@@ -8,6 +8,18 @@ export type SelectedGraphType =
   | 'areaChart'
   | 'pieChart';
 
+export type Curve =
+  | 'basis'
+  | 'cardinal'
+  | 'catmullRom'
+  | 'linear'
+  | 'monotoneX'
+  | 'monotoneY'
+  | 'natural'
+  | 'step'
+  | 'stepAfter'
+  | 'stepBefore';
+
 export type DataTableState = {
   filterString: string;
   fieldListMatrixList: (API.MetricList & {
@@ -36,6 +48,42 @@ export type DataTableState = {
     showHeader: boolean;
     size: 'default' | 'middle' | 'small';
   };
+  barChartVisualizationSettings: {
+    margin: {
+      top: number;
+      right: number;
+      bottom: number;
+      left: number;
+    };
+    indexBy?: string;
+    width: number;
+    height: number;
+    groupMode: 'stacked' | 'grouped';
+  };
+  lineChartVisualizationSettings: {
+    indexBy: string;
+    height: number;
+    width: number;
+    enablePointLabel: boolean;
+    hasLegends: boolean;
+    curve: Curve;
+    lineWidth: number;
+  };
+  areaChartVisualizationSettings: {
+    indexBy: string;
+    height: number;
+    width: number;
+    enablePointLabel: boolean;
+    hasLegends: boolean;
+    curve: Curve;
+    lineWidth: number;
+  };
+  pieChartVisualizationSettings: {
+    indexBy: string;
+    height: number;
+    width: number;
+    hasLegends: boolean;
+  };
 };
 
 const initialState: DataTableState = {
@@ -60,6 +108,36 @@ const initialState: DataTableState = {
     resizable: false,
     showHeader: true,
     size: 'default',
+  },
+  barChartVisualizationSettings: {
+    margin: { top: 60, right: 110, bottom: 60, left: 80 },
+    width: 900,
+    height: 600,
+    groupMode: 'stacked',
+  },
+  lineChartVisualizationSettings: {
+    indexBy: '',
+    height: 600,
+    width: 800,
+    enablePointLabel: false,
+    hasLegends: false,
+    curve: 'linear',
+    lineWidth: 2,
+  },
+  areaChartVisualizationSettings: {
+    indexBy: '',
+    height: 600,
+    width: 800,
+    enablePointLabel: false,
+    hasLegends: false,
+    curve: 'linear',
+    lineWidth: 2,
+  },
+  pieChartVisualizationSettings: {
+    indexBy: '',
+    height: 600,
+    width: 800,
+    hasLegends: false,
   },
 };
 

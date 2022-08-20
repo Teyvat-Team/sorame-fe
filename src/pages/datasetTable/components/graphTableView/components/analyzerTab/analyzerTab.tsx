@@ -103,7 +103,7 @@ const AnalyzerTab: React.FC<AnalyzerTabProps> = (props: AnalyzerTabProps) => {
           ...acc,
           [field.name]: {
             label: field.name,
-            type: 'text',
+            type: field.type === 'String' ? 'text' : 'number',
             valueSources: ['value'],
           },
         };

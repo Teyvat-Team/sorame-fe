@@ -3,6 +3,10 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
 const { useRef, useState, useEffect, useMemo } = React;
+import { Pie } from '@nivo/pie';
+import { useRecoilState } from 'recoil';
+import { dataTableState } from '@stores/dataTable';
+import Empty from '@components/illustration/empty';
 
 interface PieChartVisualizationProps {}
 
@@ -11,7 +15,79 @@ const PieChartVisualization: React.FC<PieChartVisualizationProps> = (
 ) => {
   const {} = props;
 
-  return <>PieChartVisualization</>;
+  const [tableState, setDataTableState] = useRecoilState(dataTableState);
+  const {
+    searchInfo: { data },
+    fieldListDimensionList,
+    fieldListMatrixList,
+    pieChartVisualizationSettings,
+  } = tableState;
+
+  const pieIndexBy =
+    pieChartVisualizationSettings.indexBy ||
+    fieldListDimensionList?.[0]?.name ||
+    '';
+
+  const pieData: Array<{
+    // must be unique for the whole dataset
+    id: string | number;
+    value: number;
+  }> = data?.table?.map(r => {
+    return {
+      id: r.row.find(i => i.key === pieIndexBy)?.value,
+      value: r.row.find(i => i.key === fieldListMatrixList?.[0]?.name)?.value,
+    };
+  });
+
+  let commonProperties = {
+    width: 900,
+    height: 500,
+    data: pieData,
+    margin: { top: 80, right: 120, bottom: 80, left: 120 },
+    animate: true,
+    activeOuterRadiusOffset: 8,
+  };
+
+  if (pieChartVisualizationSettings?.hasLegends) {
+    commonProperties.legends = [
+      {
+        anchor: 'bottom',
+        direction: 'row',
+        justify: false,
+        translateX: 30,
+        translateY: 56,
+        itemsSpacing: 0,
+        itemWidth: 100,
+        itemHeight: 18,
+        itemTextColor: '#999',
+        itemDirection: 'left-to-right',
+        itemOpacity: 1,
+        symbolSize: 18,
+        symbolShape: 'circle',
+        effects: [
+          {
+            on: 'hover',
+            style: {
+              itemTextColor: '#000',
+            },
+          },
+        ],
+      },
+    ];
+  }
+
+  return (
+    <>
+      {fieldListMatrixList?.length !== 1 && (
+        <Empty title="饼图仅支持多个维度和一个指标"></Empty>
+      )}
+      {fieldListMatrixList?.length === 1 && (
+        <>
+          <Pie {...commonProperties} {...pieChartVisualizationSettings}></Pie>
+        </>
+      )}
+    </>
+  );
 };
 
 export default PieChartVisualization;
