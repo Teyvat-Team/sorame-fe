@@ -288,7 +288,7 @@ const AddDataset: React.FC<AddDatasetProps> = (props: AddDatasetProps) => {
         descr: metaRes?.description || '',
         dataSourceName: datasourceName?.toString?.() || '',
         dbName: (item?.dbName as string) || '',
-        tableId: item?.key?.toString() || '',
+        tableId: item?.label?.toString?.() || '', // tableId 即为 tableName
         createUser: user?.username || 'admin',
         attr,
       };

@@ -57,7 +57,7 @@ const TableAttrCollapse: React.FC<TableAttrCollapseProps> = (
 
   const { isLoading, isSuccess, isError, data, error } = useGetTableSchema(
     {
-      tableId: table?.key?.toString?.() || '',
+      tableId: table?.label?.toString?.() || '',
       dbName: extraInfo?.dbName || '',
       dataSourceName: extraInfo?.datasourceName || '',
     },

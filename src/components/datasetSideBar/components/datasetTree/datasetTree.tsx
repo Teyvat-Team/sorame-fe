@@ -72,9 +72,14 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
     },
   });
 
+  const userStore = useRecoilValue(userState);
+
+  const { username = 'admin' } = userStore;
+
   const { isLoading, isSuccess, isError, data, error, refetch } = useGetDataSet(
     deleteNilVal({
       keyword: debouncedFilterVal?.trim?.() || '',
+      createUser: username || 'admin',
     }) as API.DataSetListRequest,
     {
       enabled: getDataSetReqParams?.enableRequest,

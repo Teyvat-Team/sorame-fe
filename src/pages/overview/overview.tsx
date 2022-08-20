@@ -44,6 +44,10 @@ const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
 
   let enableRequest = isDebounceEqual || needRefresh;
 
+  const storeState = useRecoilValue(userState);
+
+  const { username = 'admin' } = storeState;
+
   const [getDataSetReqParams, setGetDataSetReqParams] = useState({
     enableRequest,
     onSuccess: () => {
@@ -92,8 +96,12 @@ const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
     ? deleteNilVal({
         ...deNilParams,
         keyword: deNilParams.keyword?.trim(),
+        createUser: username || 'admin',
       })
-    : deNilParams;
+    : {
+        ...deNilParams,
+        createUser: username || 'admin',
+      };
 
   const { isLoading, isSuccess, isError, data, error, refetch } = useGetDataSet(
     params as API.DataSetListRequest,
