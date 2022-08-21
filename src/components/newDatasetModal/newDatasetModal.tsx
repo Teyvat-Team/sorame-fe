@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Button, Modal, Form, Select, Descriptions, message } from 'antd';
 import { IconPlus } from '@douyinfe/semi-icons';
 import { useGetDataSource } from '@/api';
+import styled from '@emotion/styled';
+import { COLOR_PALETTE } from '@/const/theme/color';
 
 const { useForm } = Form;
 
@@ -18,6 +20,15 @@ const ButtonDefaultElement: React.ReactNode = (
     添加业务
   </Button>
 );
+
+const FormContainer = styled.section`
+  .ant-select-selector {
+    background-color: ${COLOR_PALETTE.SORAME_INPUT_HOVER_BG}!important;
+    :hover {
+      background-color: ${COLOR_PALETTE.SORAME_HEADER_SEARCH_BG}!important;
+    }
+  }
+`;
 
 const NewDataSetModal: React.FC<NewDataSetModalProps> = props => {
   const {
@@ -104,30 +115,32 @@ const NewDataSetModal: React.FC<NewDataSetModalProps> = props => {
         onOk={onOk}
         {...modalProps}
       >
-        <Form initValues={initValue} form={form} layout="vertical">
-          <Form.Item
-            name="datasource"
-            label="选择数据源"
-            rules={[{ required: true }]}
-          >
-            <Select
-              loading={isLoading}
-              placeholder="选择需添加的数据源"
-              allowClear
-              onChange={(id: string) => {}}
+        <FormContainer>
+          <Form initValues={initValue} form={form} layout="vertical">
+            <Form.Item
+              name="datasource"
+              label="选择数据源"
+              rules={[{ required: true }]}
             >
-              {data?.data?.map(i => (
-                <Select.Option
-                  key={i?.dataSourceName || ''}
-                  value={i?.dataSourceName || ''}
-                  labelInValue={true}
-                >
-                  {i?.dataSourceName}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </Form>
+              <Select
+                loading={isLoading}
+                placeholder="选择需添加的数据源"
+                allowClear
+                onChange={(id: string) => {}}
+              >
+                {data?.data?.map(i => (
+                  <Select.Option
+                    key={i?.dataSourceName || ''}
+                    value={i?.dataSourceName || ''}
+                    labelInValue={true}
+                  >
+                    {i?.dataSourceName}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Form>
+        </FormContainer>
       </Modal>
     </>
   );

@@ -1,4 +1,4 @@
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.less';
 import './styles/semiTheme.css';
 import React, { Suspense, useMemo } from 'react';
 import ReactDOM from 'react-dom';

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Button, Modal, Form, Select, Descriptions } from 'antd';
 import { IconPlus } from '@douyinfe/semi-icons';
+import styled from '@emotion/styled';
+import { COLOR_PALETTE } from '@/const/theme/color';
 
 const { useForm } = Form;
 
@@ -19,6 +21,15 @@ const ButtonDefaultElement: React.ReactNode = (
     添加业务
   </Button>
 );
+
+const FormContainer = styled.section`
+  .ant-select-selector {
+    background-color: ${COLOR_PALETTE.SORAME_INPUT_HOVER_BG}!important;
+    :hover {
+      background-color: ${COLOR_PALETTE.SORAME_HEADER_SEARCH_BG}!important;
+    }
+  }
+`;
 
 const SelectTableModal: React.FC<SelectTableModalProps> = props => {
   const {
@@ -77,47 +88,50 @@ const SelectTableModal: React.FC<SelectTableModalProps> = props => {
         onOk={onOk}
         {...modalProps}
       >
-        <Form initValues={initValue} form={form} layout="vertical">
-          <Form.Item
-            name="selectedTable"
-            label="选择数据表"
-            rules={[{ required: true }]}
-          >
-            <Select
-              placeholder="选择需要分析的数据表"
-              allowClear
-              onChange={(id: string) => {
-                setSelectedTable(id);
+        <FormContainer>
+          <Form initValues={initValue} form={form} layout="vertical">
+            <Form.Item
+              name="selectedTable"
+              label="选择数据表"
+              rules={[{ required: true }]}
+            >
+              <Select
+                placeholder="选择需要分析的数据表"
+                allowClear
+                onChange={(id: string) => {
+                  setSelectedTable(id);
+                }}
+              >
+                {dataInfo?.map?.((item: API.DataSetList) => (
+                  <Select.Option
+                    key={item?.tableId}
+                    value={item?.tableId}
+                    labelInValue={true}
+                  >
+                    {item?.tableName}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Form>
+          {selectedTable && (
+            <Descriptions
+              column={1}
+              style={{
+                marginTop: '12px',
+                marginBottom: '12px',
               }}
             >
-              {dataInfo?.map?.((item: API.DataSetList) => (
-                <Select.Option
-                  key={item?.tableId}
-                  value={item?.tableId}
-                  labelInValue={true}
-                >
-                  {item?.tableName}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </Form>
-        {selectedTable && (
-          <Descriptions
-            column={1}
-            style={{
-              marginTop: '12px',
-              marginBottom: '12px',
-            }}
-          >
-            <Descriptions.Item label="表 id">
-              {dataInfo?.find(i => i.tableId === selectedTable)?.tableId || ''}
-            </Descriptions.Item>
-            <Descriptions.Item label="数据库名">
-              {dataInfo?.find(i => i.tableId === selectedTable)?.dbName || ''}
-            </Descriptions.Item>
-          </Descriptions>
-        )}
+              <Descriptions.Item label="表 id">
+                {dataInfo?.find(i => i.tableId === selectedTable)?.tableId ||
+                  ''}
+              </Descriptions.Item>
+              <Descriptions.Item label="数据库名">
+                {dataInfo?.find(i => i.tableId === selectedTable)?.dbName || ''}
+              </Descriptions.Item>
+            </Descriptions>
+          )}
+        </FormContainer>
       </Modal>
     </>
   );

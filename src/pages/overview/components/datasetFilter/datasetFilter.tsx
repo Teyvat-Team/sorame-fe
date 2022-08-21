@@ -31,6 +31,12 @@ const OtherContainer = styled.section`
   flex-basis: 280px;
   display: flex;
   flex-direction: row-reverse;
+  .ant-btn {
+    :hover {
+      border: none !important;
+      background-color: ${COLOR_PALETTE.SORAME_INPUT_HOVER_BG}!important;
+    }
+  }
 `;
 
 const DatasetFilter: React.FC<DatasetFilterProps> = (

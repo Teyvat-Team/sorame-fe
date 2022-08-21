@@ -139,6 +139,32 @@ const globalStyles = css`
     }
   }
 
+  .ant-select {
+    border-radius: ${MEASUREMENT.SORAME_BORDER_RADIUS_BASE}!important;
+    background-color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}!important;
+    .ant-select-selection {
+      background-color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}!important;
+      :hover {
+        background-color: ${COLOR_PALETTE.SORAME_INPUT_HOVER_BG}!important;
+      }
+    }
+    .ant-select-selector {
+      background-color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}!important;
+      :hover {
+        background-color: ${COLOR_PALETTE.SORAME_INPUT_HOVER_BG}!important;
+      }
+    }
+    :hover {
+      background-color: ${COLOR_PALETTE.SORAME_INPUT_HOVER_BG}!important;
+      .ant-select-selection {
+        background-color: ${COLOR_PALETTE.SORAME_INPUT_HOVER_BG}!important;
+      }
+      .ant-select-selector {
+        background-color: ${COLOR_PALETTE.SORAME_INPUT_HOVER_BG}!important;
+      }
+    }
+  }
+
   .ant-select-focused {
     .ant-select-selector {
       border-color: ${COLOR_PALETTE.SORAME_BLUE}!important;
@@ -244,20 +270,7 @@ const globalStyles = css`
     box-shadow: none !important;
   }
 
-  .ant-btn {
-    border: none !important;
-    :hover {
-      border-color: ${COLOR_PALETTE.SORAME_BLUE}!important;
-    }
-  }
-
   .ant-input-affix-wrapper {
-    border: none;
-    border-radius: ${MEASUREMENT.SORAME_BORDER_RADIUS_BASE}!important;
-    background: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}!important;
-    input {
-      background-color: ${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}!important;
-    }
     :hover {
       background-color: ${COLOR_PALETTE.SORAME_INPUT_HOVER_BG}!important;
       input {

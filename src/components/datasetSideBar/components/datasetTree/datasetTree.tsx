@@ -49,7 +49,7 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
 
   const debouncedFilterVal = useDebounce(filterVal, { wait: 700 });
 
-  const { needRefresh } = useRecoilValue(overviewState);
+  const { needRefresh, datasetFilterVal } = useRecoilValue(overviewState);
 
   const isDebounceEqual = debouncedFilterVal === filterVal;
 
@@ -75,6 +75,8 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
       }
     },
   });
+
+  const { keyword, createUser } = datasetFilterVal;
 
   const userStore = useRecoilValue(userState);
 
@@ -103,7 +105,8 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
       <AnimatePresence>
         {isExpanded ? (
           <>
-            {isSuccess && (!data?.data?.length || data?.data?.length === 0) ? (
+            {isSuccess &&
+            (!data?.data?.length || (data?.data?.length === 0 && !keyword)) ? (
               <Empty
                 style={{
                   padding: 28,
@@ -148,10 +151,7 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
                   <>
                     {!data?.data.length ||
                       (data.data?.length === 0 && (
-                        <Empty
-                          title="空空如也"
-                          desc="没有数据集呢，快去新建一个吧"
-                        ></Empty>
+                        <Empty title="空空如也" desc="未查询到数据集"></Empty>
                       ))}
                     <TreeWithoutFilter
                       data={data?.data || []}
