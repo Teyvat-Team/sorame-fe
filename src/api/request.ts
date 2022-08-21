@@ -18,7 +18,7 @@ interface AnyInterface {
 type AnyProps = Record<string, unknown> | AnyInterface;
 
 const axios = Axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL + '',
+  baseURL: '/api/v1',
   timeout: 1000 * 60 * 2,
   timeoutErrorMessage: '请求超时过20秒，请稍后再试',
   headers: {

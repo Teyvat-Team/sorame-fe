@@ -94,11 +94,12 @@ export default ({ command }: { command: string }) => {
     },
     // server: {
     //   proxy: {
-    //     '/api': {
-    //       target: 'http://127.0.0.1:7770',
-    //       changeOrigin: true,
-    //       rewrite: path => path.replace(/^\/api/, '')
-    //     }
+    //     // '/api': {
+    //     //   target: 'http://127.0.0.1:3000',
+    //     //   changeOrigin: true,
+    //     //   // rewrite: path => path.replace(/^\/api/, ''),
+    //     // },
+    //     '/api': 'http://localhost:3000',
     //   },
     // },
     plugins: [
@@ -202,7 +203,6 @@ export default ({ command }: { command: string }) => {
             'btn-default-bg': `${COLOR_PALETTE.SORAME_INPUT_BACKGROUND}`,
 
             /** semi vars */
-
           },
         },
       },
