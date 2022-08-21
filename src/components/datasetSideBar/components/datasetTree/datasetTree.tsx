@@ -105,73 +105,50 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
       <AnimatePresence>
         {isExpanded ? (
           <>
-            {isSuccess &&
-            (!data?.data?.length || (data?.data?.length === 0 && !keyword)) ? (
-              <Empty
-                style={{
-                  padding: 28,
-                  width: '100%',
-                  margin: '0 auto',
-                }}
-                title={
-                  <section
-                    css={css`
-                      text-align: center;
-                      font-weight: bold;
-                    `}
-                  >
-                    没有数据集呢，快去新建一个吧
-                  </section>
-                }
-                desc=""
-              ></Empty>
-            ) : (
-              <Container>
-                <DatasetFilter></DatasetFilter>
-                {isLoading && (
-                  <section
-                    css={css`
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                      margin-top: 64px;
-                    `}
-                  >
-                    <Loading></Loading>
-                  </section>
-                )}
-                {isError && (
-                  <ErrorIllustrator
-                    desc={`错误信息：${
-                      error?.response?.data?.error || error?.message
-                    }`}
-                  />
-                )}
-                {isSuccess && (
-                  <>
-                    {!data?.data.length ||
-                      (data.data?.length === 0 && (
-                        <Empty title="空空如也" desc="未查询到数据集"></Empty>
-                      ))}
-                    <TreeWithoutFilter
-                      data={data?.data || []}
-                      onSelect={(item: DataNode) => {
-                        const { datasetId, key } = item;
-                        if (typeof datasetId !== 'string' || datasetId === '') {
-                          message.error('数据集id不合法');
-                          return;
-                        }
-                        if (typeof key !== 'string' || key === '') {
-                          message.error('数据表id不合法');
-                          return;
-                        }
-                        navigate(`/dataset/${datasetId}/datasetTable/${key}`);
-                      }}
-                    ></TreeWithoutFilter>
-                  </>
-                )}
-              </Container>
-            )}
+            <Container>
+              <DatasetFilter></DatasetFilter>
+              {isLoading && (
+                <section
+                  css={css`
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: 64px;
+                  `}
+                >
+                  <Loading></Loading>
+                </section>
+              )}
+              {isError && (
+                <ErrorIllustrator
+                  desc={`错误信息：${
+                    error?.response?.data?.error || error?.message
+                  }`}
+                />
+              )}
+              {isSuccess && (
+                <>
+                  {(!data?.data?.length || data.data?.length === 0) && (
+                    <Empty title="空空如也" desc="未查询到数据集"></Empty>
+                  )}
+                  <TreeWithoutFilter
+                    data={data?.data || []}
+                    onSelect={(item: DataNode) => {
+                      const { datasetId, key } = item;
+                      if (typeof datasetId !== 'string' || datasetId === '') {
+                        message.error('数据集id不合法');
+                        return;
+                      }
+                      if (typeof key !== 'string' || key === '') {
+                        message.error('数据表id不合法');
+                        return;
+                      }
+                      navigate(`/dataset/${datasetId}/datasetTable/${key}`);
+                    }}
+                  ></TreeWithoutFilter>
+                </>
+              )}
+            </Container>
           </>
         ) : null}
       </AnimatePresence>

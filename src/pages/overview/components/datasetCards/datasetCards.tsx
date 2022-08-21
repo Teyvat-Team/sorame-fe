@@ -37,7 +37,7 @@ const DatasetCards: React.FC<DatasetCardsProps> = (
             width: '100%',
             margin: '0 auto',
           }}
-          title=""
+          title="未查询到数据集"
           desc={
             <NewDatasetModal
               modalProps={{
@@ -46,6 +46,9 @@ const DatasetCards: React.FC<DatasetCardsProps> = (
               buttonElement={
                 <Button
                   type="primary"
+                  style={{
+                    marginTop: 14,
+                  }}
                   icon={
                     <IconPlus
                       style={withSemiIconStyle({
