@@ -10,8 +10,8 @@ const { Title } = Typography;
 const { useRef, useState, useEffect, useMemo } = React;
 
 interface EmptyProps {
-  title?: string;
-  desc?: string;
+  title?: string | React.ReactNode;
+  desc?: string | React.ReactNode;
   style?: React.CSSProperties;
   titleStyle?: React.CSSProperties;
 }
@@ -40,15 +40,24 @@ const DescSection = styled.section`
 const Empty: React.FC<EmptyProps> = (props: EmptyProps) => {
   const { title = '没有数据', desc = '', style = {}, titleStyle = {} } = props;
 
+  const isStringTitle = typeof title === 'string';
+  const titleExist = Boolean(title);
+
   return (
     <IllustrationWrapperSection style={style}>
       <IllustrationSection>
         <EmptyIllustration width={380} height={380} />
       </IllustrationSection>
-      {title && (
-        <TitleSection style={titleStyle}>
-          <Title level={5}>{title}</Title>
-        </TitleSection>
+      {titleExist && (
+        <>
+          {title && typeof title === 'string' ? (
+            <TitleSection style={titleStyle}>
+              <Title level={5}>{title}</Title>
+            </TitleSection>
+          ) : (
+            title
+          )}
+        </>
       )}
       {desc && <DescSection>{desc}</DescSection>}
     </IllustrationWrapperSection>

@@ -1,5 +1,11 @@
+import Empty from '@components/illustration/empty';
+import NewDatasetModal from '@components/newDatasetModal';
+import { IconPlus } from '@douyinfe/semi-icons';
 import styled from '@emotion/styled';
+import { withSemiIconStyle } from '@/style';
+import { Button } from 'antd';
 import * as React from 'react';
+import { useNavigate } from 'react-router';
 import SingleCard from './components/singleCard';
 
 const { useRef, useState, useEffect, useMemo } = React;
@@ -20,32 +26,70 @@ const DatasetCards: React.FC<DatasetCardsProps> = (
 ) => {
   const { data, isLoading } = props;
 
+  const navigate = useNavigate();
+
   return (
-    <Container>
-      {isLoading &&
-        new Array(6)
-          .fill(null)
-          .map((_, index) => <SingleCard key={index} isLoading={true} />)}
-      {data.reduce((acc, cur) => {
-        if (cur.dataSetList.length > 0) {
-          return [
-            ...acc,
-            <SingleCard
-              key={cur.dataSetList[0].id}
-              datasetInfo={cur.dataSetList}
-              isLoading={isLoading}
-            />,
-          ];
-        } else {
-          return acc;
-        }
-      }, [])}
-      {/* <SingleCard
+    <>
+      {!isLoading && (!data.length || data.length === 0) && (
+        <Empty
+          style={{
+            padding: 28,
+            width: '100%',
+            margin: '0 auto',
+          }}
+          title=""
+          desc={
+            <NewDatasetModal
+              modalProps={{
+                title: '新建数据集',
+              }}
+              buttonElement={
+                <Button
+                  type="primary"
+                  icon={
+                    <IconPlus
+                      style={withSemiIconStyle({
+                        marginRight: '12px',
+                      })}
+                    />
+                  }
+                >
+                  新建数据集
+                </Button>
+              }
+              afterSubmitCallback={(datasource: string) => {
+                navigate(`/addDataset/${datasource}`);
+              }}
+            ></NewDatasetModal>
+          }
+        ></Empty>
+      )}
+      <Container>
+        {isLoading &&
+          new Array(6)
+            .fill(null)
+            .map((_, index) => <SingleCard key={index} isLoading={true} />)}
+        {data.reduce((acc, cur) => {
+          if (cur.dataSetList.length > 0) {
+            return [
+              ...acc,
+              <SingleCard
+                key={cur.dataSetList[0].id}
+                datasetInfo={cur.dataSetList}
+                isLoading={isLoading}
+              />,
+            ];
+          } else {
+            return acc;
+          }
+        }, [])}
+        {/* <SingleCard
         // key={data[0].dataSetList[0].tableId}
         tableInfo={data?.[0]?.dataSetList?.[0]}
         isLoading={isLoading}
       /> */}
-    </Container>
+      </Container>
+    </>
   );
 };
 

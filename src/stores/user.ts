@@ -30,7 +30,7 @@ const initialState: User = {
   menuList: [],
   username: localStorage.getItem('username') || '',
   role: (localStorage.getItem('username') || '') as Role,
-  avatar: 'https://avatars.githubusercontent.com/u/31395805?v=4',
+  avatar: '',
 };
 
 export const userState = atom({

@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { datasetSidebarState } from '@/stores/datasetSidebar';
 import { COLOR_PALETTE } from '@/const/theme/color';
-import { message, Tree } from 'antd';
+import { Button, message, Tree } from 'antd';
 import Loading from '@/components/illustration/loading';
 import ErrorIllustrator from '@/components/illustration/errorIllustrator';
 import { useGetDataSet } from '@/api';
@@ -17,6 +17,10 @@ import { overviewState } from '@stores/overview';
 import { deleteNilVal } from '@/tools';
 import { useNavigate } from 'react-router';
 import { DataNode } from 'antd/lib/tree';
+import Empty from '@components/illustration/empty';
+import NewDatasetModal from '@components/newDatasetModal';
+import { IconPlus } from '@douyinfe/semi-icons';
+import { withSemiIconStyle } from '@/style';
 
 const { useRef, useState, useEffect, useMemo, useCallback } = React;
 
@@ -84,7 +88,7 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
     {
       enabled: getDataSetReqParams?.enableRequest,
       retry: false,
-      staleTime: 1000 * 10, // 10s
+      staleTime: 1000 * 2, // 10s
       onSuccess: getDataSetReqParams?.onSuccess,
       onError: getDataSetReqParams?.onError,
     }
@@ -94,51 +98,81 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
     refetch();
   }
 
-  const handleItemSelect = useCallback((item: any) => {}, []);
-
   return (
     <>
       <AnimatePresence>
         {isExpanded ? (
-          <Container>
-            <DatasetFilter></DatasetFilter>
-            {isLoading && (
-              <section
-                css={css`
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  margin-top: 64px;
-                `}
-              >
-                <Loading></Loading>
-              </section>
-            )}
-            {isError && (
-              <ErrorIllustrator
-                desc={`错误信息：${
-                  error?.response?.data?.error || error?.message
-                }`}
-              />
-            )}
-            {isSuccess && (
-              <TreeWithoutFilter
-                data={data?.data || []}
-                onSelect={(item: DataNode) => {
-                  const { datasetId, key } = item;
-                  if (typeof datasetId !== 'string' || datasetId === '') {
-                    message.error('数据集id不合法');
-                    return;
-                  }
-                  if (typeof key !== 'string' || key === '') {
-                    message.error('数据表id不合法');
-                    return;
-                  }
-                  navigate(`/dataset/${datasetId}/datasetTable/${key}`);
+          <>
+            {isSuccess && (!data?.data?.length || data?.data?.length === 0) ? (
+              <Empty
+                style={{
+                  padding: 28,
+                  width: '100%',
+                  margin: '0 auto',
                 }}
-              ></TreeWithoutFilter>
+                title={
+                  <section
+                    css={css`
+                      text-align: center;
+                      font-weight: bold;
+                    `}
+                  >
+                    没有数据集呢，快去新建一个吧
+                  </section>
+                }
+                desc=""
+              ></Empty>
+            ) : (
+              <Container>
+                <DatasetFilter></DatasetFilter>
+                {isLoading && (
+                  <section
+                    css={css`
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      margin-top: 64px;
+                    `}
+                  >
+                    <Loading></Loading>
+                  </section>
+                )}
+                {isError && (
+                  <ErrorIllustrator
+                    desc={`错误信息：${
+                      error?.response?.data?.error || error?.message
+                    }`}
+                  />
+                )}
+                {isSuccess && (
+                  <>
+                    {!data?.data.length ||
+                      (data.data?.length === 0 && (
+                        <Empty
+                          title="空空如也"
+                          desc="没有数据集呢，快去新建一个吧"
+                        ></Empty>
+                      ))}
+                    <TreeWithoutFilter
+                      data={data?.data || []}
+                      onSelect={(item: DataNode) => {
+                        const { datasetId, key } = item;
+                        if (typeof datasetId !== 'string' || datasetId === '') {
+                          message.error('数据集id不合法');
+                          return;
+                        }
+                        if (typeof key !== 'string' || key === '') {
+                          message.error('数据表id不合法');
+                          return;
+                        }
+                        navigate(`/dataset/${datasetId}/datasetTable/${key}`);
+                      }}
+                    ></TreeWithoutFilter>
+                  </>
+                )}
+              </Container>
             )}
-          </Container>
+          </>
         ) : null}
       </AnimatePresence>
     </>

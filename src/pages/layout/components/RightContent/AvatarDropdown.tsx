@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import avatarImg from '@/assets/avatar.png';
 
 import {
   LogoutOutlined,
@@ -64,7 +65,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${classes.action} ${classes.account}`}>
-        <Avatar alt="avatar" icon={<IconUser />} src={user.avatar} />
+        <Avatar alt="avatar" icon={<IconUser />} src={avatarImg} />
       </span>
     </HeaderDropdown>
   );

@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userState } from '@stores/user';
 import { overviewState } from '@stores/overview';
-import { message } from 'antd';
+import { Button, message } from 'antd';
 import { useGetDataSet } from '@/api';
 import { useDebounce } from 'ahooks';
 
@@ -16,6 +16,12 @@ import DatasetCards from './components/datasetCards';
 import Loading from '@components/illustration/loading';
 import { deleteNilVal, isObjectEqual } from '@/tools';
 import { loadingZIndex } from '@const/theme/measurement';
+import Empty from '@components/illustration/empty';
+import NewDatasetModal from '@components/newDatasetModal';
+import { COLOR_PALETTE } from '@const/theme/color';
+import { IconPlus } from '@douyinfe/semi-icons';
+import { useNavigate } from 'react-router';
+import ErrorIllustrator from '@components/illustration/errorIllustrator';
 
 const { Title } = Typography;
 
@@ -47,6 +53,8 @@ const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
   const storeState = useRecoilValue(userState);
 
   const { username = 'admin' } = storeState;
+
+  const navigate = useNavigate();
 
   const [getDataSetReqParams, setGetDataSetReqParams] = useState({
     enableRequest,
@@ -83,7 +91,7 @@ const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
     () => ({
       enabled: getDataSetReqParams?.enableRequest || enableRequest,
       retry: false,
-      staleTime: 1000 * 10, // 10s
+      staleTime: 1000 * 2, // 2s
       onSuccess: getDataSetReqParams?.onSuccess,
       onError: getDataSetReqParams?.onError,
     }),
@@ -133,10 +141,20 @@ const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
           }}
         ></Loading>
       )}
-      <DatasetCards
-        data={data?.data || []}
-        isLoading={isLoading}
-      ></DatasetCards>
+      {isError && (
+        <ErrorIllustrator
+          style={{
+            padding: 28,
+          }}
+          desc="数据集加载失败"
+        ></ErrorIllustrator>
+      )}
+      {!isError && (
+        <DatasetCards
+          data={data?.data || []}
+          isLoading={isLoading}
+        ></DatasetCards>
+      )}
     </Container>
   );
 };
