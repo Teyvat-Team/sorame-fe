@@ -205,12 +205,13 @@ const DataBoard: React.FC<DataBorardProps> = (props: DataBorardProps) => {
                 <Typography.Title level={5}>维度</Typography.Title>
                 {filteredDimensionList?.map((item: API.DimensionList) => {
                   return item?.name ? (
-                    <>
+                    <section key={item?.name}>
                       <DataboardItem
+                        key={item?.name}
                         item={item}
                         type="DIMENSION"
                       ></DataboardItem>
-                    </>
+                    </section>
                   ) : null;
                 })}
                 {filteredDimensionList?.length === 0 && (
@@ -251,7 +252,11 @@ const DataBoard: React.FC<DataBorardProps> = (props: DataBorardProps) => {
               <Typography.Title level={5}>指标</Typography.Title>
               {filteredMetricList?.map((item: API.DimensionList) => {
                 return item?.name ? (
-                  <DataboardItem item={item} type={'METRIC'}></DataboardItem>
+                  <DataboardItem
+                    key={item?.name}
+                    item={item}
+                    type={'METRIC'}
+                  ></DataboardItem>
                 ) : null;
               })}
               {filteredMetricList?.length === 0 && (

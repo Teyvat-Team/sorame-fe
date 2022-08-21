@@ -40,7 +40,7 @@ const MetricTag: React.FC<MetricTagProps> = (props: MetricTagProps) => {
                   functionItem.value === 'quantile'
                 ) {
                   return (
-                    <>
+                    <section key={functionItem?.name}>
                       <Popover
                         zIndex={loadingZIndex}
                         position="right"
@@ -125,7 +125,7 @@ const MetricTag: React.FC<MetricTagProps> = (props: MetricTagProps) => {
                           </Dropdown.Item>
                         </div>
                       </Popover>
-                    </>
+                    </section>
                   );
                 } else {
                   return (

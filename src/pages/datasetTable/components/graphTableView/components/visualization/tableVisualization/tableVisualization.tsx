@@ -8,6 +8,7 @@ import { ColumnProps } from 'antd/lib/table';
 import { Data } from '@douyinfe/semi-ui/lib/es/table';
 import { COLOR_PALETTE } from '@const/theme/color';
 import Empty from '@components/illustration/empty';
+import useStoreBackendPagination from '@/hooks/useStoreBackendPagination';
 
 const { useRef, useState, useEffect, useMemo } = React;
 
@@ -71,6 +72,9 @@ const TableVisualization: React.FC<TableVisualizationProps> = (
     });
   }, [data]);
 
+  const { onPageChange, onPageSizeChange, pageSizeOptions, pageSize, current } =
+    useStoreBackendPagination();
+
   return (
     <Container>
       <Table
@@ -84,7 +88,14 @@ const TableVisualization: React.FC<TableVisualizationProps> = (
         }}
         pagination={{
           showSizeChanger: true,
-          pageSizeOpts: [10, 20, 50, 100],
+          showTotal: true,
+          onPageChange,
+          onPageSizeChange,
+          pageSize,
+          currentPage: current,
+          total: data?.total,
+          pageSizeOpts: pageSizeOptions,
+          showQuickJumper: true,
         }}
         {...tableVisualizationSettings}
       ></Table>

@@ -5,6 +5,8 @@ import { COLOR_PALETTE } from '@/const/theme/color';
 import { useRecoilState } from 'recoil';
 import { dataTableState } from '@stores/dataTable';
 import { BarDatum, Bar } from '@nivo/bar';
+import { Pagination } from '@douyinfe/semi-ui';
+import useStoreBackendPagination from '@/hooks/useStoreBackendPagination';
 
 const { useRef, useState, useEffect, useMemo } = React;
 
@@ -50,12 +52,25 @@ const BarChartVisualization: React.FC<BarChartVisualizationProps> = (
 
   const { barChartVisualizationSettings } = tableState;
 
+  const { onPageChange, onPageSizeChange, pageSizeOptions, pageSize, current } =
+    useStoreBackendPagination();
+
+  const paginationProps = {
+    showSizeChanger: true,
+    onPageChange,
+    onPageSizeChange,
+    pageSize,
+    currentPage: current,
+    total: data?.total,
+    pageSizeOpts: pageSizeOptions,
+  };
+
   return (
     <Container>
       <Bar
         data={barData}
         // margin={{ top: 60, right: 110, bottom: 60, left: 80 }}
-        keys={fieldListMatrixList?.map(i => i.name)}
+        keys={fieldListMatrixList?.map(i => `${i.function?.value}(${i?.name})`)}
         indexBy={
           barChartVisualizationSettings.indexBy
             ? barChartVisualizationSettings.indexBy
@@ -67,6 +82,19 @@ const BarChartVisualization: React.FC<BarChartVisualizationProps> = (
         labelSkipHeight={16}
         {...barChartVisualizationSettings}
       />
+      <div
+        style={{
+          float: 'right',
+          marginRight: EDGE_DISTANCE,
+        }}
+      >
+        <Pagination
+          {...paginationProps}
+          showSizeChanger
+          showQuickJumper
+          style={{ marginTop: 14, marginBottom: 14 }}
+        ></Pagination>
+      </div>
     </Container>
   );
 };

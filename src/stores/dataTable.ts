@@ -1,3 +1,4 @@
+import { Pagination } from '@douyinfe/semi-ui';
 import { AxiosError } from 'axios';
 import { atom } from 'recoil';
 
@@ -48,6 +49,12 @@ export type DataTableState = {
     showHeader: boolean;
     size: 'default' | 'middle' | 'small';
   };
+  dataPagination: {
+    current: number;
+    pageSize: number;
+    total: number;
+    pageSizeOptions: number[];
+  };
   barChartVisualizationSettings: {
     margin: {
       top: number;
@@ -86,7 +93,7 @@ export type DataTableState = {
   };
 };
 
-const initialState: DataTableState = {
+export const initialState: DataTableState = {
   filterString: '',
   fieldListMatrixList: [],
   fieldListDimensionList: [],
@@ -102,6 +109,12 @@ const initialState: DataTableState = {
     isError: false,
     isSuccess: false,
     error: undefined,
+  },
+  dataPagination: {
+    current: 1,
+    pageSize: 10,
+    total: 0,
+    pageSizeOptions: [10, 20, 50, 100, 200, 500],
   },
   tableVisualizationSettings: {
     bordered: false,

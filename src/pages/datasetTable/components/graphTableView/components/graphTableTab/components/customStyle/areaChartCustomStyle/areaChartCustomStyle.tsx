@@ -93,10 +93,10 @@ const AreaChartCustomStyle: React.FC<AreaChartCustomStyleProps> = (
           </Select>
         </Form.Item>
         <Form.Item name="height" label="高度">
-          <Slider min={0} max={1300} />
+          <Slider min={0} max={2000} />
         </Form.Item>
         <Form.Item name="width" label="宽度">
-          <Slider min={0} max={1300} />
+          <Slider min={0} max={2000} />
         </Form.Item>
         <Form.Item
           label="是否显示标签"

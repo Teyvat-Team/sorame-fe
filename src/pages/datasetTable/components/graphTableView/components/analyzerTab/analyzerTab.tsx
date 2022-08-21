@@ -240,7 +240,7 @@ const AnalyzerTab: React.FC<AnalyzerTabProps> = (props: AnalyzerTabProps) => {
         </section>
         {selectedFieldSort?.map((item, idx) => {
           return (
-            <SelectGroupSection>
+            <SelectGroupSection key={item?.field}>
               <Select
                 placeholder="字段"
                 value={item.field}
@@ -268,7 +268,9 @@ const AnalyzerTab: React.FC<AnalyzerTabProps> = (props: AnalyzerTabProps) => {
                   })
                   ?.map(s => {
                     return (
-                      <Select.Option value={s.name}>{s.name}</Select.Option>
+                      <Select.Option key={s?.name} value={s?.name}>
+                        {s?.name}
+                      </Select.Option>
                     );
                   })}
               </Select>

@@ -152,6 +152,7 @@ const TableAttrCollapse: React.FC<TableAttrCollapseProps> = (
                 {data?.schema?.map((item, index) => {
                   return (
                     <section
+                      key={item?.name}
                       css={css`
                         display: flex;
                         justify-content: space-between;

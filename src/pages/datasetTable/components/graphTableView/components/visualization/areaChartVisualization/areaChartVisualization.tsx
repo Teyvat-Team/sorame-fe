@@ -6,6 +6,8 @@ const { useRef, useState, useEffect, useMemo } = React;
 import { Line } from '@nivo/line';
 import { useRecoilState } from 'recoil';
 import { dataTableState } from '@stores/dataTable';
+import { Pagination } from '@douyinfe/semi-ui';
+import useStoreBackendPagination from '@/hooks/useStoreBackendPagination';
 
 interface AreaChartVisualizationProps {}
 
@@ -91,6 +93,19 @@ const AreaChartVisualization: React.FC<AreaChartVisualizationProps> = (
     ];
   }
 
+  const { onPageChange, onPageSizeChange, pageSizeOptions, pageSize, current } =
+    useStoreBackendPagination();
+
+  const paginationProps = {
+    showSizeChanger: true,
+    onPageChange,
+    onPageSizeChange,
+    pageSize,
+    currentPage: current,
+    total: data?.total,
+    pageSizeOpts: pageSizeOptions,
+  };
+
   return (
     <Container>
       <Line
@@ -103,6 +118,19 @@ const AreaChartVisualization: React.FC<AreaChartVisualizationProps> = (
         {...areaChartVisualizationSettings}
         enableArea={true}
       ></Line>
+      <div
+        style={{
+          float: 'right',
+          marginRight: EDGE_DISTANCE,
+        }}
+      >
+        <Pagination
+          {...paginationProps}
+          showSizeChanger
+          showQuickJumper
+          style={{ marginTop: 14, marginBottom: 14 }}
+        ></Pagination>
+      </div>
     </Container>
   );
 };

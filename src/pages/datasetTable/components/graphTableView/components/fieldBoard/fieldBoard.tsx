@@ -137,6 +137,7 @@ const FieldBoard: React.FC<FieldBoardProps> = (props: FieldBoardProps) => {
         {fieldListMatrixList?.map?.(item => {
           return (
             <MetricTag
+              key={item?.name}
               item={item}
               functionList={tableInfo?.functionList || []}
             ></MetricTag>

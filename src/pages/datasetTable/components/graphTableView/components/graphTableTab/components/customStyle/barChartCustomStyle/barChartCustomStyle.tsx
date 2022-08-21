@@ -171,10 +171,10 @@ const BarChartCustomStyle: React.FC<BarChartCustomStyleProps> = (
           </Radio.Group>
         </Form.Item>
         <Form.Item name="height" label="高度">
-          <Slider min={0} max={1300} />
+          <Slider min={0} max={2000} />
         </Form.Item>
         <Form.Item name="width" label="宽度">
-          <Slider min={0} max={1300} />
+          <Slider min={0} max={2000} />
         </Form.Item>
       </Form>
     </Container>

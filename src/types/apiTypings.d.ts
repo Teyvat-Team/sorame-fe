@@ -151,12 +151,18 @@ declare namespace API {
     whereCause: string;
     groupByList: string[];
     sort: Sort[];
+    offset: number;
+    limit: number;
   }
 
   export interface SearchInterfaceResponse {
     cost: string;
     sql: string;
     table: Rows[];
+    /** 从 0 开始的偏置值 */
+    offset: number;
+    limit: number;
+    total: number;
     baseResp: BaseResp | undefined;
   }
 

@@ -13,7 +13,7 @@ import { COLOR_PALETTE } from '@/const/theme/color';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { dataTableState } from '@stores/dataTable';
+import { dataTableState, initialState } from '@stores/dataTable';
 import useCallbackPrompt from '@/hooks/useCallbackPrompt';
 import { useDebounce } from 'ahooks';
 import { isObjectEqual } from '@/tools';
@@ -131,10 +131,15 @@ const DataSetTable: React.FC<DataSetTableProps> = (
     wait: 200,
   });
 
+  const debouncedPagination = useDebounce(tableState.dataPagination, {
+    wait: 200,
+  });
+
   let shouldRequestSearchInfo =
     isObjectEqual(debouncedDimensionList, fieldListDimensionList) &&
     isObjectEqual(debouncedMatrixList, fieldListMatrixList) &&
     isObjectEqual(debouncedSortInfo, tableState.sortInfo) &&
+    isObjectEqual(debouncedPagination, tableState.dataPagination) &&
     debouncedWhereCauseInfo === tableState.whereCause &&
     fieldListDimensionList?.length >= 1 &&
     fieldListMatrixList?.length >= 1 &&
@@ -194,6 +199,10 @@ const DataSetTable: React.FC<DataSetTableProps> = (
       whereCause: debouncedWhereCauseInfo,
       groupByList,
       sort: debouncedSortInfo,
+      limit: tableState?.dataPagination?.pageSize || 10,
+      offset:
+        (tableState?.dataPagination?.current - 1) *
+          (tableState?.dataPagination?.pageSize || 10) || 0,
     },
     {
       enabled: shouldRequestSearchInfo,
@@ -247,9 +256,7 @@ const DataSetTable: React.FC<DataSetTableProps> = (
           onOk={() => {
             setDataTableState(prev => ({
               ...prev,
-              filterString: '',
-              fieldListMatrixList: [],
-              fieldListDimensionList: [],
+              ...initialState,
             }));
             if (typeof cancelNavigation !== 'boolean') {
               (confirmNavigation as () => void)?.();

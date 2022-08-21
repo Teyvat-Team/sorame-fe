@@ -7,8 +7,12 @@ import { Pie } from '@nivo/pie';
 import { useRecoilState } from 'recoil';
 import { dataTableState } from '@stores/dataTable';
 import Empty from '@components/illustration/empty';
+import { Pagination } from '@douyinfe/semi-ui';
+import useStoreBackendPagination from '@/hooks/useStoreBackendPagination';
 
 interface PieChartVisualizationProps {}
+
+const EDGE_DISTANCE = 14;
 
 const PieChartVisualization: React.FC<PieChartVisualizationProps> = (
   props: PieChartVisualizationProps
@@ -35,7 +39,8 @@ const PieChartVisualization: React.FC<PieChartVisualizationProps> = (
   }> = data?.table?.map(r => {
     return {
       id: r.row.find(i => i.key === pieIndexBy)?.value,
-      value: r.row.find(i => i.key === fieldListMatrixList?.[0]?.name)?.value,
+      value: r.row.find(i => i.key?.includes(fieldListMatrixList?.[0]?.name))
+        ?.value,
     };
   });
 
@@ -76,15 +81,41 @@ const PieChartVisualization: React.FC<PieChartVisualizationProps> = (
     ];
   }
 
+  const { onPageChange, onPageSizeChange, pageSizeOptions, pageSize, current } =
+    useStoreBackendPagination();
+
+  const paginationProps = {
+    showSizeChanger: true,
+    onPageChange,
+    onPageSizeChange,
+    pageSize,
+    currentPage: current,
+    total: data?.total,
+    pageSizeOpts: pageSizeOptions,
+  };
+
   return (
     <>
       {fieldListMatrixList?.length !== 1 && (
         <Empty title="饼图仅支持多个维度和一个指标"></Empty>
       )}
       {fieldListMatrixList?.length === 1 && (
-        <>
+        <section>
           <Pie {...commonProperties} {...pieChartVisualizationSettings}></Pie>
-        </>
+          <div
+            style={{
+              float: 'right',
+              marginRight: EDGE_DISTANCE,
+            }}
+          >
+            <Pagination
+              {...paginationProps}
+              showSizeChanger
+              showQuickJumper
+              style={{ marginTop: 14, marginBottom: 14 }}
+            ></Pagination>
+          </div>
+        </section>
       )}
     </>
   );
