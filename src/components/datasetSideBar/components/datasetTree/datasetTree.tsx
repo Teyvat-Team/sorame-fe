@@ -134,7 +134,7 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
                   <TreeWithoutFilter
                     data={data?.data || []}
                     onSelect={(item: DataNode) => {
-                      const { datasetId, key } = item;
+                      const { datasetId, key, title = '' } = item;
                       if (typeof datasetId !== 'string' || datasetId === '') {
                         message.error('数据集id不合法');
                         return;
@@ -143,7 +143,7 @@ const DatasetTree: React.FC<DatasetTreeProps> = (props: DatasetTreeProps) => {
                         message.error('数据表id不合法');
                         return;
                       }
-                      navigate(`/dataset/${datasetId}/datasetTable/${key}`);
+                      navigate(`/dataset/${datasetId}/datasetTable/${title}`);
                     }}
                   ></TreeWithoutFilter>
                 </>

@@ -67,9 +67,9 @@ const formatTreeData = (data: API.DataSetListResponse['data']): TreeData => {
         />
       ),
       selectable: false,
-      children: dataSetList.map(table => ({
+      children: dataSetList.map((table, idx) => ({
         title: table?.tableName || '',
-        key: table?.tableId || table?.tableName || '',
+        key: `${table?.name}_${table?.tableId}_${idx} || ${table?.name}_${table?.tableName}_${idx}`,
         icon: (
           <IconModalStroked
             style={withSemiIconStyle({
