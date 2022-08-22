@@ -19,7 +19,7 @@ type AnyProps = Record<string, unknown> | AnyInterface;
 
 const axios = Axios.create({
   baseURL: '/api/v1',
-  timeout: 1000 * 60 * 2,
+  timeout: 1000 * 20,
   timeoutErrorMessage: '请求超时过20秒，请稍后再试',
   headers: {
     'Content-Type': 'application/json',

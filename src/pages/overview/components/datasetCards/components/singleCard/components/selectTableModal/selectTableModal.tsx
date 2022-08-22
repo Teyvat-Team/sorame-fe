@@ -14,6 +14,9 @@ interface SelectTableModalProps {
   // 添加完成后的 callback，一般可以认为是刷新数据
   afterSubmitCallback?(datasetId: string, selectedTable: string): any;
   modalProps?: React.ComponentProps<typeof Modal>;
+  extra?: {
+    isLoading: boolean;
+  };
 }
 
 const ButtonDefaultElement: React.ReactNode = (
@@ -39,6 +42,7 @@ const SelectTableModal: React.FC<SelectTableModalProps> = props => {
     afterSubmitCallback,
     modalProps,
     dataInfo,
+    extra = { isLoading: false },
   } = props;
 
   const [modalShow, setModalShow] = React.useState(false);
@@ -49,6 +53,9 @@ const SelectTableModal: React.FC<SelectTableModalProps> = props => {
   }, [setModalShow]);
 
   const handleClick = React.useCallback(async () => {
+    if (extra?.isLoading) {
+      return;
+    }
     setModalShow(true);
   }, [setModalShow]);
 

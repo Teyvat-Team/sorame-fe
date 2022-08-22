@@ -140,10 +140,16 @@ const SingleCard: React.FC<SingleCardProps> = (props: SingleCardProps) => {
           okText: '查看',
         }}
         dataInfo={datasetInfo}
+        extra={{
+          isLoading,
+        }}
         buttonElement={
           <Card
             hoverable={true}
-            style={cardStyle}
+            style={{
+              ...cardStyle,
+              cursor: isLoading ? 'auto' : 'pointer',
+            }}
             title={
               <section
                 css={css`
@@ -157,14 +163,16 @@ const SingleCard: React.FC<SingleCardProps> = (props: SingleCardProps) => {
                 >
                   {datasetInfo?.[0]?.name || ''}
                 </section>
-                <section className="delete-button" css={css``}>
-                  <IconDelete
-                    onClick={handleDeleteBtnClick}
-                    style={{
-                      cursor: 'pointer',
-                    }}
-                  />
-                </section>
+                {!isLoading && (
+                  <section className="delete-button" css={css``}>
+                    <IconDelete
+                      onClick={handleDeleteBtnClick}
+                      style={{
+                        cursor: isLoading ? 'not-allowed' : 'pointer',
+                      }}
+                    />
+                  </section>
+                )}
               </section>
             }
             loading={isLoading}
