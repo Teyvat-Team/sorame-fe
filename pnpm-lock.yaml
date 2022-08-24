@@ -16,6 +16,7 @@ specifiers:
   '@nivo/pie': ^0.79.1
   '@semi-bot/semi-theme-calab': 1.0.4
   '@types/classnames': ^2.2.9
+  '@types/lodash': ^4.14.184
   '@types/node': ^14.14.31
   '@types/react': ^17.0.0
   '@types/react-dom': ^17.0.0
@@ -86,6 +87,7 @@ devDependencies:
   '@douyinfe/semi-foundation': 2.17.0
   '@semi-bot/semi-theme-calab': 1.0.4
   '@types/classnames': 2.3.1
+  '@types/lodash': registry.npmmirror.com/@types/lodash/4.14.184
   '@types/node': 14.18.23
   '@types/react': 17.0.48
   '@types/react-dom': 17.0.17
@@ -4496,6 +4498,12 @@ packages:
       '@types/react': registry.npmmirror.com/@types/react/17.0.48
       hoist-non-react-statics: registry.npmmirror.com/hoist-non-react-statics/3.3.2
     dev: false
+
+  registry.npmmirror.com/@types/lodash/4.14.184:
+    resolution: {integrity: sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/lodash/-/lodash-4.14.184.tgz}
+    name: '@types/lodash'
+    version: 4.14.184
+    dev: true
 
   registry.npmmirror.com/@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/prop-types/-/prop-types-15.7.5.tgz}

@@ -9,10 +9,36 @@ import { dataTableState } from '@stores/dataTable';
 import Empty from '@components/illustration/empty';
 import { Pagination } from '@douyinfe/semi-ui';
 import useStoreBackendPagination from '@/hooks/useStoreBackendPagination';
+import { cloneDeep } from 'lodash';
 
 interface PieChartVisualizationProps {}
 
 const EDGE_DISTANCE = 14;
+
+const deDupAndMerge = (
+  pieData: Array<{
+    // must be unique for the whole dataset
+    id: string | number;
+    value: number;
+  }>
+) => {
+  let clonedPieData = cloneDeep(pieData);
+  for (let i = 0; i < clonedPieData.length; i++) {
+    let j = i + 1;
+    while (j < clonedPieData.length) {
+      if (clonedPieData[i].id === clonedPieData[j].id) {
+        clonedPieData[i].value += clonedPieData[j].value;
+        clonedPieData = [
+          ...clonedPieData.slice(0, j),
+          ...clonedPieData.slice(j + 1),
+        ];
+      } else {
+        j += 1;
+      }
+    }
+  }
+  return clonedPieData;
+};
 
 const PieChartVisualization: React.FC<PieChartVisualizationProps> = (
   props: PieChartVisualizationProps
@@ -36,18 +62,24 @@ const PieChartVisualization: React.FC<PieChartVisualizationProps> = (
     // must be unique for the whole dataset
     id: string | number;
     value: number;
-  }> = data?.table?.map(r => {
+  }> = data?.table?.map?.(r => {
     return {
       id: r.row.find(i => i.key === pieIndexBy)?.value,
-      value: r.row.find(i => i.key?.includes(fieldListMatrixList?.[0]?.name))
-        ?.value,
+      value:
+        Number(
+          r.row.find(i => i.key?.includes(fieldListMatrixList?.[0]?.name))
+            ?.value
+        ) ?? 0,
     };
   });
+
+  // dedup and merge
+  const deDupedPieData = deDupAndMerge(pieData);
 
   let commonProperties = {
     width: 900,
     height: 500,
-    data: pieData,
+    data: deDupedPieData,
     margin: { top: 80, right: 120, bottom: 80, left: 120 },
     animate: true,
     activeOuterRadiusOffset: 8,
