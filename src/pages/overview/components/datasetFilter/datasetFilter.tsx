@@ -74,7 +74,7 @@ const DatasetFilter: React.FC<DatasetFilterProps> = (
           datasetFilterVal: {
             ...state.datasetFilterVal,
             order: 'desc',
-            oederBy: value === 'newest' ? 'createTime' : 'popularity',
+            orderBy: value === 'newest' ? 'createTime' : 'popularity',
           },
         };
       });
@@ -113,7 +113,6 @@ const DatasetFilter: React.FC<DatasetFilterProps> = (
           allowClear
           style={{ width: 120 }}
           onSelect={onSelectChange}
-          defaultValue="mostPopular"
         >
           <Option value="mostPopular">最热</Option>
           <Option value="newest">最新</Option>
