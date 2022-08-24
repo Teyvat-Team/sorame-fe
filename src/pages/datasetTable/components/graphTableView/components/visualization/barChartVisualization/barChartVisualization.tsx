@@ -35,19 +35,21 @@ const BarChartVisualization: React.FC<BarChartVisualizationProps> = (
 
   const barData: BarDatum[] = useMemo(
     () =>
-      data?.table?.map?.(r => {
-        return r.row.reduce<BarDatum>((acc, cur) => {
-          return {
-            ...acc,
-            [cur.key]: tableState?.fieldListDimensionList
-              ?.map(i => i.name)
-              ?.includes(cur.key)
-              ? cur.value
-              : Number(cur.value),
-          };
-        }, {});
-      }) || ([] as BarDatum[]),
-    [data]
+      fieldListDimensionList.length > 0
+        ? data?.table?.map?.(r => {
+            return r.row.reduce<BarDatum>((acc, cur) => {
+              return {
+                ...acc,
+                [cur.key]: tableState?.fieldListDimensionList
+                  ?.map(i => i.name)
+                  ?.includes(cur.key)
+                  ? cur.value
+                  : Number(cur.value),
+              };
+            }, {});
+          }) || ([] as BarDatum[])
+        : [],
+    [data, fieldListDimensionList, fieldListMatrixList]
   );
 
   const { barChartVisualizationSettings } = tableState;
@@ -74,7 +76,7 @@ const BarChartVisualization: React.FC<BarChartVisualizationProps> = (
         indexBy={
           barChartVisualizationSettings.indexBy
             ? barChartVisualizationSettings.indexBy
-            : fieldListDimensionList?.[0].name
+            : fieldListDimensionList?.[0]?.name
         }
         colors={{ scheme: 'nivo' }}
         labelTextColor={'inherit:darker(1.4)'}

@@ -41,23 +41,25 @@ const LineChartVisualization: React.FC<LineChartVisualizationProps> = (
       y: number | string | Date;
     }>;
   }> = useMemo(() => {
-    return data?.table?.map(r => {
-      return {
-        id: r.row.find(i => i.key === lineIndexBy)?.value,
-        data: r.row
-          .map((c, idx) => {
-            if (fieldListDimensionList?.map(f => f.name)?.includes(c.key)) {
-              return null;
-            }
-            return {
-              x: c.key,
-              y: Number(c.value),
-            };
-          })
-          .filter(Boolean),
-      };
-    });
-  }, [data, fieldListDimensionList, lineIndexBy]);
+    return fieldListDimensionList.length > 0
+      ? data?.table?.map(r => {
+          return {
+            id: r.row.find(i => i.key === lineIndexBy)?.value,
+            data: r.row
+              .map((c, idx) => {
+                if (fieldListDimensionList?.map(f => f.name)?.includes(c.key)) {
+                  return null;
+                }
+                return {
+                  x: c.key,
+                  y: Number(c.value),
+                };
+              })
+              .filter(Boolean),
+          };
+        })
+      : [];
+  }, [data, fieldListDimensionList, lineIndexBy, fieldListMatrixList]);
 
   const lineProps = {
     data: lineData,

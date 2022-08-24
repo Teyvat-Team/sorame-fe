@@ -80,12 +80,6 @@ const PieChartVisualization: React.FC<PieChartVisualizationProps> = (
   // dedup and merge
   const deDupedPieData = deDupAndMerge(pieData).filter(i => i.id !== undefined);
 
-  console.log(
-    '%c deDupedPieData >>>',
-    'background: yellow; color: blue',
-    deDupedPieData
-  );
-
   let commonProperties = {
     width: 900,
     height: 500,

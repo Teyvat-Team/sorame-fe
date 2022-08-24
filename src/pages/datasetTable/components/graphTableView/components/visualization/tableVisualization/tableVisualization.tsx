@@ -33,24 +33,28 @@ const TableVisualization: React.FC<TableVisualizationProps> = (
   const {
     searchInfo: { data },
     tableVisualizationSettings,
+    fieldListDimensionList,
+    fieldListMatrixList,
   } = tableState;
 
   const column =
     useMemo(() => {
-      return data?.table?.[0]?.row?.map((rowItem, idx) => {
-        if (tableVisualizationSettings?.resizable) {
-          return {
-            title: rowItem.key,
-            dataIndex: rowItem.key,
-            width: 200,
-          };
-        } else {
-          return {
-            title: rowItem.key,
-            dataIndex: rowItem.key,
-          };
-        }
-      });
+      return fieldListDimensionList.length > 0
+        ? data?.table?.[0]?.row?.map((rowItem, idx) => {
+            if (tableVisualizationSettings?.resizable) {
+              return {
+                title: rowItem.key,
+                dataIndex: rowItem.key,
+                width: 200,
+              };
+            } else {
+              return {
+                title: rowItem.key,
+                dataIndex: rowItem.key,
+              };
+            }
+          })
+        : [];
     }, [
       data,
       tableVisualizationSettings,
@@ -70,7 +74,7 @@ const TableVisualization: React.FC<TableVisualizationProps> = (
         ...rowData,
       };
     });
-  }, [data]);
+  }, [data, fieldListDimensionList, fieldListMatrixList]);
 
   const { onPageChange, onPageSizeChange, pageSizeOptions, pageSize, current } =
     useStoreBackendPagination();
