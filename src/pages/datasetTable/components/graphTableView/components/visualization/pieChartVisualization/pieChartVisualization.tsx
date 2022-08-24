@@ -62,19 +62,29 @@ const PieChartVisualization: React.FC<PieChartVisualizationProps> = (
     // must be unique for the whole dataset
     id: string | number;
     value: number;
-  }> = data?.table?.map?.(r => {
-    return {
-      id: r.row.find(i => i.key === pieIndexBy)?.value,
-      value:
-        Number(
-          r.row.find(i => i.key?.includes(fieldListMatrixList?.[0]?.name))
-            ?.value
-        ) ?? 0,
-    };
-  });
+  }> = useMemo(
+    () =>
+      data?.table?.map?.(r => {
+        return {
+          id: r.row.find(i => i.key === pieIndexBy)?.value,
+          value:
+            Number(
+              r.row.find(i => i.key?.includes(fieldListMatrixList?.[0]?.name))
+                ?.value
+            ) ?? 0,
+        };
+      }),
+    [data, data?.table, pieIndexBy, fieldListMatrixList, fieldListDimensionList]
+  );
 
   // dedup and merge
-  const deDupedPieData = deDupAndMerge(pieData);
+  const deDupedPieData = deDupAndMerge(pieData).filter(i => i.id !== undefined);
+
+  console.log(
+    '%c deDupedPieData >>>',
+    'background: yellow; color: blue',
+    deDupedPieData
+  );
 
   let commonProperties = {
     width: 900,

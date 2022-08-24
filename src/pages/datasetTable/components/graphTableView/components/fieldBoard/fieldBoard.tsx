@@ -90,6 +90,7 @@ const FieldBoard: React.FC<FieldBoardProps> = (props: FieldBoardProps) => {
           return (
             <Tag
               color="blue"
+              key={item?.name}
               closable={true}
               onClose={() => {
                 setDataTableState(state => {
